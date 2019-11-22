@@ -19,7 +19,6 @@
       <Path>Logs</Path>
       <Path>Temp</Path>
       <Path>obj</Path>
-      <Path>zhenyaprivet</Path>
     </explicitExcludes>
   </component>
 </project>

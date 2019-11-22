@@ -7,6 +7,7 @@ using UnityEngine;
 public class Node
 {
     public int id;
+    public int parentId;
     public Node[] childrenNodes;
 
 }

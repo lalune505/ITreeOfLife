@@ -52,10 +52,10 @@ public class TreeVisualizer : MonoBehaviour
 
         return endPoint;
     }
-    private static GameObject CreateNodeObj(Node node, GameObject parentBranch)
+    private GameObject CreateNodeObj(Node node, GameObject parentBranch)
     {
         var nodeObj = new GameObject("Node" + node.id.ToString());
-        nodeObj.transform.parent = parentBranch.transform;
+        nodeObj.transform.SetParent(parentBranch.transform, false);
         nodeObj.transform.localPosition = parentBranch.GetComponent<LineRenderer>().GetPosition(1);
         return nodeObj;
     }
@@ -68,18 +68,18 @@ public class TreeVisualizer : MonoBehaviour
         return 1 + node.childrenNodes.Sum(GetSize);
     }
 
-    private float GetHalfCircleSize(Node node, int i)
+    private float GetHalfCircleSize(Node node, int branchIndex)
     {
-        return 180f * GetSize(node.childrenNodes[i]) / GetSize(node);;
+        return 180f * GetSize(node.childrenNodes[branchIndex]) / GetSize(node);;
     }
 
-    private float GetBranchAngle(Node node,int i)
+    private float GetBranchAngle(Node node,int branchIndex)
     {
-        if (i == 0)
+        if (branchIndex == 0)
         {
-            return GetHalfCircleSize(node, i) / 2;
+            return GetHalfCircleSize(node, branchIndex) / 2;
         }
-        return GetBranchAngle(node, i - 1) + GetHalfCircleSize(node, i - 1) / 2 + GetHalfCircleSize(node, i) / 2;
+        return GetBranchAngle(node, branchIndex - 1) + GetHalfCircleSize(node, branchIndex - 1) / 2 + GetHalfCircleSize(node, branchIndex) / 2;
     }
 
 }

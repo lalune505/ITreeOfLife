@@ -2,18 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d3bc1408-48c1-41a3-b00b-9467b911092b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ITreeOfLife/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ITreeOfLife/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ITreeOfLife/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ITreeOfLife/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Materials/Line.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Line.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tree/New/Model/Branch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tree/New/Model/Branch.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tree/New/Model/Node.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tree/New/Model/Node.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tree/New/TreeVisualizer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tree/New/TreeVisualizer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/CurrentLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/Library/CurrentLayout.dwlt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/InspectorExpandedItems.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Library/InspectorExpandedItems.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ScriptAssemblies/Assembly-CSharp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Library/ScriptAssemblies/Assembly-CSharp.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ScriptAssemblies/Assembly-CSharp.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Library/ScriptAssemblies/Assembly-CSharp.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/StateCache/Hierarchy/5eaced-mainStage.json" beforeDir="false" afterPath="$PROJECT_DIR$/Library/StateCache/Hierarchy/5eaced-mainStage.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/StateCache/SceneView/06f7a9-mainStage.json" beforeDir="false" afterPath="$PROJECT_DIR$/Library/StateCache/SceneView/06f7a9-mainStage.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/assetDatabase3" beforeDir="false" afterPath="$PROJECT_DIR$/Library/assetDatabase3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/metadata/88/8860cc31cfcf247d398081266e6db698" beforeDir="false" afterPath="$PROJECT_DIR$/Library/metadata/88/8860cc31cfcf247d398081266e6db698" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/shadercompiler-UnityShaderCompiler0.log" beforeDir="false" afterPath="$PROJECT_DIR$/Library/shadercompiler-UnityShaderCompiler0.log" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,22 +20,36 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/Tree/New/TreeVisualizer.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="568">
-              <caret line="66" column="11" selection-start-line="66" selection-start-column="11" selection-end-line="66" selection-end-column="11" />
+            <state relative-caret-position="196">
+              <caret line="54" column="58" selection-start-line="54" selection-start-column="58" selection-end-line="54" selection-end-column="58" />
               <folding>
-                <marker date="1574252058510" expanded="true" signature="6:51" ph="..." />
-                <marker date="1574252058510" expanded="true" signature="96:2558" ph="{...}" />
-                <marker date="1574252058510" expanded="true" signature="282:451" ph="{...}" />
-                <marker date="1574252058510" expanded="true" signature="517:834" ph="{...}" />
-                <marker date="1574252058510" expanded="true" signature="643:828" ph="{...}" />
-                <marker date="1574252058510" expanded="true" signature="908:1335" ph="{...}" />
-                <marker date="1574252058510" expanded="true" signature="1388:1618" ph="{...}" />
-                <marker date="1574252058510" expanded="true" signature="1698:1960" ph="{...}" />
-                <marker date="1574252058510" expanded="true" signature="1995:2149" ph="{...}" />
-                <marker date="1574252058510" expanded="true" signature="2010:2091" ph="/* if (node.childrenNodes.Length == 0) ... */" />
-                <marker date="1574252058510" expanded="true" signature="2204:2287" ph="{...}" />
-                <marker date="1574252058510" expanded="true" signature="2338:2555" ph="{...}" />
-                <marker date="1574252058510" expanded="true" signature="2364:2435" ph="{...}" />
+                <marker date="1574351733796" expanded="true" signature="6:51" ph="..." />
+                <marker date="1574351733796" expanded="true" signature="96:2640" ph="{...}" />
+                <marker date="1574351733796" expanded="true" signature="282:451" ph="{...}" />
+                <marker date="1574351733796" expanded="true" signature="517:834" ph="{...}" />
+                <marker date="1574351733796" expanded="true" signature="643:828" ph="{...}" />
+                <marker date="1574351733796" expanded="true" signature="908:1335" ph="{...}" />
+                <marker date="1574351733796" expanded="true" signature="1388:1618" ph="{...}" />
+                <marker date="1574351733796" expanded="true" signature="1691:1962" ph="{...}" />
+                <marker date="1574351733796" expanded="true" signature="1997:2151" ph="{...}" />
+                <marker date="1574351733796" expanded="true" signature="2012:2093" ph="/* if (node.childrenNodes.Length == 0) ... */" />
+                <marker date="1574351733796" expanded="true" signature="2216:2309" ph="{...}" />
+                <marker date="1574351733796" expanded="true" signature="2370:2637" ph="{...}" />
+                <marker date="1574351733796" expanded="true" signature="2406:2487" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Assets/Scripts/Tree/New/Model/Branch.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="96">
+              <caret line="9" column="32" selection-start-line="8" selection-start-column="3" selection-end-line="9" selection-end-column="32" />
+              <folding>
+                <marker date="1574350335566" expanded="false" signature="6:78" ph="..." />
+                <marker date="1574350335566" expanded="true" signature="99:373" ph="{...}" />
+                <marker date="1574350335566" expanded="true" signature="281:361" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -51,10 +59,10 @@
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/Tree/New/Model/Node.cs">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="96">
-              <caret line="10" selection-start-line="10" selection-end-line="10" />
+              <caret line="10" column="20" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
               <folding>
-                <marker date="1573908804234" expanded="false" signature="6:97" ph="..." />
-                <marker date="1573908804234" expanded="true" signature="138:195" ph="{...}" />
+                <marker date="1574353331492" expanded="false" signature="6:97" ph="..." />
+                <marker date="1574353331492" expanded="true" signature="138:220" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -94,8 +102,8 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Tree/BranchInstantiator.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/DataLoader.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Tree/New/Branch.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Tree/New/Model/Node.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Tree/New/Model/Branch.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Tree/New/Model/Node.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Tree/New/TreeVisualizer.cs" />
       </list>
     </option>
@@ -113,12 +121,12 @@
       <pane id="SolutionExplorer">
         <option name="show-all-files" value="false" />
       </pane>
-      <pane id="AssemblyExplorer" />
+      <pane id="FileSystemExplorer" />
       <pane id="UnityExplorer">
         <option name="show-hidden-items" value="false" />
         <option name="show-project-names" value="true" />
       </pane>
-      <pane id="FileSystemExplorer" />
+      <pane id="AssemblyExplorer" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -178,12 +186,14 @@
       <workItem from="1573770702741" duration="14839000" />
       <workItem from="1573900951230" duration="9531000" />
       <workItem from="1573916575081" duration="501000" />
-      <workItem from="1574245149741" duration="2561000" />
+      <workItem from="1574245149741" duration="2716000" />
+      <workItem from="1574348721795" duration="4456000" />
+      <workItem from="1574411991981" duration="219000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58796000" />
+    <option name="totallyTimeSpent" value="63626000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -198,7 +208,7 @@
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26495728" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.27106228" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -434,36 +444,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Tree/New/Model/Branch.cs">
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Tree/New/TreeVisualizer.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+        <state relative-caret-position="196">
+          <caret line="54" column="58" selection-start-line="54" selection-start-column="58" selection-end-line="54" selection-end-column="58" />
           <folding>
-            <marker date="1573840966715" expanded="false" signature="6:78" ph="..." />
-            <marker date="1573840966715" expanded="true" signature="99:298" ph="{...}" />
-            <marker date="1573840966715" expanded="true" signature="216:296" ph="{...}" />
+            <marker date="1574351733796" expanded="true" signature="6:51" ph="..." />
+            <marker date="1574351733796" expanded="true" signature="96:2640" ph="{...}" />
+            <marker date="1574351733796" expanded="true" signature="282:451" ph="{...}" />
+            <marker date="1574351733796" expanded="true" signature="517:834" ph="{...}" />
+            <marker date="1574351733796" expanded="true" signature="643:828" ph="{...}" />
+            <marker date="1574351733796" expanded="true" signature="908:1335" ph="{...}" />
+            <marker date="1574351733796" expanded="true" signature="1388:1618" ph="{...}" />
+            <marker date="1574351733796" expanded="true" signature="1691:1962" ph="{...}" />
+            <marker date="1574351733796" expanded="true" signature="1997:2151" ph="{...}" />
+            <marker date="1574351733796" expanded="true" signature="2012:2093" ph="/* if (node.childrenNodes.Length == 0) ... */" />
+            <marker date="1574351733796" expanded="true" signature="2216:2309" ph="{...}" />
+            <marker date="1574351733796" expanded="true" signature="2370:2637" ph="{...}" />
+            <marker date="1574351733796" expanded="true" signature="2406:2487" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Tree/New/TreeVisualizer.cs">
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Tree/New/Model/Branch.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="568">
-          <caret line="66" column="11" selection-start-line="66" selection-start-column="11" selection-end-line="66" selection-end-column="11" />
+        <state relative-caret-position="96">
+          <caret line="9" column="32" selection-start-line="8" selection-start-column="3" selection-end-line="9" selection-end-column="32" />
           <folding>
-            <marker date="1574252058510" expanded="true" signature="6:51" ph="..." />
-            <marker date="1574252058510" expanded="true" signature="96:2558" ph="{...}" />
-            <marker date="1574252058510" expanded="true" signature="282:451" ph="{...}" />
-            <marker date="1574252058510" expanded="true" signature="517:834" ph="{...}" />
-            <marker date="1574252058510" expanded="true" signature="643:828" ph="{...}" />
-            <marker date="1574252058510" expanded="true" signature="908:1335" ph="{...}" />
-            <marker date="1574252058510" expanded="true" signature="1388:1618" ph="{...}" />
-            <marker date="1574252058510" expanded="true" signature="1698:1960" ph="{...}" />
-            <marker date="1574252058510" expanded="true" signature="1995:2149" ph="{...}" />
-            <marker date="1574252058510" expanded="true" signature="2010:2091" ph="/* if (node.childrenNodes.Length == 0) ... */" />
-            <marker date="1574252058510" expanded="true" signature="2204:2287" ph="{...}" />
-            <marker date="1574252058510" expanded="true" signature="2338:2555" ph="{...}" />
-            <marker date="1574252058510" expanded="true" signature="2364:2435" ph="{...}" />
+            <marker date="1574350335566" expanded="false" signature="6:78" ph="..." />
+            <marker date="1574350335566" expanded="true" signature="99:373" ph="{...}" />
+            <marker date="1574350335566" expanded="true" signature="281:361" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -471,10 +481,10 @@
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/Tree/New/Model/Node.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="96">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
+          <caret line="10" column="20" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
           <folding>
-            <marker date="1573908804234" expanded="false" signature="6:97" ph="..." />
-            <marker date="1573908804234" expanded="true" signature="138:195" ph="{...}" />
+            <marker date="1574353331492" expanded="false" signature="6:97" ph="..." />
+            <marker date="1574353331492" expanded="true" signature="138:220" ph="{...}" />
           </folding>
         </state>
       </provider>
