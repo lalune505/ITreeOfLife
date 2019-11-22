@@ -10,4 +10,12 @@ public class Node
     public int parentId;
     public Node[] childrenNodes;
 
+    public int GetSize()
+    {
+       /* if (this.childrenNodes.Length == 0)
+        {
+            return 0;
+        }*/
+        return 1 + this.childrenNodes.Sum(x => x.GetSize());
+    }
 }

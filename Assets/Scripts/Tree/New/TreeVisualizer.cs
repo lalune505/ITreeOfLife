@@ -8,25 +8,26 @@ public class TreeVisualizer : MonoBehaviour
     public Material lineMaterial;
     public float startWidth;
     public float endWidth;
+    public GameObject halfCirclePrefab;
     
     private float _branchLength = 1f;
     private void Start()
     {
-        if (rootNode == null) return;
-        var root = gameObject;
-        DrawChildren(rootNode, DrawBranch(root, root.transform.position + Vector3.up));
+       DrawChildren(rootNode, Vector3.zero, gameObject);
     }
-
-    private void DrawChildren(Node node,GameObject parentBranch)
+    private void DrawChildren(Node node, Vector3 nodePos, GameObject parentNodeGameObject)
     {
-        var parentNode = CreateNodeObj(node, parentBranch);
+        GameObject parentNode = CreateNodeObj(node, nodePos, parentNodeGameObject);
+        float sumAngle = 0f;
         for (var i = 0; i < node.childrenNodes.Length; i++)
         {
-            Vector3 nextNodePos = GetNextNodePosition(GetBranchAngle(node,i));
-            DrawChildren(node.childrenNodes[i], DrawBranch(parentNode, nextNodePos));
+            Vector3 childNodePos = GetChildNodePosition(GetHalfCircleSize(node, node.childrenNodes[i]) / 2 + sumAngle);
+            sumAngle += GetHalfCircleSize(node, node.childrenNodes[i]);
+            DrawBranch(parentNode, childNodePos);
+            DrawChildren(node.childrenNodes[i], childNodePos, parentNode);
         }
     }
-    private GameObject DrawBranch(GameObject parentNode,Vector3 endPoint)
+    private void DrawBranch(GameObject parentNodeGameObject,Vector3 endPoint)
     {
         GameObject go = new GameObject("Branch");
         var lr = go.AddComponent<LineRenderer>();
@@ -35,51 +36,41 @@ public class TreeVisualizer : MonoBehaviour
         lr.endWidth = endWidth;
         lr.material = lineMaterial;
 
-        go.transform.SetParent(parentNode.transform, false);
+        go.transform.SetParent(parentNodeGameObject.transform, false);
         
         lr.SetPosition(0, Vector3.zero);
         
         lr.SetPosition(1,endPoint);
-
-        return go;
     }
-    private Vector3 GetNextNodePosition(float angle)
+    private Vector3 GetChildNodePosition(float sumAngle)
     {
         Vector3 endPoint;
-        endPoint.x = _branchLength * Mathf.Cos(angle * Mathf.Deg2Rad);
-        endPoint.y = _branchLength * Mathf.Sin(angle * Mathf.Deg2Rad);
+        endPoint.x = _branchLength * Mathf.Cos((sumAngle) * Mathf.Deg2Rad) ;
+        endPoint.y = _branchLength * Mathf.Sin((sumAngle) * Mathf.Deg2Rad);
         endPoint.z = 0;
 
         return endPoint;
     }
-    private GameObject CreateNodeObj(Node node, GameObject parentBranch)
+    private GameObject CreateNodeObj(Node node, Vector3 nodePos, GameObject parentNodeGameObject)
     {
         var nodeObj = new GameObject("Node" + node.id.ToString());
-        nodeObj.transform.SetParent(parentBranch.transform, false);
-        nodeObj.transform.localPosition = parentBranch.GetComponent<LineRenderer>().GetPosition(1);
+        nodeObj.transform.SetParent(parentNodeGameObject.transform, false);
+        nodeObj.transform.localPosition = nodePos;
+        nodeObj.transform.localRotation = Quaternion.LookRotation(Vector3.forward, nodePos);
         return nodeObj;
     }
-    private int GetSize(Node node)
-    {
-        /*if (node.childrenNodes.Length == 0)
-        {
-            return 0;
-        }*/
-        return 1 + node.childrenNodes.Sum(GetSize);
-    }
 
-    private float GetHalfCircleSize(Node node, int branchIndex)
+    private float GetHalfCircleSize(Node parentNode,Node childNode)
     {
-        return 180f * GetSize(node.childrenNodes[branchIndex]) / GetSize(node);;
+        return 180f * childNode.GetSize() / parentNode.GetSize();
     }
+    private float GetHalfCircleRad(float halfCircleSize, float rad)
+    {
+        float t = Mathf.Tan(halfCircleSize * Mathf.Deg2Rad);
 
-    private float GetBranchAngle(Node node,int branchIndex)
-    {
-        if (branchIndex == 0)
-        {
-            return GetHalfCircleSize(node, branchIndex) / 2;
-        }
-        return GetBranchAngle(node, branchIndex - 1) + GetHalfCircleSize(node, branchIndex - 1) / 2 + GetHalfCircleSize(node, branchIndex) / 2;
+        return rad * t / (t + 1);
     }
+    
+    
 
 }

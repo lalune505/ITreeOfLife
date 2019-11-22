@@ -308,31 +308,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rootNode:
     id: 1
+    parentId: 0
     childrenNodes:
     - id: 4
+      parentId: 0
       childrenNodes:
       - id: 6
+        parentId: 0
         childrenNodes: []
     - id: 3
+      parentId: 0
       childrenNodes:
       - id: 5
+        parentId: 0
         childrenNodes: []
     - id: 6
+      parentId: 0
       childrenNodes:
-      - id: 5
-        childrenNodes:
-        - id: 0
-          childrenNodes: []
-        - id: 0
-          childrenNodes: []
-      - id: 5
-        childrenNodes:
-        - id: 0
-          childrenNodes: []
-        - id: 0
-          childrenNodes: []
-      - id: 5
+      - id: 7
+        parentId: 0
+        childrenNodes: []
+      - id: 8
+        parentId: 0
+        childrenNodes: []
+      - id: 9
+        parentId: 0
         childrenNodes: []
   lineMaterial: {fileID: 2100000, guid: e18ef1e8b39ef4aa788934f7d3a6ba44, type: 2}
   startWidth: 0.004
   endWidth: 0.004
+  halfCirclePrefab: {fileID: 0}
