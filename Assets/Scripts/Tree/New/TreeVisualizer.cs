@@ -13,11 +13,11 @@ public class TreeVisualizer : MonoBehaviour
     public float branchLength = 1f;
     private void Start()
     {
-       DrawChildren(rootNode, Vector3.zero, gameObject, R, 1);
+       DrawChildren(rootNode, Vector3.zero, gameObject, R);
     }
-    private void DrawChildren(Node node, Vector3 nodePos, GameObject parentNodeGameObject, float parentRad,float scale)
+    private void DrawChildren(Node node, Vector3 nodePos, GameObject parentNodeGameObject, float parentRad)
     {
-        GameObject parentNode = CreateNodeObj(node, nodePos, parentNodeGameObject, scale);
+        GameObject parentNode = CreateNodeObj(node, nodePos, parentNodeGameObject, parentRad);
         if (node.childrenNodes.Length == 0) return;
         DrawHalfCircle(parentNode);
         float sumAngle = 0f;
@@ -28,7 +28,7 @@ public class TreeVisualizer : MonoBehaviour
             Vector3 childNodePos = GetChildNodePosition(currentAngle / 2 + sumAngle);
             sumAngle += currentAngle;
             DrawBranch(parentNode, childNodePos);
-            DrawChildren(node.childrenNodes[i], childNodePos, parentNode, childRad, childRad / parentRad);
+            DrawChildren(node.childrenNodes[i], childNodePos, parentNode, childRad);
         }
     }
     private void DrawBranch(GameObject parentNodeGameObject,Vector3 endPoint)
