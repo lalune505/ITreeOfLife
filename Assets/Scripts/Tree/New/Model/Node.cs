@@ -12,10 +12,10 @@ public class Node
 
     public int GetSize()
     {
-       /* if (this.childrenNodes.Length == 0)
-        {
-            return 0;
-        }*/
-        return 1 + this.childrenNodes.Sum(x => x.GetSize());
+       if (this.childrenNodes.Length == 0)
+       {
+           return 1;
+       }
+       return this.childrenNodes.Sum(x => x.GetSize());
     }
 }

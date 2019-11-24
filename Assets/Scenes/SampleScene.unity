@@ -337,4 +337,7 @@ MonoBehaviour:
   lineMaterial: {fileID: 2100000, guid: e18ef1e8b39ef4aa788934f7d3a6ba44, type: 2}
   startWidth: 0.004
   endWidth: 0.004
-  halfCirclePrefab: {fileID: 0}
+  halfCirclePrefab: {fileID: 3017286085665022033, guid: b09d8134dbb69447390d606e3acb8949,
+    type: 3}
+  R: 1
+  branchLength: 0.8

@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d3bc1408-48c1-41a3-b00b-9467b911092b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.ITreeOfLife/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ITreeOfLife/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ITreeOfLife/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ITreeOfLife/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/HalfCircle.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/HalfCircle.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tree/New/Model/Node.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tree/New/Model/Node.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tree/New/TreeVisualizer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tree/New/TreeVisualizer.cs" afterDir="false" />
@@ -19,19 +19,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/Tree/New/TreeVisualizer.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="416">
-              <caret line="26" column="49" lean-forward="true" selection-start-line="26" selection-start-column="49" selection-end-line="26" selection-end-column="49" />
+            <state relative-caret-position="232">
+              <caret line="26" column="62" selection-start-line="26" selection-start-column="62" selection-end-line="26" selection-end-column="62" />
               <folding>
-                <marker date="1574462163300" expanded="true" signature="6:51" ph="..." />
-                <marker date="1574462163300" expanded="true" signature="96:2566" ph="{...}" />
-                <marker date="1574462163300" expanded="true" signature="322:391" ph="{...}" />
-                <marker date="1574462163300" expanded="true" signature="482:1016" ph="{...}" />
-                <marker date="1574462163300" expanded="true" signature="661:1010" ph="{...}" />
-                <marker date="1574462163300" expanded="true" signature="1094:1511" ph="{...}" />
-                <marker date="1574462163300" expanded="true" signature="1568:1809" ph="{...}" />
-                <marker date="1574462163300" expanded="true" signature="1907:2230" ph="{...}" />
-                <marker date="1574462163300" expanded="true" signature="2299:2377" ph="{...}" />
-                <marker date="1574462163300" expanded="true" signature="2445:2553" ph="{...}" />
+                <marker date="1574587206609" expanded="true" signature="6:51" ph="..." />
+                <marker date="1574587206609" expanded="true" signature="96:3055" ph="{...}" />
+                <marker date="1574587206609" expanded="true" signature="335:410" ph="{...}" />
+                <marker date="1574587206609" expanded="true" signature="530:1268" ph="{...}" />
+                <marker date="1574587206609" expanded="true" signature="804:1262" ph="{...}" />
+                <marker date="1574587206609" expanded="true" signature="1346:1763" ph="{...}" />
+                <marker date="1574587206609" expanded="true" signature="1820:2059" ph="{...}" />
+                <marker date="1574587206609" expanded="true" signature="2170:2566" ph="{...}" />
+                <marker date="1574587206609" expanded="true" signature="2635:2713" ph="{...}" />
+                <marker date="1574587206609" expanded="true" signature="2787:2901" ph="{...}" />
+                <marker date="1574587206609" expanded="true" signature="2963:3048" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -54,13 +55,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/Tree/New/Model/Node.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="17" column="11" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
+            <state relative-caret-position="208">
+              <caret line="16" column="11" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
               <folding>
-                <marker date="1574426649179" expanded="false" signature="6:97" ph="..." />
-                <marker date="1574426649179" expanded="true" signature="138:408" ph="{...}" />
-                <marker date="1574426649179" expanded="true" signature="243:406" ph="{...}" />
-                <marker date="1574426649179" expanded="true" signature="257:339" ph="/* if (this.childrenNodes.Length == 0) ... */" />
+                <marker date="1574586972641" expanded="false" signature="6:97" ph="..." />
+                <marker date="1574586972641" expanded="true" signature="138:395" ph="{...}" />
+                <marker date="1574586972641" expanded="true" signature="243:393" ph="{...}" />
+                <marker date="1574586972641" expanded="true" signature="292:331" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -187,12 +188,12 @@
       <workItem from="1573916575081" duration="501000" />
       <workItem from="1574245149741" duration="2716000" />
       <workItem from="1574348721795" duration="4456000" />
-      <workItem from="1574411991981" duration="12385000" />
+      <workItem from="1574411991981" duration="18656000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75792000" />
+    <option name="totallyTimeSpent" value="82063000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -207,7 +208,7 @@
     <frame x="0" y="23" width="1680" height="950" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.27106228" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27106228" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -231,7 +232,7 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Errors In Solution" order="3" />
       <window_info anchor="right" id="Database" order="4" />
-      <window_info anchor="right" id="Unit Tests Coverage" order="5" />
+      <window_info anchor="right" id="Unit Tests Coverage" order="5" weight="0.32967034" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -443,6 +444,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Tree/New/Model/Node.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="16" column="11" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
+          <folding>
+            <marker date="1574586972641" expanded="false" signature="6:97" ph="..." />
+            <marker date="1574586972641" expanded="true" signature="138:395" ph="{...}" />
+            <marker date="1574586972641" expanded="true" signature="243:393" ph="{...}" />
+            <marker date="1574586972641" expanded="true" signature="292:331" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/Tree/New/Model/Branch.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="112">
@@ -455,34 +469,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Tree/New/Model/Node.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="17" column="11" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
-          <folding>
-            <marker date="1574426649179" expanded="false" signature="6:97" ph="..." />
-            <marker date="1574426649179" expanded="true" signature="138:408" ph="{...}" />
-            <marker date="1574426649179" expanded="true" signature="243:406" ph="{...}" />
-            <marker date="1574426649179" expanded="true" signature="257:339" ph="/* if (this.childrenNodes.Length == 0) ... */" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/Tree/New/TreeVisualizer.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="26" column="49" lean-forward="true" selection-start-line="26" selection-start-column="49" selection-end-line="26" selection-end-column="49" />
+        <state relative-caret-position="232">
+          <caret line="26" column="62" selection-start-line="26" selection-start-column="62" selection-end-line="26" selection-end-column="62" />
           <folding>
-            <marker date="1574462163300" expanded="true" signature="6:51" ph="..." />
-            <marker date="1574462163300" expanded="true" signature="96:2566" ph="{...}" />
-            <marker date="1574462163300" expanded="true" signature="322:391" ph="{...}" />
-            <marker date="1574462163300" expanded="true" signature="482:1016" ph="{...}" />
-            <marker date="1574462163300" expanded="true" signature="661:1010" ph="{...}" />
-            <marker date="1574462163300" expanded="true" signature="1094:1511" ph="{...}" />
-            <marker date="1574462163300" expanded="true" signature="1568:1809" ph="{...}" />
-            <marker date="1574462163300" expanded="true" signature="1907:2230" ph="{...}" />
-            <marker date="1574462163300" expanded="true" signature="2299:2377" ph="{...}" />
-            <marker date="1574462163300" expanded="true" signature="2445:2553" ph="{...}" />
+            <marker date="1574587206609" expanded="true" signature="6:51" ph="..." />
+            <marker date="1574587206609" expanded="true" signature="96:3055" ph="{...}" />
+            <marker date="1574587206609" expanded="true" signature="335:410" ph="{...}" />
+            <marker date="1574587206609" expanded="true" signature="530:1268" ph="{...}" />
+            <marker date="1574587206609" expanded="true" signature="804:1262" ph="{...}" />
+            <marker date="1574587206609" expanded="true" signature="1346:1763" ph="{...}" />
+            <marker date="1574587206609" expanded="true" signature="1820:2059" ph="{...}" />
+            <marker date="1574587206609" expanded="true" signature="2170:2566" ph="{...}" />
+            <marker date="1574587206609" expanded="true" signature="2635:2713" ph="{...}" />
+            <marker date="1574587206609" expanded="true" signature="2787:2901" ph="{...}" />
+            <marker date="1574587206609" expanded="true" signature="2963:3048" ph="{...}" />
           </folding>
         </state>
       </provider>

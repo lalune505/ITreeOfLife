@@ -110,10 +110,10 @@ TextureImporter:
       name: mushrooms-06_0
       rect:
         serializedVersion: 2
-        x: 26
-        y: 160
-        width: 258
-        height: 160
+        x: 12
+        y: 164
+        width: 282
+        height: 141
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

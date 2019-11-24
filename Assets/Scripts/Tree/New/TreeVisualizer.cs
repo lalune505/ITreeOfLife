@@ -9,22 +9,26 @@ public class TreeVisualizer : MonoBehaviour
     public float startWidth;
     public float endWidth;
     public GameObject halfCirclePrefab;
-    
-    private float _branchLength = 1f;
+    public float R;
+    public float branchLength = 1f;
     private void Start()
     {
-       DrawChildren(rootNode, Vector3.zero, gameObject);
+       DrawChildren(rootNode, Vector3.zero, gameObject, R, 1);
     }
-    private void DrawChildren(Node node, Vector3 nodePos, GameObject parentNodeGameObject)
+    private void DrawChildren(Node node, Vector3 nodePos, GameObject parentNodeGameObject, float parentRad,float scale)
     {
-        GameObject parentNode = CreateNodeObj(node, nodePos, parentNodeGameObject);
+        GameObject parentNode = CreateNodeObj(node, nodePos, parentNodeGameObject, scale);
+        if (node.childrenNodes.Length == 0) return;
+        DrawHalfCircle(parentNode);
         float sumAngle = 0f;
         for (var i = 0; i < node.childrenNodes.Length; i++)
         {
-            Vector3 childNodePos = GetChildNodePosition(GetHalfCircleSize(node, node.childrenNodes[i]) / 2 + sumAngle);
-            sumAngle += GetHalfCircleSize(node, node.childrenNodes[i]);
+            float currentAngle = GetHalfCircleSize(node, node.childrenNodes[i]);
+            float childRad = GetHalfCircleRad(currentAngle / 2, parentRad);
+            Vector3 childNodePos = GetChildNodePosition(currentAngle / 2 + sumAngle);
+            sumAngle += currentAngle;
             DrawBranch(parentNode, childNodePos);
-            DrawChildren(node.childrenNodes[i], childNodePos, parentNode);
+            DrawChildren(node.childrenNodes[i], childNodePos, parentNode, childRad, childRad / parentRad);
         }
     }
     private void DrawBranch(GameObject parentNodeGameObject,Vector3 endPoint)
@@ -45,18 +49,19 @@ public class TreeVisualizer : MonoBehaviour
     private Vector3 GetChildNodePosition(float sumAngle)
     {
         Vector3 endPoint;
-        endPoint.x = _branchLength * Mathf.Cos((sumAngle) * Mathf.Deg2Rad) ;
-        endPoint.y = _branchLength * Mathf.Sin((sumAngle) * Mathf.Deg2Rad);
+        endPoint.x = branchLength * Mathf.Cos((sumAngle) * Mathf.Deg2Rad) ;
+        endPoint.y = branchLength * Mathf.Sin((sumAngle) * Mathf.Deg2Rad);
         endPoint.z = 0;
 
         return endPoint;
     }
-    private GameObject CreateNodeObj(Node node, Vector3 nodePos, GameObject parentNodeGameObject)
+    private GameObject CreateNodeObj(Node node, Vector3 nodePos, GameObject parentNodeGameObject, float scale)
     {
         var nodeObj = new GameObject("Node" + node.id.ToString());
         nodeObj.transform.SetParent(parentNodeGameObject.transform, false);
         nodeObj.transform.localPosition = nodePos;
         nodeObj.transform.localRotation = Quaternion.LookRotation(Vector3.forward, nodePos);
+        nodeObj.transform.localScale = new Vector3(scale, scale, scale);
         return nodeObj;
     }
 
@@ -64,13 +69,16 @@ public class TreeVisualizer : MonoBehaviour
     {
         return 180f * childNode.GetSize() / parentNode.GetSize();
     }
-    private float GetHalfCircleRad(float halfCircleSize, float rad)
+    private float GetHalfCircleRad(float halfCircleSize, float parentRad)
     {
         float t = Mathf.Tan(halfCircleSize * Mathf.Deg2Rad);
 
-        return rad * t / (t + 1);
+        return parentRad * t / (t + 1);
+    }
+
+    private void DrawHalfCircle(GameObject parentGameObject)
+    {
+       Instantiate(halfCirclePrefab, parentGameObject.transform, false);
     }
     
-    
-
 }
