@@ -355,36 +355,6 @@ MonoBehaviour:
         - id: 0
           parentId: 0
           childrenNodes: []
-    - id: 3
-      parentId: 0
-      childrenNodes:
-      - id: 5
-        parentId: 0
-        childrenNodes:
-        - id: 0
-          parentId: 0
-          childrenNodes: []
-        - id: 0
-          parentId: 0
-          childrenNodes: []
-      - id: 5
-        parentId: 0
-        childrenNodes:
-        - id: 0
-          parentId: 0
-          childrenNodes: []
-        - id: 0
-          parentId: 0
-          childrenNodes: []
-      - id: 5
-        parentId: 0
-        childrenNodes:
-        - id: 0
-          parentId: 0
-          childrenNodes: []
-        - id: 0
-          parentId: 0
-          childrenNodes: []
   lineMaterial: {fileID: 2100000, guid: e18ef1e8b39ef4aa788934f7d3a6ba44, type: 2}
   startWidth: 0.005
   endWidth: 0.005
