@@ -10,25 +10,25 @@ public class TreeVisualizer : MonoBehaviour
     public float endWidth;
     public GameObject halfCirclePrefab;
     public float R;
-  //  public float branchLength = 1f;
+  
     private void Start()
     {
        DrawChildren(rootNode, Vector3.zero, gameObject, R);
     }
-    private void DrawChildren(Node node, Vector3 nodePos, GameObject parentNodeGameObject, float parentRad)
+    private void DrawChildren(Node node, Vector3 nodePos, GameObject parentNodeGameObject, float nodeRad)
     {
-        GameObject parentNode = CreateNodeObj(node, nodePos, parentNodeGameObject);
+        GameObject nodeObj = CreateNodeObj(node, nodePos, parentNodeGameObject);
         if (node.childrenNodes.Length == 0) return;
-        DrawHalfCircle(parentNode, parentRad);
+        DrawHalfCircle(nodeObj, nodeRad);
         float sumAngle = 0f;
-        for (var i = 0; i < node.childrenNodes.Length; i++)
+        foreach (var childNode in node.childrenNodes)
         {
-            float currentAngle = GetHalfCircleSize(node, node.childrenNodes[i]);
-            float childRad = GetHalfCircleRad(currentAngle / 2, parentRad);
-            Vector3 childNodePos = GetChildNodePosition(currentAngle / 2 + sumAngle, parentRad - childRad);
+            float currentAngle = GetHalfCircleSize(node, childNode);
+            float childRad = GetHalfCircleRad(currentAngle / 2, nodeRad);
+            Vector3 childNodePos = GetChildNodePosition(currentAngle / 2 + sumAngle, nodeRad - childRad);
             sumAngle += currentAngle;
-            DrawBranch(parentNode, childNodePos);
-            DrawChildren(node.childrenNodes[i], childNodePos, parentNode, childRad);
+            DrawBranch(nodeObj, childNodePos);
+            DrawChildren(childNode, childNodePos, nodeObj, childRad);
         }
     }
     private void DrawBranch(GameObject parentNodeGameObject,Vector3 endPoint)
@@ -61,7 +61,6 @@ public class TreeVisualizer : MonoBehaviour
         nodeObj.transform.SetParent(parentNodeGameObject.transform, false);
         nodeObj.transform.localPosition = nodePos;
         nodeObj.transform.localRotation = Quaternion.LookRotation(Vector3.forward, nodePos);
-        //nodeObj.transform.localScale = new Vector3(scale, scale, scale);
         return nodeObj;
     }
 
