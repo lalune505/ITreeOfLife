@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 1c9df84163eb541aabe16d9f3341f612, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.49641287, b: 0.5748173, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -145,7 +145,7 @@ Light:
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -306,41 +306,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8860cc31cfcf247d398081266e6db698, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rootNode:
-    id: 
-    childrenNodes:
-    - id: 
-      childrenNodes:
-      - id: 
-        childrenNodes: []
-      - id: 
-        childrenNodes: []
-      - id: 
-        childrenNodes: []
-      - id: 
-        childrenNodes: []
-    - id: 
-      childrenNodes:
-      - id: 
-        childrenNodes:
-        - id: 
-          childrenNodes: []
-        - id: 
-          childrenNodes: []
-      - id: 
-        childrenNodes:
-        - id: 
-          childrenNodes: []
-        - id: 
-          childrenNodes: []
-      - id: 
-        childrenNodes:
-        - id: 
-          childrenNodes: []
-        - id: 
-          childrenNodes: []
+  depth: 6
   lineMaterial: {fileID: 2100000, guid: e18ef1e8b39ef4aa788934f7d3a6ba44, type: 2}
-  startWidth: 0.002
-  endWidth: 0.002
+  startWidth: 0.0001
+  endWidth: 0.0001
   halfCirclePrefab: {fileID: 878781618942558967, guid: 66493a6e946934da9ad072700a3a6841,
     type: 3}

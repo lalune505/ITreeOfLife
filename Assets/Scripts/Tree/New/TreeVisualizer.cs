@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class TreeVisualizer : MonoBehaviour
 {
-    public Node rootNode;
+    //public Node rootNode;
+    public int depth;
     public Material lineMaterial;
     public float startWidth;
     public float endWidth;
@@ -12,11 +13,12 @@ public class TreeVisualizer : MonoBehaviour
     private float R = 1f;
     private void Start()
     {
-        DrawChildren(DataLoader.GetNodesData()[56393], this.gameObject);
+        DrawChildren(DataLoader.GetNodesData()[10239], this.gameObject);
     }
     private void DrawChildren(Node node, GameObject parentNodeGameObject)
     {
-        if (node.childrenNodes.Count == 0) return;
+        if (/*node.childrenNodes.Count == 0 ||*/ depth == 1) return;
+        depth--;
         DrawHalfCircle(parentNodeGameObject);
         float sumAngle = 0f;
         foreach (var childNode in node.childrenNodes)
@@ -35,8 +37,8 @@ public class TreeVisualizer : MonoBehaviour
         GameObject go = new GameObject("Branch");
         var lr = go.AddComponent<LineRenderer>();
         lr.useWorldSpace = false;
-        lr.startWidth = startWidth;
-        lr.endWidth = endWidth;
+        lr.startWidth = startWidth * depth;
+        lr.endWidth = endWidth * depth;
         lr.material = lineMaterial;
 
         go.transform.SetParent(parentNodeGameObject.transform, false);
