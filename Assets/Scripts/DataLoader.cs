@@ -7,43 +7,47 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
+using static System.Int32;
 
-public class DataLoader : MonoBehaviour
+public class DataLoader
 {
-    private string directoryPath = "/Users/zhenyaprivet/Desktop/taxdump";
-    private string taxDumpFiles = "/Users/zhenyaprivet/Desktop/taxdump/files";
+    private const string DirectoryPath = "/Users/zhenyaprivet/Desktop/taxdump";
+    private const string TaxDumpFiles = "/Users/zhenyaprivet/Desktop/taxdump/files";
     private const string TaxDumpFileName = "taxdump.tar.gz";
     private const string NodesFileName = "nodes.dmp";
 
-    // Start is called before the first frame update
-    void Start()
-    {
-       // GetTaxDumpFiles();
-    }
-
     private async void GetTaxDumpFiles()
     {
-        await NetworkManager.GetTaxDumpFile(Path.Combine(directoryPath,TaxDumpFileName));
+        await NetworkManager.GetTaxDumpFile(Path.Combine(DirectoryPath,TaxDumpFileName));
         
-        Tar.ExtractTarGz(Path.Combine(directoryPath,TaxDumpFileName),taxDumpFiles);
+        Tar.ExtractTarGz(Path.Combine(DirectoryPath,TaxDumpFileName),TaxDumpFiles);
         
     }
-
-    private Dictionary<long, object> GetNodesDataFromFile(string filePath)
+    public static Dictionary<int, Node> GetNodesData()
     {
-        Dictionary<long, object> nodesData = new Dictionary<long, object>();
+        Dictionary<int, Node> nodesData = new Dictionary<int, Node>();
         try
         {
-            foreach (string line in File.ReadLines(filePath))
+            foreach (string line in File.ReadLines(Path.Combine(TaxDumpFiles, NodesFileName)))
             {
+                var dad = Parse(line.Split('|')[1].Replace("\t", ""));
+                var son = Parse(line.Split('|')[0].Replace("\t", ""));
+                if (!nodesData.ContainsKey(dad))
+                {
+                    nodesData[dad] = new Node {id = dad};
+                }
+                if (!nodesData.ContainsKey(son))
+                {
+                    nodesData[son] = new Node {id = son};
+                }
                 
+                nodesData[dad].childrenNodes.Add(nodesData[son]);
             }
             
         }
         catch(Exception e ) 
         {
             Debug.Log( $"The process failed with error: {e}");
-           
         }
         
         return nodesData;

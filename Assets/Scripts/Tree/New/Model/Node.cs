@@ -7,15 +7,10 @@ using UnityEngine;
 public class Node
 {
     public int id;
-    public int parentId;
-    public Node[] childrenNodes;
+    public List<Node> childrenNodes = new List<Node>();
 
     public int GetSize()
     {
-       if (this.childrenNodes.Length == 0)
-       {
-           return 1;
-       }
-       return this.childrenNodes.Sum(x => x.GetSize());
+        return this.childrenNodes.Count == 0 ? 1 : this.childrenNodes.Sum(x => x.GetSize());
     }
 }

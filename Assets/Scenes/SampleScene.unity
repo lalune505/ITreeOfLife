@@ -307,57 +307,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rootNode:
-    id: 1
-    parentId: 0
+    id: 
     childrenNodes:
-    - id: 4
-      parentId: 0
+    - id: 
       childrenNodes:
-      - id: 6
-        parentId: 0
+      - id: 
         childrenNodes: []
-      - id: 6
-        parentId: 0
+      - id: 
         childrenNodes: []
-      - id: 6
-        parentId: 0
+      - id: 
         childrenNodes: []
-      - id: 6
-        parentId: 0
+      - id: 
         childrenNodes: []
-    - id: 3
-      parentId: 0
+    - id: 
       childrenNodes:
-      - id: 5
-        parentId: 0
+      - id: 
         childrenNodes:
-        - id: 0
-          parentId: 0
+        - id: 
           childrenNodes: []
-        - id: 0
-          parentId: 0
+        - id: 
           childrenNodes: []
-      - id: 5
-        parentId: 0
+      - id: 
         childrenNodes:
-        - id: 0
-          parentId: 0
+        - id: 
           childrenNodes: []
-        - id: 0
-          parentId: 0
+        - id: 
           childrenNodes: []
-      - id: 5
-        parentId: 0
+      - id: 
         childrenNodes:
-        - id: 0
-          parentId: 0
+        - id: 
           childrenNodes: []
-        - id: 0
-          parentId: 0
+        - id: 
           childrenNodes: []
   lineMaterial: {fileID: 2100000, guid: e18ef1e8b39ef4aa788934f7d3a6ba44, type: 2}
-  startWidth: 0.005
-  endWidth: 0.005
+  startWidth: 0.002
+  endWidth: 0.002
   halfCirclePrefab: {fileID: 878781618942558967, guid: 66493a6e946934da9ad072700a3a6841,
     type: 3}
-  R: 1

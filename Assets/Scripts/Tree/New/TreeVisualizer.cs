@@ -12,11 +12,11 @@ public class TreeVisualizer : MonoBehaviour
     private float R = 1f;
     private void Start()
     {
-       DrawChildren(rootNode, this.gameObject);
+        DrawChildren(DataLoader.GetNodesData()[56393], this.gameObject);
     }
     private void DrawChildren(Node node, GameObject parentNodeGameObject)
     {
-        if (node.childrenNodes.Length == 0) return;
+        if (node.childrenNodes.Count == 0) return;
         DrawHalfCircle(parentNodeGameObject);
         float sumAngle = 0f;
         foreach (var childNode in node.childrenNodes)
@@ -56,7 +56,7 @@ public class TreeVisualizer : MonoBehaviour
     }
     private GameObject CreateNodeObj(Node node, Vector3 nodePos, GameObject parentNodeGameObject, float scale)
     {
-        var nodeObj = new GameObject("Node" + node.id.ToString());
+        var nodeObj = new GameObject("Node" + node.id);
         nodeObj.transform.SetParent(parentNodeGameObject.transform, false);
         nodeObj.transform.localPosition = nodePos;
         nodeObj.transform.localRotation = Quaternion.LookRotation(Vector3.forward, nodePos);
