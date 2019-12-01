@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class TreeVisualizer : MonoBehaviour
 {
-    //public Node rootNode;
-    public int depth;
+    public NodesData nodesData;
     public Material lineMaterial;
     public float startWidth;
     public float endWidth;
@@ -13,12 +12,12 @@ public class TreeVisualizer : MonoBehaviour
     private float R = 1f;
     private void Start()
     {
-        DrawChildren(DataLoader.GetNodesData()[10239], this.gameObject);
+        //nodesData.nodes = DataLoader.GetNodesData();
+       //DrawChildren(nodesData.nodes[10151], this.gameObject, 5);
     }
-    private void DrawChildren(Node node, GameObject parentNodeGameObject)
+    private void DrawChildren(Node node, GameObject parentNodeGameObject,int depth)
     {
-        if (/*node.childrenNodes.Count == 0 ||*/ depth == 1) return;
-        depth--;
+        if (node.childrenNodes.Count == 0 || depth == 0) return;
         DrawHalfCircle(parentNodeGameObject);
         float sumAngle = 0f;
         foreach (var childNode in node.childrenNodes)
@@ -29,7 +28,7 @@ public class TreeVisualizer : MonoBehaviour
             sumAngle += currentAngle;
             DrawBranch(parentNodeGameObject, childNodePos);
             GameObject nodeGo = CreateNodeObj(childNode, childNodePos, parentNodeGameObject, childRad);
-            DrawChildren(childNode, nodeGo);
+            DrawChildren(childNode, nodeGo, depth - 1);
         }
     }
     private void DrawBranch(GameObject parentNodeGameObject,Vector3 endPoint)
@@ -37,8 +36,9 @@ public class TreeVisualizer : MonoBehaviour
         GameObject go = new GameObject("Branch");
         var lr = go.AddComponent<LineRenderer>();
         lr.useWorldSpace = false;
-        lr.startWidth = startWidth * depth;
-        lr.endWidth = endWidth * depth;
+        var scale = parentNodeGameObject.transform.localScale.x;
+        lr.startWidth = startWidth;
+        lr.endWidth = endWidth;
         lr.material = lineMaterial;
 
         go.transform.SetParent(parentNodeGameObject.transform, false);

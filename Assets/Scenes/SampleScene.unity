@@ -306,9 +306,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8860cc31cfcf247d398081266e6db698, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  depth: 6
+  nodesData: {fileID: 11400000, guid: 34c7631597c0744a183dde183a70da24, type: 2}
   lineMaterial: {fileID: 2100000, guid: e18ef1e8b39ef4aa788934f7d3a6ba44, type: 2}
-  startWidth: 0.0001
-  endWidth: 0.0001
+  startWidth: 0.001
+  endWidth: 0.001
   halfCirclePrefab: {fileID: 878781618942558967, guid: 66493a6e946934da9ad072700a3a6841,
     type: 3}
