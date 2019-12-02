@@ -80,5 +80,4 @@ public class TreeVisualizer : MonoBehaviour
     { 
         Instantiate(halfCirclePrefab, parentGameObject.transform, false);
     }
-    
 }

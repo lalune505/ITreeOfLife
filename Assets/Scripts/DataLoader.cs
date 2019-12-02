@@ -31,15 +31,22 @@ public class DataLoader
             {
                 var dad = Parse(line.Split('|')[1].Replace("\t", ""));
                 var son = Parse(line.Split('|')[0].Replace("\t", ""));
+                var sonRank = line.Split('|')[2].Replace("\t", "");
                 if (!nodesData.ContainsKey(dad))
                 {
                     nodesData[dad] = new Node {id = dad};
                 }
                 if (!nodesData.ContainsKey(son))
                 {
-                    nodesData[son] = new Node {id = son};
+                    nodesData[son] = new Node {id = son, rank = sonRank};
                 }
-                
+                else
+                {
+                    if (string.IsNullOrEmpty(nodesData[son].rank))
+                    {
+                        nodesData[son].rank = sonRank;
+                    }
+                }
                 nodesData[dad].childrenNodes.Add(nodesData[son]);
             }
             
@@ -55,6 +62,5 @@ public class DataLoader
     {
         return nodesData;
     }
-    
     
 }
