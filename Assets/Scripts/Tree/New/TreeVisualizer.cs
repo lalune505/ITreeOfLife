@@ -11,7 +11,8 @@ public class TreeVisualizer : MonoBehaviour
     private float R = 1f;
     private void Start()
     {
-        DrawChildren( DataLoader.GetNodesData()[10151], this.gameObject, 5);
+        DataLoader.InitNodesData();
+        DrawChildren( DataLoader.GetNodesData()[135625], this.gameObject, 5);
     }
     private void DrawChildren(Node node, GameObject parentNodeGameObject,int depth)
     {
@@ -34,7 +35,7 @@ public class TreeVisualizer : MonoBehaviour
         GameObject go = new GameObject("Branch");
         var lr = go.AddComponent<LineRenderer>();
         lr.useWorldSpace = false;
-        var scale = parentNodeGameObject.transform.localScale.x;
+        var scale = parentNodeGameObject.transform.lossyScale.x;    
         lr.startWidth = startWidth;
         lr.endWidth = endWidth;
         lr.material = lineMaterial;

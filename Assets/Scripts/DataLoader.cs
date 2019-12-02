@@ -14,8 +14,8 @@ public class DataLoader
     private const string DirectoryPath = "/Users/zhenyaprivet/Desktop/taxdump";
     private const string TaxDumpFiles = "/Users/zhenyaprivet/Desktop/taxdump/files";
     private const string TaxDumpFileName = "taxdump.tar.gz";
-    private const string NodesFileName = "nodes.dmp";
-
+    private const string NodesFileName = "nodes.dmp"; 
+    private  static Dictionary<int, Node> nodesData = new Dictionary<int, Node>();
     private async void GetTaxDumpFiles()
     {
         await NetworkManager.GetTaxDumpFile(Path.Combine(DirectoryPath,TaxDumpFileName));
@@ -23,9 +23,8 @@ public class DataLoader
         Tar.ExtractTarGz(Path.Combine(DirectoryPath,TaxDumpFileName),TaxDumpFiles);
         
     }
-    public static Dictionary<int, Node> GetNodesData()
+    public static void InitNodesData()
     {
-        Dictionary<int, Node> nodesData = new Dictionary<int, Node>();
         try
         {
             foreach (string line in File.ReadLines(Path.Combine(TaxDumpFiles, NodesFileName)))
@@ -49,7 +48,11 @@ public class DataLoader
         {
             Debug.Log( $"The process failed with error: {e}");
         }
-        
+
+    }
+
+    public static Dictionary<int, Node> GetNodesData()
+    {
         return nodesData;
     }
     
