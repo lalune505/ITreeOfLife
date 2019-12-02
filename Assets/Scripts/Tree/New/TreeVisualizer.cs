@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TreeVisualizer : MonoBehaviour
 {
-    public NodesData nodesData;
     public Material lineMaterial;
     public float startWidth;
     public float endWidth;
@@ -12,8 +11,7 @@ public class TreeVisualizer : MonoBehaviour
     private float R = 1f;
     private void Start()
     {
-        //nodesData.nodes = DataLoader.GetNodesData();
-       //DrawChildren(nodesData.nodes[10151], this.gameObject, 5);
+        DrawChildren( DataLoader.GetNodesData()[10151], this.gameObject, 5);
     }
     private void DrawChildren(Node node, GameObject parentNodeGameObject,int depth)
     {
