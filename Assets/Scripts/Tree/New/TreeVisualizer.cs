@@ -12,7 +12,7 @@ public class TreeVisualizer : MonoBehaviour
     private void Start()
     {
         DataLoader.InitNodesData();
-        DrawChildren( DataLoader.GetNodesData()[135625], this.gameObject, 5);
+        DrawChildren( DataLoader.GetNodesData()[71274], this.gameObject, 7);
     }
     private void DrawChildren(Node node, GameObject parentNodeGameObject,int depth)
     {
