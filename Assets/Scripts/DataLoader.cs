@@ -55,7 +55,6 @@ public class DataLoader
         {
             Debug.Log( $"The process failed with error: {e}");
         }
-
     }
 
     public static Dictionary<int, Node> GetNodesData()
