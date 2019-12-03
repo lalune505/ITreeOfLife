@@ -12,7 +12,7 @@ public class TreeVisualizer : MonoBehaviour
     private void Start()
     {
         DataLoader.InitNodesData();
-        DrawChildren( DataLoader.GetNodesData()[71274], this.gameObject, 7);
+        DrawChildren( DataLoader.GetNodesData()[131567], this.gameObject, 5);
     }
     private void DrawChildren(Node node, GameObject parentNodeGameObject,int depth)
     {
@@ -33,17 +33,13 @@ public class TreeVisualizer : MonoBehaviour
     private void DrawBranch(GameObject parentNodeGameObject,Vector3 endPoint)
     {
         GameObject go = new GameObject("Branch");
+        go.transform.SetParent(parentNodeGameObject.transform, false);
         var lr = go.AddComponent<LineRenderer>();
         lr.useWorldSpace = false;
-        var scale = parentNodeGameObject.transform.lossyScale.x;    
         lr.startWidth = startWidth;
         lr.endWidth = endWidth;
         lr.material = lineMaterial;
-
-        go.transform.SetParent(parentNodeGameObject.transform, false);
-        
         lr.SetPosition(0, Vector3.zero);
-        
         lr.SetPosition(1,endPoint);
     }
     private Vector3 GetChildNodePosition(float sumAngle, float r)
