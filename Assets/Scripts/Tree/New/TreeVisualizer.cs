@@ -15,7 +15,7 @@ public class TreeVisualizer : MonoBehaviour
 
     private void Start()
     {
-        DrawChildren(DataLoader.GetNode(2759), this.gameObject, 9);
+        DrawChildren(DataLoader.GetNode(2759), this.gameObject, 11);
     }
     private void DrawChildren(Node node, GameObject parentNodeGameObject,int depth)
     {
