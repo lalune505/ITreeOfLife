@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class TreeVisualizer : MonoBehaviour
 {
-    public Material lineMaterial;
-    public float startWidth;
-    public float endWidth;
     public GameObject halfCirclePrefab;
+    public GameObject branchPrefab;
     private float R = 1f;
-    private void Start()
+
+    private void Awake()
     {
         DataLoader.InitNodesData();
-        DrawChildren( DataLoader.GetNodesData()[131567], this.gameObject, 5);
+    }
+
+    private void Start()
+    {
+        DrawChildren(DataLoader.GetNode(2759), this.gameObject, 9);
     }
     private void DrawChildren(Node node, GameObject parentNodeGameObject,int depth)
     {
@@ -32,13 +35,10 @@ public class TreeVisualizer : MonoBehaviour
     }
     private void DrawBranch(GameObject parentNodeGameObject,Vector3 endPoint)
     {
-        GameObject go = new GameObject("Branch");
-        go.transform.SetParent(parentNodeGameObject.transform, false);
-        var lr = go.AddComponent<LineRenderer>();
-        lr.useWorldSpace = false;
-        lr.startWidth = startWidth;
-        lr.endWidth = endWidth;
-        lr.material = lineMaterial;
+        GameObject go = Instantiate(branchPrefab, parentNodeGameObject.transform, false);
+        var lr = go.GetComponent<LineRenderer>();
+        lr.startWidth = 0.0016f;
+        lr.endWidth = 0.0016f;
         lr.SetPosition(0, Vector3.zero);
         lr.SetPosition(1,endPoint);
     }
@@ -48,7 +48,6 @@ public class TreeVisualizer : MonoBehaviour
         endPoint.x = (R - r) * Mathf.Cos((sumAngle) * Mathf.Deg2Rad) ;
         endPoint.y = (R - r) * Mathf.Sin((sumAngle) * Mathf.Deg2Rad);
         endPoint.z = 0;
-
         return endPoint;
     }
     private GameObject CreateNodeObj(Node node, Vector3 nodePos, GameObject parentNodeGameObject, float scale)

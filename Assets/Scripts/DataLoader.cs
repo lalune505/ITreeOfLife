@@ -57,9 +57,9 @@ public class DataLoader
         }
     }
 
-    public static Dictionary<int, Node> GetNodesData()
+    public static Node GetNode(int nodeId)
     {
-        return nodesData;
+        return nodesData[nodeId];
     }
     
 }
