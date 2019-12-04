@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 
 public class TreeVisualizer : MonoBehaviour
 {
@@ -15,7 +18,7 @@ public class TreeVisualizer : MonoBehaviour
 
     private void Start()
     {
-        DrawChildren(DataLoader.GetNode(2759), this.gameObject, 12);
+        DrawChildren(DataLoader.GetNode(2759), this.gameObject, 5);
     }
     private void DrawChildren(Node node, GameObject parentNodeGameObject,int depth)
     {
@@ -24,6 +27,7 @@ public class TreeVisualizer : MonoBehaviour
         float sumAngle = 0f;
         foreach (var childNode in node.childrenNodes)
         {
+           // yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
             float currentAngle = GetHalfCircleSize(node, childNode);
             float childRad = GetHalfCircleRad(currentAngle / 2);
             Vector3 childNodePos = GetChildNodePosition(currentAngle / 2 + sumAngle, childRad);
