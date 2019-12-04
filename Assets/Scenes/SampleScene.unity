@@ -128,7 +128,7 @@ GameObject:
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!81 &534669903
 AudioListener:
@@ -164,7 +164,7 @@ Camera:
   far clip plane: 3
   field of view: 60
   orthographic: 1
-  orthographic size: 1
+  orthographic size: 2
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -188,7 +188,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534669902}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: -2}
+  m_LocalPosition: {x: 0, y: 0, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8860cc31cfcf247d398081266e6db698, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  halfCirclePrefab: {fileID: 6993852124850968254, guid: c312d896f902846ea8e4421d40b45525,
+  halfCirclePrefab: {fileID: 878781618942558967, guid: 66493a6e946934da9ad072700a3a6841,
     type: 3}
   branchPrefab: {fileID: 410239256693139016, guid: a82e5007a0ea94a6d961a4adde349042,
     type: 3}

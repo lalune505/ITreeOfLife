@@ -18,7 +18,11 @@ public class TreeVisualizer : MonoBehaviour
 
     private void Start()
     {
-        DrawChildren(DataLoader.GetNode(2759), this.gameObject, 5);
+        DrawSuperKingDom(2759,150f);
+       
+        DrawSuperKingDom(2157,30f);
+        
+        DrawSuperKingDom(2,270f);
     }
     private void DrawChildren(Node node, GameObject parentNodeGameObject,int depth)
     {
@@ -30,7 +34,7 @@ public class TreeVisualizer : MonoBehaviour
            // yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
             float currentAngle = GetHalfCircleSize(node, childNode);
             float childRad = GetHalfCircleRad(currentAngle / 2);
-            Vector3 childNodePos = GetChildNodePosition(currentAngle / 2 + sumAngle, childRad);
+            Vector3 childNodePos = GetChildNodePosition(currentAngle / 2 + sumAngle, R - childRad);
             sumAngle += currentAngle;
             DrawBranch(parentNodeGameObject, childNodePos);
             GameObject nodeGo = CreateNodeObj(childNode, childNodePos, parentNodeGameObject, childRad);
@@ -46,11 +50,11 @@ public class TreeVisualizer : MonoBehaviour
         lr.SetPosition(0, Vector3.zero);
         lr.SetPosition(1,endPoint);
     }
-    private Vector3 GetChildNodePosition(float sumAngle, float r)
+    private Vector3 GetChildNodePosition(float sumAngle, float branchLength)
     {
         Vector3 endPoint;
-        endPoint.x = (R - r) * Mathf.Cos((sumAngle) * Mathf.Deg2Rad) ;
-        endPoint.y = (R - r) * Mathf.Sin((sumAngle) * Mathf.Deg2Rad);
+        endPoint.x = branchLength * Mathf.Cos((sumAngle) * Mathf.Deg2Rad) ;
+        endPoint.y = branchLength * Mathf.Sin((sumAngle) * Mathf.Deg2Rad);
         endPoint.z = 0;
         return endPoint;
     }
@@ -78,5 +82,13 @@ public class TreeVisualizer : MonoBehaviour
     private void DrawHalfCircle(GameObject parentGameObject)
     { 
         Instantiate(halfCirclePrefab, parentGameObject.transform, false);
+    }
+
+    private void DrawSuperKingDom(int nodeId, float angle)
+    {
+        var nodePos = GetChildNodePosition(angle, 1);
+        DrawBranch(this.gameObject, nodePos);
+        var node = CreateNodeObj(DataLoader.GetNode(nodeId), nodePos, this.gameObject, 1f);
+        DrawChildren(DataLoader.GetNode(nodeId), node, 5);
     }
 }
