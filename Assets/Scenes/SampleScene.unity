@@ -208,8 +208,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  Forward: 32
-  Backward: 304
+  Forward: 43
+  Backward: 45
   Up: 119
   Down: 115
   Left: 97
