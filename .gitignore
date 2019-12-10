@@ -51,3 +51,5 @@ Packages/manifest-prev.json
 
 *.keystore
 .localhistory/
+
+Assets/Resources/ScriptableObjects/

@@ -7,13 +7,17 @@ using Random = UnityEngine.Random;
 
 public class TreeVisualizer : MonoBehaviour
 {
+    private NodesData nodes;
     public GameObject halfCirclePrefab;
     public GameObject branchPrefab;
     private float R = 1f;
 
     private void Awake()
     {
-        DataLoader.InitNodesData();
+        //DataLoader.InitNodesData();
+        //nodes.IntNodeDictionary = DataLoader.nodesData;
+        //DataLoader.CreateNodesDataFile();
+        nodes = Resources.Load<NodesData>("ScriptableObjects/nodes");
     }
 
     private void Start()
@@ -88,7 +92,7 @@ public class TreeVisualizer : MonoBehaviour
     {
         var nodePos = GetChildNodePosition(angle, 1);
         DrawBranch(this.gameObject, nodePos);
-        var node = CreateNodeObj(DataLoader.GetNode(nodeId), nodePos, this.gameObject, 1f);
-        StartCoroutine(DrawChildren(DataLoader.GetNode(nodeId), node, 3));
+        var node = CreateNodeObj(nodes.IntNodeDictionary[nodeId], nodePos, this.gameObject, 1f);
+        StartCoroutine(DrawChildren(nodes.IntNodeDictionary[nodeId], node, 3));
     }
 }
