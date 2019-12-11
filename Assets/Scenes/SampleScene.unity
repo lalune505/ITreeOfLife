@@ -174,9 +174,9 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
+  m_HDR: 0
   m_AllowMSAA: 1
-  m_AllowDynamicResolution: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -257,6 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8860cc31cfcf247d398081266e6db698, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  depth: 6
   halfCirclePrefab: {fileID: 878781618942558967, guid: 66493a6e946934da9ad072700a3a6841,
     type: 3}
   branchPrefab: {fileID: 410239256693139016, guid: a82e5007a0ea94a6d961a4adde349042,

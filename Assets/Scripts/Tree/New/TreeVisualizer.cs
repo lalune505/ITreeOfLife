@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 
 public class TreeVisualizer : MonoBehaviour
 {
+    public int depth;
     public GameObject halfCirclePrefab;
     public GameObject branchPrefab;
     private float R = 1f;
@@ -18,7 +19,7 @@ public class TreeVisualizer : MonoBehaviour
     private NodesData nodes2759;
     private void Start()
     {
-        StartCoroutine(DrawTree());
+        StartCoroutine(DrawTree(depth));
     }
     private void DrawChildren(Node node, GameObject parentNodeGameObject,int depth)
     {
@@ -103,12 +104,12 @@ public class TreeVisualizer : MonoBehaviour
          assetBundle.Unload(true);
     }
 
-    private IEnumerator DrawTree()
+    private IEnumerator DrawTree(int d)
     {
         yield return StartCoroutine(LoadAssetBundle("nodes"));
-        DrawTree(new Tree(nodes2,2,270f,5));
-        DrawTree(new Tree(nodes2157, 2157, 30f, 5));
-        DrawTree(new Tree(nodes2759, 2759, 150f, 5));
+        DrawTree(new Tree(nodes2,2,270f,d));
+        DrawTree(new Tree(nodes2157, 2157, 30f, d));
+        DrawTree(new Tree(nodes2759, 2759, 150f, d));
     }
 }
 [Serializable]
