@@ -20,21 +20,20 @@ public class TreeVisualizer : MonoBehaviour
     {
         StartCoroutine(DrawTree());
     }
-    private IEnumerator DrawChildren(Node node, GameObject parentNodeGameObject,int depth)
+    private void DrawChildren(Node node, GameObject parentNodeGameObject,int depth)
     {
-        if (node.childrenNodes.Count == 0 || depth == 0) yield break;
+        if (node.childrenNodes.Count == 0 || depth == 0) return;
         DrawHalfCircle(parentNodeGameObject);
         float sumAngle = 0f;
         foreach (var childNode in node.childrenNodes)
         {
-            yield return new WaitForSeconds(Random.Range(0.05f, 0.1f));
             float currentAngle = GetHalfCircleSize(node, childNode);
             float childRad = GetHalfCircleRad(currentAngle / 2);
             Vector3 childNodePos = GetChildNodePosition(currentAngle / 2 + sumAngle, R - childRad);
             sumAngle += currentAngle;
             DrawBranch(parentNodeGameObject, childNodePos);
             GameObject nodeGo = CreateNodeObj(childNode, childNodePos, parentNodeGameObject, childRad);
-            StartCoroutine(DrawChildren(childNode, nodeGo, depth - 1));
+            DrawChildren(childNode, nodeGo, depth - 1);
         }
     }
     private void DrawBranch(GameObject parentNodeGameObject,Vector3 endPoint)
@@ -85,7 +84,7 @@ public class TreeVisualizer : MonoBehaviour
         var nodePos = GetChildNodePosition(tree.Angle, 1);
         DrawBranch(this.gameObject, nodePos);
         var node = CreateNodeObj(tree.Nodes.IntNodeDictionary[tree.RootId], nodePos, this.gameObject, 1f);
-        StartCoroutine(DrawChildren(tree.Nodes.IntNodeDictionary[tree.RootId], node, tree.Depth ));
+        DrawChildren(tree.Nodes.IntNodeDictionary[tree.RootId], node, tree.Depth );
     }
     
     IEnumerator LoadAssetBundle(string assetBundleName)
