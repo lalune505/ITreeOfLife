@@ -1,32 +1,33 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 
 public class TreeVisualizer : MonoBehaviour
 {
-    private NodesData nodes;
     public GameObject halfCirclePrefab;
     public GameObject branchPrefab;
     private float R = 1f;
 
+    private AssetBundle assetBundle;
+    private NodesData nodes2;
+    private NodesData nodes2157;
+    private NodesData nodes2759;
     private void Awake()
     {
-        //DataLoader.InitNodesData();
-        //nodes.IntNodeDictionary = DataLoader.nodesData;
-        //DataLoader.CreateNodesDataFile();
-        nodes = Resources.Load<NodesData>("ScriptableObjects/nodes");
+        StartCoroutine(DrawTree( 1224, 270f, 1));
     }
 
     private void Start()
     {
-        DrawSuperKingDom(2759,150f);
-       
-       // DrawSuperKingDom(2157,30f);
-        
-      //  DrawSuperKingDom(2,270f);
+        // DrawSuperKingDom(2759,150f);
+
+        // DrawSuperKingDom(2157,30f);
+
+        //  DrawSuperKingDom(2,270f);
     }
     private IEnumerator DrawChildren(Node node, GameObject parentNodeGameObject,int depth)
     {
@@ -88,11 +89,34 @@ public class TreeVisualizer : MonoBehaviour
         Instantiate(halfCirclePrefab, parentGameObject.transform, false);
     }
 
-    private void DrawSuperKingDom(int nodeId, float angle)
+    private void DrawSubTree(NodesData nodes,int nodeId, float angle, int depth)
     {
         var nodePos = GetChildNodePosition(angle, 1);
         DrawBranch(this.gameObject, nodePos);
         var node = CreateNodeObj(nodes.IntNodeDictionary[nodeId], nodePos, this.gameObject, 1f);
-        StartCoroutine(DrawChildren(nodes.IntNodeDictionary[nodeId], node, 3));
+        StartCoroutine(DrawChildren(nodes.IntNodeDictionary[nodeId], node, depth));
     }
+    
+    IEnumerator LoadAssetBundle(string assetBundleName, string objectNameToLoad)
+    {
+        string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "AssetBundles");
+        filePath = System.IO.Path.Combine(filePath, assetBundleName);
+        
+        var assetBundleCreateRequest = AssetBundle.LoadFromFileAsync(filePath);
+        yield return assetBundleCreateRequest;
+
+        assetBundle = assetBundleCreateRequest.assetBundle;
+        nodes2 = assetBundle.LoadAsset<NodesData>(objectNameToLoad);
+        //nodes2157 = assetBundle.LoadAsset<NodesData>(objectNameToLoad + "2157");
+        //nodes2759 = assetBundle.LoadAsset<NodesData>(objectNameToLoad + "2759");
+      
+         assetBundle.Unload(true);
+    }
+
+    private IEnumerator DrawTree(int id, float angle, int d)
+    {
+        yield return StartCoroutine(LoadAssetBundle("nodes", "nodes2"));
+        DrawSubTree(nodes2, id,angle, d);
+    }
+
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NodesData", menuName = "ScriptableObjects/NodesDataScriptableObject", order = 1)]
 public class NodesData : ScriptableObject
 {
-    //[SerializeField]
+    [SerializeField]
     IntNodeDictionary nodes;
 
     public IDictionary<int, Node> IntNodeDictionary

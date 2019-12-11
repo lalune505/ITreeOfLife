@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 1918638155
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b9922423e6c2e026006cf84c458eefed
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 872c4d4bf4032a3014bc843d51b7f9cd
+HashAppended: 0
+ClassTypes:
+- Class: 114
+  Script: {fileID: 11500000, guid: 5426c3582f26d4c17811b52613aae4ee, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/ScriptableObjects/nodes2759.asset
+- Assets/Resources/ScriptableObjects/nodes2.asset
+- Assets/Resources/ScriptableObjects/nodes2157.asset
+Dependencies: []
