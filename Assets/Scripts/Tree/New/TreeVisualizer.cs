@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -16,18 +16,9 @@ public class TreeVisualizer : MonoBehaviour
     private NodesData nodes2;
     private NodesData nodes2157;
     private NodesData nodes2759;
-    private void Awake()
-    {
-        StartCoroutine(DrawTree( 1224, 270f, 14));
-    }
-
     private void Start()
     {
-        // DrawSuperKingDom(2759,150f);
-
-        // DrawSuperKingDom(2157,30f);
-
-        //  DrawSuperKingDom(2,270f);
+        StartCoroutine(DrawTree());
     }
     private IEnumerator DrawChildren(Node node, GameObject parentNodeGameObject,int depth)
     {
@@ -36,7 +27,7 @@ public class TreeVisualizer : MonoBehaviour
         float sumAngle = 0f;
         foreach (var childNode in node.childrenNodes)
         {
-            yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
+            yield return new WaitForSeconds(Random.Range(0.05f, 0.1f));
             float currentAngle = GetHalfCircleSize(node, childNode);
             float childRad = GetHalfCircleRad(currentAngle / 2);
             Vector3 childNodePos = GetChildNodePosition(currentAngle / 2 + sumAngle, R - childRad);
@@ -89,16 +80,16 @@ public class TreeVisualizer : MonoBehaviour
         Instantiate(halfCirclePrefab, parentGameObject.transform, false);
     }
 
-    private void DrawSubTree(NodesData nodes,int nodeId, float angle, int depth)
+    private void DrawTree(Tree tree)
     {
-        var nodePos = GetChildNodePosition(angle, 1);
+        var nodePos = GetChildNodePosition(tree.Angle, 1);
         DrawBranch(this.gameObject, nodePos);
-        var node = CreateNodeObj(nodes.IntNodeDictionary[nodeId], nodePos, this.gameObject, 1f);
-        StartCoroutine(DrawChildren(nodes.IntNodeDictionary[nodeId], node, depth));
+        var node = CreateNodeObj(tree.Nodes.IntNodeDictionary[tree.RootId], nodePos, this.gameObject, 1f);
+        StartCoroutine(DrawChildren(tree.Nodes.IntNodeDictionary[tree.RootId], node, tree.Depth ));
     }
     
-    IEnumerator LoadAssetBundle(string assetBundleName, string objectNameToLoad)
-    {
+    IEnumerator LoadAssetBundle(string assetBundleName)
+         {
         string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "AssetBundles");
         filePath = System.IO.Path.Combine(filePath, assetBundleName);
         
@@ -106,17 +97,33 @@ public class TreeVisualizer : MonoBehaviour
         yield return assetBundleCreateRequest;
 
         assetBundle = assetBundleCreateRequest.assetBundle;
-        nodes2 = assetBundle.LoadAsset<NodesData>(objectNameToLoad);
-        //nodes2157 = assetBundle.LoadAsset<NodesData>(objectNameToLoad + "2157");
-        //nodes2759 = assetBundle.LoadAsset<NodesData>(objectNameToLoad + "2759");
+        nodes2 = assetBundle.LoadAsset<NodesData>(assetBundleName + "2");
+        nodes2157 = assetBundle.LoadAsset<NodesData>(assetBundleName + "2157");
+        nodes2759 = assetBundle.LoadAsset<NodesData>(assetBundleName + "2759");
       
          assetBundle.Unload(true);
     }
 
-    private IEnumerator DrawTree(int id, float angle, int d)
+    private IEnumerator DrawTree()
     {
-        yield return StartCoroutine(LoadAssetBundle("nodes", "nodes2"));
-        DrawSubTree(nodes2, id,angle, d);
+        yield return StartCoroutine(LoadAssetBundle("nodes"));
+        DrawTree(new Tree(nodes2,2,270f,5));
+        DrawTree(new Tree(nodes2157, 2157, 30f, 5));
+        DrawTree(new Tree(nodes2759, 2759, 150f, 5));
     }
-
+}
+[Serializable]
+public class Tree
+{
+    public NodesData Nodes { get; set; }
+    public int RootId { get; set; }
+    public float Angle { get; set; }
+    public int Depth { get; set; }
+    public Tree(NodesData nodes, int rootId, float angle, int depth)
+    {
+        this.Nodes = nodes;
+        this.RootId = rootId;
+        this.Angle = angle;
+        this.Depth = depth;
+    }
 }
