@@ -18,7 +18,7 @@ public class TreeVisualizer : MonoBehaviour
     private NodesData nodes2759;
     private void Awake()
     {
-        StartCoroutine(DrawTree( 1224, 270f, 1));
+        StartCoroutine(DrawTree( 1224, 270f, 14));
     }
 
     private void Start()
