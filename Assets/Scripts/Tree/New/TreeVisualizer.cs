@@ -11,6 +11,7 @@ public class TreeVisualizer : MonoBehaviour
     public int depth;
     public GameObject halfCirclePrefab;
     public GameObject branchPrefab;
+    public Material branchMat;
     private float R = 1f;
 
     private AssetBundle assetBundle;
@@ -34,6 +35,10 @@ public class TreeVisualizer : MonoBehaviour
             sumAngle += currentAngle;
             DrawBranch(parentNodeGameObject, childNodePos);
             GameObject nodeGo = CreateNodeObj(childNode, childNodePos, parentNodeGameObject, childRad);
+            if (nodeGo.transform.lossyScale.x < 0.01)
+            {
+                nodeGo.SetActive(false);
+            }
             DrawChildren(childNode, nodeGo, depth - 1);
         }
     }
@@ -41,8 +46,9 @@ public class TreeVisualizer : MonoBehaviour
     {
         GameObject go = Instantiate(branchPrefab, parentNodeGameObject.transform, false);
         var lr = go.GetComponent<LineRenderer>();
-        lr.startWidth = 0.0016f;
-        lr.endWidth = 0.0016f;
+        lr.startWidth = 0.002f;
+        lr.endWidth = 0.002f;
+        lr.sharedMaterial = branchMat;
         lr.SetPosition(0, Vector3.zero);
         lr.SetPosition(1,endPoint);
     }
@@ -98,8 +104,8 @@ public class TreeVisualizer : MonoBehaviour
 
         assetBundle = assetBundleCreateRequest.assetBundle;
         nodes2 = assetBundle.LoadAsset<NodesData>(assetBundleName + "2");
-        nodes2157 = assetBundle.LoadAsset<NodesData>(assetBundleName + "2157");
-        nodes2759 = assetBundle.LoadAsset<NodesData>(assetBundleName + "2759");
+        //nodes2157 = assetBundle.LoadAsset<NodesData>(assetBundleName + "2157");
+       // nodes2759 = assetBundle.LoadAsset<NodesData>(assetBundleName + "2759");
       
          assetBundle.Unload(true);
     }
@@ -108,8 +114,8 @@ public class TreeVisualizer : MonoBehaviour
     {
         yield return StartCoroutine(LoadAssetBundle("nodes"));
         DrawTree(new Tree(nodes2,2,270f,d));
-        DrawTree(new Tree(nodes2157, 2157, 30f, d));
-        DrawTree(new Tree(nodes2759, 2759, 150f, d));
+       // DrawTree(new Tree(nodes2157, 2157, 30f, d));
+       // DrawTree(new Tree(nodes2759, 2759, 150f, d));
     }
 }
 [Serializable]
