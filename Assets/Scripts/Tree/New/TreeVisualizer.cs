@@ -35,10 +35,6 @@ public class TreeVisualizer : MonoBehaviour
             sumAngle += currentAngle;
             DrawBranch(parentNodeGameObject, childNodePos);
             GameObject nodeGo = CreateNodeObj(childNode, childNodePos, parentNodeGameObject, childRad);
-            if (nodeGo.transform.lossyScale.x < 0.01)
-            {
-                nodeGo.SetActive(false);
-            }
             DrawChildren(childNode, nodeGo, depth - 1);
         }
     }
@@ -46,8 +42,8 @@ public class TreeVisualizer : MonoBehaviour
     {
         GameObject go = Instantiate(branchPrefab, parentNodeGameObject.transform, false);
         var lr = go.GetComponent<LineRenderer>();
-        lr.startWidth = 0.002f;
-        lr.endWidth = 0.002f;
+        lr.startWidth = 0.005f;
+        lr.endWidth = 0.005f;
         lr.sharedMaterial = branchMat;
         lr.SetPosition(0, Vector3.zero);
         lr.SetPosition(1,endPoint);

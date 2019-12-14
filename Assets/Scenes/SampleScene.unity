@@ -262,4 +262,4 @@ MonoBehaviour:
     type: 3}
   branchPrefab: {fileID: 410239256693139016, guid: a82e5007a0ea94a6d961a4adde349042,
     type: 3}
-  branchMat: {fileID: 2100000, guid: e18ef1e8b39ef4aa788934f7d3a6ba44, type: 2}
+  branchMat: {fileID: 2100000, guid: 1f83e38cd62c34842962aedf797e5aa3, type: 2}
