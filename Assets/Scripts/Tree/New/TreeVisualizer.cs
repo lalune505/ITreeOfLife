@@ -15,9 +15,7 @@ public class TreeVisualizer : MonoBehaviour
     private float R = 1f;
 
     private AssetBundle assetBundle;
-    private NodesData nodes2;
-    private NodesData nodes2157;
-    private NodesData nodes2759;
+    private NodesData nodes;
     private void Start()
     {
         StartCoroutine(DrawTree(depth));
@@ -99,19 +97,17 @@ public class TreeVisualizer : MonoBehaviour
         yield return assetBundleCreateRequest;
 
         assetBundle = assetBundleCreateRequest.assetBundle;
-        nodes2 = assetBundle.LoadAsset<NodesData>(assetBundleName + "2");
-        //nodes2157 = assetBundle.LoadAsset<NodesData>(assetBundleName + "2157");
-       // nodes2759 = assetBundle.LoadAsset<NodesData>(assetBundleName + "2759");
-      
-         assetBundle.Unload(true);
+        nodes = assetBundle.LoadAsset<NodesData>(assetBundleName + "131567");
+
+        assetBundle.Unload(true);
     }
 
     private IEnumerator DrawTree(int d)
     {
         yield return StartCoroutine(LoadAssetBundle("nodes"));
-        DrawTree(new Tree(nodes2,2,270f,d));
-       // DrawTree(new Tree(nodes2157, 2157, 30f, d));
-       // DrawTree(new Tree(nodes2759, 2759, 150f, d));
+        DrawTree(new Tree(nodes,2,270f,d));
+        DrawTree(new Tree(nodes, 2157, 30f, d));
+        DrawTree(new Tree(nodes, 2759, 150f, d));
     }
 }
 [Serializable]
