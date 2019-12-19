@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 
 public class TreeVisualizer : MonoBehaviour
 {
+    public float threshold = 0f;
+    public float thresholdCluster = 0f;
     public int depth;
     public GameObject halfCirclePrefab;
     public GameObject branchPrefab;
@@ -20,7 +22,7 @@ public class TreeVisualizer : MonoBehaviour
     {
         StartCoroutine(DrawTree(depth));
     }
-    private void DrawChildren(Node node, GameObject parentNodeGameObject,int depth)
+    private void CreateTree(Node node, GameObject parentNodeGameObject,int depth)
     {
         if (node.childrenNodes.Count == 0 || depth == 0) return;
         DrawHalfCircle(parentNodeGameObject);
@@ -31,20 +33,26 @@ public class TreeVisualizer : MonoBehaviour
             float childRad = GetHalfCircleRad(currentAngle / 2);
             Vector3 childNodePos = GetChildNodePosition(currentAngle / 2 + sumAngle, R - childRad);
             sumAngle += currentAngle;
-            DrawBranch(parentNodeGameObject, childNodePos);
+            CreateBranch(parentNodeGameObject, childNodePos);
             GameObject nodeGo = CreateNodeObj(childNode, childNodePos, parentNodeGameObject, childRad);
-            DrawChildren(childNode, nodeGo, depth - 1);
+            
+            CreateTree(childNode, nodeGo, depth - 1);
         }
     }
-    private void DrawBranch(GameObject parentNodeGameObject,Vector3 endPoint)
+    private GameObject CreateBranch(GameObject parentNodeGameObject,Vector3 endPoint)
     {
         GameObject go = Instantiate(branchPrefab, parentNodeGameObject.transform, false);
         var lr = go.GetComponent<LineRenderer>();
-        lr.startWidth = 0.005f;
-        lr.endWidth = 0.005f;
+        lr.startWidth = 0.007f;
+        lr.endWidth = 0.007f;
         lr.sharedMaterial = branchMat;
         lr.SetPosition(0, Vector3.zero);
         lr.SetPosition(1,endPoint);
+        if (Vector3.Scale(endPoint, go.transform.lossyScale).magnitude > threshold)
+        {
+            lr.enabled = true;
+        }
+        return go;
     }
     private Vector3 GetChildNodePosition(float sumAngle, float branchLength)
     {
@@ -61,6 +69,7 @@ public class TreeVisualizer : MonoBehaviour
         nodeObj.transform.localPosition = nodePos;
         nodeObj.transform.localRotation = Quaternion.LookRotation(Vector3.forward, nodePos);
         nodeObj.transform.localScale =  new Vector3(scale, scale, scale);
+        
         return nodeObj;
     }
 
@@ -77,15 +86,19 @@ public class TreeVisualizer : MonoBehaviour
 
     private void DrawHalfCircle(GameObject parentGameObject)
     { 
-        Instantiate(halfCirclePrefab, parentGameObject.transform, false);
+        var go = Instantiate(halfCirclePrefab, parentGameObject.transform, false);
+        if (parentGameObject.transform.lossyScale.x > thresholdCluster)
+        {
+            go.GetComponentInChildren<Renderer>().enabled = true;
+        }
     }
 
     private void DrawTree(Tree tree)
     {
         var nodePos = GetChildNodePosition(tree.Angle, 1);
-        DrawBranch(this.gameObject, nodePos);
+        var branch = CreateBranch(this.gameObject, nodePos);
         var node = CreateNodeObj(tree.Nodes.IntNodeDictionary[tree.RootId], nodePos, this.gameObject, 1f);
-        DrawChildren(tree.Nodes.IntNodeDictionary[tree.RootId], node, tree.Depth );
+        CreateTree(tree.Nodes.IntNodeDictionary[tree.RootId], node, tree.Depth );
     }
     
     IEnumerator LoadAssetBundle(string assetBundleName)
