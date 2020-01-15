@@ -121,6 +121,7 @@ public class TreeVisualizer : MonoBehaviour
         DrawTree(new Tree(nodes,2,270f,d));
         DrawTree(new Tree(nodes, 2157, 30f, d));
         DrawTree(new Tree(nodes, 2759, 150f, d));
+        
     }
 }
 [Serializable]
