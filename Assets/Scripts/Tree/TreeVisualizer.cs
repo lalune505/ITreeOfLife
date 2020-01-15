@@ -91,31 +91,28 @@ public class TreeVisualizer : MonoBehaviour
         }
     }
 
-    public void DrawTree(Tree tree)
+    public void DrawTree(NodesData data, Tree tree)
     {
         var nodePos = GetChildNodePosition(tree.Angle, 1);
         var branch = CreateBranch(this.gameObject, nodePos);
-        var node = CreateNodeObj(tree.Nodes.IntNodeDictionary[tree.RootId], nodePos, this.gameObject, 1f);
-        CreateTree(tree.Nodes.IntNodeDictionary[tree.RootId], node, tree.Depth );
+        var node = CreateNodeObj(data.IntNodeDictionary[tree.RootId], nodePos, this.gameObject, 1f);
+        CreateTree(data.IntNodeDictionary[tree.RootId], node, tree.Depth );
     }
 
     public void CreateObjectFromData(NodesData nodes)
     {
-        DrawTree(new Tree(nodes,2,270f,depth));
-        DrawTree(new Tree(nodes, 2157, 30f, depth));
-        DrawTree(new Tree(nodes, 2759, 150f, depth));
+        DrawTree(nodes, new Tree(2,270f,depth));
+       // DrawTree(nodes,new Tree(2157, 30f, depth));
+       // DrawTree(nodes, new Tree(2759, 150f, depth));
     }
 }
 [Serializable]
 public class Tree
-{
-    public NodesData Nodes { get; set; }
-    public int RootId { get; set; }
+{   public int RootId { get; set; }
     public float Angle { get; set; }
     public int Depth { get; set; }
-    public Tree(NodesData nodes, int rootId, float angle, int depth)
+    public Tree(int rootId, float angle, int depth)
     {
-        this.Nodes = nodes;
         this.RootId = rootId;
         this.Angle = angle;
         this.Depth = depth;
