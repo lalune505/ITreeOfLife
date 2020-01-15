@@ -9,7 +9,7 @@ using UnityEditor;
 using UnityEngine;
 using static System.Int32;
 
-public class DataLoader
+public class NodesDataFileCreator
 {
     private const string DirectoryPath = "/Users/zhenyaprivet/Desktop/taxdump";
     private const string TaxDumpFiles = "/Users/zhenyaprivet/Desktop/taxdump/files";

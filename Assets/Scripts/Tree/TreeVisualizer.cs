@@ -15,12 +15,10 @@ public class TreeVisualizer : MonoBehaviour
     public GameObject branchPrefab;
     public Material branchMat;
     private float R = 1f;
-
-    private AssetBundle assetBundle;
-    private NodesData nodes;
+    
     private void Start()
     {
-        StartCoroutine(DrawTree(depth));
+        DataLoader.OnDataLoaded += CreateObjectFromData;
     }
     private void CreateTree(Node node, GameObject parentNodeGameObject,int depth)
     {
@@ -93,35 +91,19 @@ public class TreeVisualizer : MonoBehaviour
         }
     }
 
-    private void DrawTree(Tree tree)
+    public void DrawTree(Tree tree)
     {
         var nodePos = GetChildNodePosition(tree.Angle, 1);
         var branch = CreateBranch(this.gameObject, nodePos);
         var node = CreateNodeObj(tree.Nodes.IntNodeDictionary[tree.RootId], nodePos, this.gameObject, 1f);
         CreateTree(tree.Nodes.IntNodeDictionary[tree.RootId], node, tree.Depth );
     }
-    
-    IEnumerator LoadAssetBundle(string assetBundleName)
-         {
-        string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "AssetBundles");
-        filePath = System.IO.Path.Combine(filePath, assetBundleName);
-        
-        var assetBundleCreateRequest = AssetBundle.LoadFromFileAsync(filePath);
-        yield return assetBundleCreateRequest;
 
-        assetBundle = assetBundleCreateRequest.assetBundle;
-        nodes = assetBundle.LoadAsset<NodesData>(assetBundleName + "131567");
-
-        assetBundle.Unload(true);
-    }
-
-    private IEnumerator DrawTree(int d)
+    public void CreateObjectFromData(NodesData nodes)
     {
-        yield return StartCoroutine(LoadAssetBundle("nodes"));
-        DrawTree(new Tree(nodes,2,270f,d));
-        DrawTree(new Tree(nodes, 2157, 30f, d));
-        DrawTree(new Tree(nodes, 2759, 150f, d));
-        
+        DrawTree(new Tree(nodes,2,270f,depth));
+        DrawTree(new Tree(nodes, 2157, 30f, depth));
+        DrawTree(new Tree(nodes, 2759, 150f, depth));
     }
 }
 [Serializable]
