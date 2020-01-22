@@ -18,7 +18,7 @@ public class TreeVisualizer : MonoBehaviour
     
     private void Start()
     {
-        DataLoader.OnDataLoaded += CreateObjectFromData;
+       DataLoader.OnDataLoaded += CreateObjectFromData;
     }
     private void CreateTree(Node node, GameObject parentNodeGameObject,int depth)
     {
