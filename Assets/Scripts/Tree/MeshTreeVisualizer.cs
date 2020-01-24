@@ -36,7 +36,11 @@ public class MeshTreeVisualizer : MonoBehaviour
     private void CreateSubTree(GameObject root, GameObject branch,Vector3[] branchVerts, int[] branchTris, Node node,int depth, List<Vector3> meshVertices,
         List<int> meshTris)
     {
-        if (node.childrenNodes.Count == 0 || depth == 0) return;
+        if (node.childrenNodes.Count == 0 || depth == 0)
+        {
+            Destroy(root);//check it
+            return;
+        }
         float sumAngle = 0f;
         foreach (var childNode in node.childrenNodes)
         {
@@ -48,6 +52,7 @@ public class MeshTreeVisualizer : MonoBehaviour
             AppendBranchVertices(root, branch, Mathf.Sqrt(root.transform.lossyScale.x), branchVerts, branchTris,childNodePos, meshVertices, meshTris);
             
             CreateSubTree(childNodeGo,branch,branchVerts, branchTris,childNode, depth - 1, meshVertices, meshTris);
+            childNodeGo.transform.parent = null;
             if (meshVertices.Count + branchVerts.Length > 65000)
             {
                 CreateObject(meshVertices, meshTris, allTreeStart);
@@ -55,6 +60,8 @@ public class MeshTreeVisualizer : MonoBehaviour
                 meshTris.Clear();
             }
         }
+        if (root.name != allTreeStart.name)
+            Destroy(root);
 
     }
     private void AppendBranchVertices(GameObject root, GameObject b, float scale, Vector3[] bVerts, int[] bTris,Vector3 endPoint, List<Vector3> meshVertices,
