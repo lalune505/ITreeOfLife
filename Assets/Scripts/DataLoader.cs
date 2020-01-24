@@ -33,5 +33,9 @@ public class DataLoader : MonoBehaviour
         yield return StartCoroutine(LoadAssetBundle("nodes"));
         OnDataLoaded?.Invoke(data);
     }
-    
+
+    private void OnDestroy()
+    {
+        StopCoroutine(CreateTree());
+    }
 }
