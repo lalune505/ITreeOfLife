@@ -50,12 +50,12 @@ public class MeshTreeVisualizer : MonoBehaviour
             CreateSubTree(childNodeGo,branch,branchVerts, branchTris,childNode, depth - 1, meshVertices, meshTris);
             if (meshVertices.Count + branchVerts.Length > 65000)
             {
-                CreateObject(meshVertices, meshTris,allTreeStart);
+                CreateObject(meshVertices, meshTris, allTreeStart);
                 meshVertices.Clear();
                 meshTris.Clear();
             }
         }
-        
+
     }
     private void AppendBranchVertices(GameObject root, GameObject b, float scale, Vector3[] bVerts, int[] bTris,Vector3 endPoint, List<Vector3> meshVertices,
         List<int> meshTris)
