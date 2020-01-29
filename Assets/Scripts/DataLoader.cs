@@ -20,8 +20,7 @@ public class DataLoader : MonoBehaviour
         
          AssetBundle.LoadFromFileAsync(filePath).AsAsyncOperationObservable ()
              .Subscribe (xs => {if (xs.assetBundle != null) {
-                    AssetBundle assetBundle = xs.assetBundle;
-                    LoadAssetFromBundle(assetBundle, assetBundleName + "131567" ); } 
+                     LoadAssetFromBundle(xs.assetBundle, assetBundleName + "131567" ); } 
              }).AddTo (this);
         
     }
@@ -33,8 +32,8 @@ public class DataLoader : MonoBehaviour
                 if (x.asset != null)
                 {
                     NodesData data = x.asset as NodesData;
-                    assetBundle.Unload(true);
                     OnDataLoaded?.Invoke(data);
+                    assetBundle.Unload(true);
                 }
            }).AddTo (this);
     }
