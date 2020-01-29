@@ -1,41 +1,42 @@
 using System;
 using System.Collections;
+using UniRx;
 using UnityEngine;
 
 public class DataLoader : MonoBehaviour
 {
     public delegate void DataHandler(NodesData data);
     public static event DataHandler OnDataLoaded;
-    private AssetBundle assetBundle;
-    private NodesData data;
 
     private void Start()
     {
-        StartCoroutine(CreateTree());
+        LoadAssetBundle("nodes");
     }
 
-    IEnumerator LoadAssetBundle(string assetBundleName)
+    void LoadAssetBundle(string assetBundleName)
     {
         string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "AssetBundles");
         filePath = System.IO.Path.Combine(filePath, assetBundleName);
         
-        var assetBundleCreateRequest = AssetBundle.LoadFromFileAsync(filePath);
-        yield return assetBundleCreateRequest;
+         AssetBundle.LoadFromFileAsync(filePath).AsAsyncOperationObservable ()
+             .Subscribe (xs => {if (xs.assetBundle != null) {
+                    AssetBundle assetBundle = xs.assetBundle;
+                    LoadAssetFromBundle(assetBundle, assetBundleName + "131567" ); } 
+             }).AddTo (this);
+        
+    }
 
-        assetBundle = assetBundleCreateRequest.assetBundle;
-        data = assetBundle.LoadAsset<NodesData>(assetBundleName + "131567");
-
-        assetBundle.Unload(true);
+    void LoadAssetFromBundle(AssetBundle assetBundle,string assetName)
+    {
+       assetBundle.LoadAssetAsync<NodesData>(assetName).AsAsyncOperationObservable ()
+           .Subscribe(x => {
+                if (x.asset != null)
+                {
+                    NodesData data = x.asset as NodesData;
+                    assetBundle.Unload(true);
+                    OnDataLoaded?.Invoke(data);
+                }
+           }).AddTo (this);
     }
     
-    private IEnumerator CreateTree()
-    {
-        yield return StartCoroutine(LoadAssetBundle("nodes"));
-        OnDataLoaded?.Invoke(data);
-    }
-
-    private void OnDestroy()
-    {
-        StopCoroutine(CreateTree());
-    }
 }
