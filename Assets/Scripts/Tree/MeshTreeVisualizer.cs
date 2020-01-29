@@ -45,7 +45,7 @@ public class MeshTreeVisualizer : MonoBehaviour
             Vector3 childNodePos = GetChildNodePosition(childAngle / 2 + sumAngle, R - childRad);
             sumAngle += childAngle;
             GameObject childNodeGo = CreateNodeObj(childNodePos, root, childRad);
-            AppendBranchVertices(root, branch, Mathf.Sqrt(root.transform.lossyScale.x), branchVerts, branchTris,childNodePos, meshVertices, meshTris);
+            AppendBranchVertices(root, branch, branchVerts, branchTris,childNodePos, meshVertices, meshTris);
             
             CreateSubTree(childNodeGo,branch,branchVerts, branchTris,childNode, depth - 1, meshVertices, meshTris);
             if (meshVertices.Count + branchVerts.Length > 65000)
@@ -57,14 +57,17 @@ public class MeshTreeVisualizer : MonoBehaviour
         }
         
     }
-    private void AppendBranchVertices(GameObject root, GameObject b, float scale, Vector3[] bVerts, int[] bTris,Vector3 endPoint, List<Vector3> meshVertices,
+    private void AppendBranchVertices(GameObject root, GameObject b, Vector3[] bVerts, int[] bTris,Vector3 endPoint, List<Vector3> meshVertices,
         List<int> meshTris)
     {
         b.transform.parent = root.transform;
         b.transform.localPosition = Vector3.zero;
         b.transform.localRotation = Quaternion.LookRotation(endPoint, Vector3.right);
+
+        var branchScale = b.transform.localScale;
+        branchScale.z = endPoint.magnitude;
+        b.transform.localScale = branchScale;
         
-        b.transform.localScale =  new Vector3(scale ,scale  ,endPoint.magnitude); 
        
         int prevVertCount = meshVertices.Count;
 
