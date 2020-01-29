@@ -9,6 +9,7 @@ public class MeshTreeVisualizer : MonoBehaviour
     public Material pointMaterial;
     public float R;
     private GameObject allTreeStart;
+    private int meshCount = 0;
 
     private void Start()
     {
@@ -22,7 +23,7 @@ public class MeshTreeVisualizer : MonoBehaviour
 
         List<Vector3> meshVertices = new List<Vector3>(65000);
         List<int> meshTris = new List<int>(117000);
-        allTreeStart = new GameObject("Root");
+        allTreeStart = new GameObject("Tree");
         CreateSubTree(allTreeStart, branch, prefabVertices, prefabTris, nodes.IntNodeDictionary[2],
           2, meshVertices, meshTris );
         
@@ -86,11 +87,13 @@ public class MeshTreeVisualizer : MonoBehaviour
         Mesh mesh = new Mesh();
         mesh.vertices = meshVertices.ToArray();
         mesh.triangles = meshTris.ToArray();
-        GameObject obj = new GameObject();
+        GameObject obj = new GameObject("TreeMesh" + meshCount);
         obj.AddComponent<MeshFilter>().mesh = mesh;
         obj.AddComponent<MeshRenderer>().material = pointMaterial;
        
         obj.transform.SetParent(parentObj.transform, false);
+
+        meshCount++;
     }
     private Vector3 GetChildNodePosition(float angle, float branchLength)
     {
