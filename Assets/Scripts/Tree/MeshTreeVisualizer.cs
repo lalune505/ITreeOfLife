@@ -25,7 +25,7 @@ public class MeshTreeVisualizer : MonoBehaviour
         List<int> meshTris = new List<int>(117000);
         allTreeStart = new GameObject("Tree");
         CreateSubTree(allTreeStart, branch, prefabVertices, prefabTris, nodes.IntNodeDictionary[2],
-          2, meshVertices, meshTris );
+          4, meshVertices, meshTris );
         
         CreateObject(meshVertices, meshTris, allTreeStart);
         meshVertices.Clear();
@@ -66,10 +66,15 @@ public class MeshTreeVisualizer : MonoBehaviour
         b.transform.localRotation = Quaternion.LookRotation(endPoint, Vector3.right);
 
         var branchScale = b.transform.localScale;
+        var initLocalScale = branchScale;
+        
+        var branchWidth = Mathf.Max(1f, branchScale.x - 0.1f);
+        branchScale.x = branchWidth;
+        branchScale.y = branchWidth;
         branchScale.z = endPoint.magnitude;
+        
         b.transform.localScale = branchScale;
         
-       
         int prevVertCount = meshVertices.Count;
 
         for (int k = 0; k < bVerts.Length; k++)
@@ -80,6 +85,8 @@ public class MeshTreeVisualizer : MonoBehaviour
         {
             meshTris.Add(prevVertCount + bTris[k]);
         }
+
+        b.transform.localScale = initLocalScale;
 
     }
     private void CreateObject(List<Vector3> meshVertices, List<int> meshTris, GameObject parentObj)
