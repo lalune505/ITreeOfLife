@@ -3,19 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour {
+public class CameraController : MonoBehaviour
+{
 
-    public float speed = 1;
+    public float speed;
 
-    public KeyCode Forward = KeyCode.Space,
-        Backward = KeyCode.LeftShift,
+    public KeyCode Forward = KeyCode.Plus,
+        Backward = KeyCode.Minus,
         Up = KeyCode.W,
         Down = KeyCode.S,
         Left = KeyCode.A,
         Right = KeyCode.D;
     
     private Camera _camera;
-    private float minZoom = 0.1f;
+    private float minZoom = 0.05f;
     private float maxZoom = 3f;
     private Vector3 _dragOrigin;
 
