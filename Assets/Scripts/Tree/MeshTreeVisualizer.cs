@@ -6,6 +6,7 @@ using UnityEngine;
 public class MeshTreeVisualizer : MonoBehaviour
 {
     public GameObject branchPrefab;
+    public GameObject nodePrefab;
     public Material pointMaterial;
     public float R;
     public float width;
@@ -27,7 +28,7 @@ public class MeshTreeVisualizer : MonoBehaviour
         List<int> meshTris = new List<int>(117000);
         allTreeStart = new GameObject("Tree");
         CreateSubTree(allTreeStart, branch,width, prefabVertices, prefabTris, nodes.IntNodeDictionary[2],
-          4, meshVertices, meshTris );
+          1, meshVertices, meshTris );
         
         CreateObject(meshVertices, meshTris, allTreeStart);
         meshVertices.Clear();
@@ -39,7 +40,7 @@ public class MeshTreeVisualizer : MonoBehaviour
     private void CreateSubTree(GameObject root, GameObject branch, float branchWidth,Vector3[] branchVerts, int[] branchTris, Node node,int depth, List<Vector3> meshVertices,
         List<int> meshTris)
     {
-        if (node.childrenNodes.Count == 0 /*|| depth == 0*/) return;
+        if (node.childrenNodes.Count == 0 || depth == 0) return;
         float sumAngle = 0f;
         
         foreach (var childNode in node.childrenNodes)
@@ -48,7 +49,7 @@ public class MeshTreeVisualizer : MonoBehaviour
             float childRad = GetNodeRadius(childAngle / 2);
             Vector3 childNodePos = GetChildNodePosition(childAngle / 2 + sumAngle, R - childRad);
             sumAngle += childAngle;
-            GameObject childNodeGo = CreateNodeObj(childNodePos, root, childRad);
+            GameObject childNodeGo = CreateNodeObj(childNode,childNodePos, root, childRad);
             AppendBranchVertices(root, branch,branchWidth, branchVerts, branchTris,childNodePos, meshVertices, meshTris);
             
             CreateSubTree(childNodeGo,branch,branchWidth * widthDecreaseFactor, branchVerts, branchTris,childNode, depth - 1, meshVertices, meshTris);
@@ -106,9 +107,11 @@ public class MeshTreeVisualizer : MonoBehaviour
         return endPoint;
     }
     
-    private GameObject CreateNodeObj(Vector3 nodePos, GameObject rootGameObject, float scale)
+    private GameObject CreateNodeObj(Node node,Vector3 nodePos, GameObject rootGameObject, float scale)
     {
-        var nodeObj = new GameObject("Node");
+        var nodeObj = Instantiate(nodePrefab);
+        nodeObj.name = node.id.ToString();
+        nodeObj.AddComponent<NodeView>().Init(node);
         nodeObj.transform.parent = rootGameObject.transform;
         nodeObj.transform.localPosition = nodePos;
         nodeObj.transform.localRotation = Quaternion.LookRotation(Vector3.forward, nodePos);
