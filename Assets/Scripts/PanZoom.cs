@@ -26,8 +26,14 @@ public class PanZoom : MonoBehaviour {
 
             zoom(difference * 0.01f);
         }else if(Input.GetMouseButton(0)){
+            
+            InputManager.DisableInput();
             Vector3 direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Camera.main.transform.position += direction;
+        }
+        else
+        {
+            InputManager.EnableInput();
         }
         zoom(Input.GetAxis("Mouse ScrollWheel"));
     }

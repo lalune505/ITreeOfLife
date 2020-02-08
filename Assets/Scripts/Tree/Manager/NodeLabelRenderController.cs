@@ -10,7 +10,7 @@ public class NodeLabelRenderController : MonoBehaviour
 
     private Text[] textComps;
     private Image[] imageComps;
-    private const float LabelGapX = 65.0f;
+    private const float LabelGapX = 0.0f;
     private Camera camera;
 
     private void Awake()
