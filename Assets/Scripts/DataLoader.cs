@@ -8,9 +8,15 @@ public class DataLoader : MonoBehaviour
     public delegate void DataHandler(NodesData data);
     public static event DataHandler OnDataLoaded;
 
+    private void Awake()
+    {
+        NodesDataFileCreator.SetNodesNames();
+        NodesDataFileCreator.SetNodesData();
+        NodesDataFileCreator.CreateNodesScriptableObject(131567);
+    }
+
     private void Start()
     {
-        
         //LoadAssetBundle("nodes");
     }
 

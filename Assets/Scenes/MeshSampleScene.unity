@@ -203,7 +203,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &346108287
 AudioListener:
   m_ObjectHideFlags: 0
@@ -280,40 +280,45 @@ PrefabInstance:
       propertyPath: m_Name
       value: DataVizCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 8144325196062086190, guid: a2c6c42b0b6a14936adcd32440c5321e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 931571590575954424, guid: a2c6c42b0b6a14936adcd32440c5321e,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 931571590575954424, guid: a2c6c42b0b6a14936adcd32440c5321e,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 931571590575954424, guid: a2c6c42b0b6a14936adcd32440c5321e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 931571590575954424, guid: a2c6c42b0b6a14936adcd32440c5321e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 931571590575954424, guid: a2c6c42b0b6a14936adcd32440c5321e,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 931571590575954424, guid: a2c6c42b0b6a14936adcd32440c5321e,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2746869319181077448, guid: a2c6c42b0b6a14936adcd32440c5321e,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2816965038159685944, guid: a2c6c42b0b6a14936adcd32440c5321e,
         type: 3}
@@ -613,7 +618,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1141998633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -673,6 +678,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PanZoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 652310695316862853, guid: e86a450b203554828bc64833166ac50f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 652310695316862851, guid: e86a450b203554828bc64833166ac50f,
         type: 3}
@@ -742,6 +752,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: NodePanelsManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 5699892803564871057, guid: d8d5848966d4246239cad3415cafedb8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5699892803564871063, guid: d8d5848966d4246239cad3415cafedb8,
         type: 3}
@@ -821,6 +836,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: InputManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7255174454650289053, guid: 6b7b9c86484254dfca6dcb127373857b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7255174454650289051, guid: 6b7b9c86484254dfca6dcb127373857b,
         type: 3}
