@@ -8,6 +8,7 @@ public class Node
 {
     public int id;
     public string rank;
+    public NodeName names;
     public List<Node> childrenNodes = new List<Node>();
 
     public int GetSize()

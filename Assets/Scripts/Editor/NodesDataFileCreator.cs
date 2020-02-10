@@ -14,9 +14,11 @@ public class NodesDataFileCreator
     private const string DirectoryPath = "/Users/zhenyaprivet/Desktop/taxdump";
     private const string TaxDumpFiles = "/Users/zhenyaprivet/Desktop/taxdump/files";
     private const string TaxDumpFileName = "taxdump.tar.gz";
-    private const string NodesFileName = "nodes.dmp"; 
+    private const string NodesFileName = "nodes.dmp";
+    private const string NamesFileName = "names.dmp";
     private const string SCRIPTABLE_OBJECTS_DESTIONATION_PATH = "Assets/Resources/ScriptableObjects"; 
     private static Dictionary<int, Node> nodes = new Dictionary<int, Node>();
+    private static Dictionary<int, NodeName> names = new Dictionary<int, NodeName>();
     private async void GetTaxDumpFiles()
     {
         await NetworkManager.GetTaxDumpFile(Path.Combine(DirectoryPath,TaxDumpFileName));
@@ -35,19 +37,19 @@ public class NodesDataFileCreator
                 var sonRank = line.Split('|')[2].Replace("\t", "");
                 if (!nodes.ContainsKey(dad))
                 {
-                    nodes[dad] = new Node {id = dad};
+                    nodes[dad] = new Node {id = dad, names = names[dad]};
                 }
                 if (!nodes.ContainsKey(son))
                 {
-                    nodes[son] = new Node {id = son, rank = sonRank};
+                    nodes[son] = new Node {id = son, rank = sonRank, names = names[son]};
                 }
-                else
-                {
-                    if (string.IsNullOrEmpty(nodes[son].rank))
-                    {
-                        nodes[son].rank = sonRank;
-                    }
-                }
+                /* else
+                 {
+                     if (string.IsNullOrEmpty(nodes[son].rank))
+                     {
+                         nodes[son].rank = sonRank;
+                     }
+                 }*/
                 nodes[dad].childrenNodes.Add(nodes[son]);
             }
 
@@ -57,6 +59,66 @@ public class NodesDataFileCreator
             Debug.Log( $"The process failed with error: {e}");
         }
     }
+    public static void SetNodesNames()
+    {
+        try
+        {
+            foreach (string line in File.ReadLines(Path.Combine(TaxDumpFiles, NamesFileName)))
+            {
+               var taxId = Parse(line.Split('|')[0].Replace("\t", ""));
+               var nameVal = line.Split('|')[1].Replace("\t", "");
+               var nameType = line.Split('|')[3].Replace("\t", "");
+
+               if (!names.ContainsKey(taxId))
+               {
+                   names[taxId] = new NodeName();
+               }
+               if (nameType == "scientific name")
+               {
+                   names[taxId].sciName = nameVal;
+               }
+               if (nameType == "authority")
+               {
+                   if (string.IsNullOrEmpty(names[taxId].authority))
+                   {
+                       names[taxId].authority = nameVal;
+                   }
+                   else
+                   {
+                       names[taxId].authority += ", " + nameVal;
+                   }
+               }
+               if (nameType == "synonym")
+               {
+                   if(string.IsNullOrEmpty(names[taxId].synonym))
+                   {
+                       names[taxId].synonym = nameVal;
+                   }
+                   else
+                   {
+                       names[taxId].synonym += ", " + nameVal;
+                   }
+               }
+               if (nameType == "common name")
+               {
+                   if (string.IsNullOrEmpty(names[taxId].commonName))
+                   {
+                       names[taxId].commonName = nameVal;
+                   }
+                   else
+                   {
+                       names[taxId].commonName += ", " + nameVal;
+                   }
+               }
+            }
+
+        }
+        catch(Exception e) 
+        {
+            Debug.Log( $"The process failed with error: {e}");
+        }
+    }
+    
 
    private static void FillNodesDataById(int nodeId, IDictionary<int, Node> dict)
    {
@@ -85,8 +147,6 @@ public class NodesDataFileCreator
 
         FillNodesDataById(rootNodeId,  gm.IntNodeDictionary);
 
-        Debug.Log(gm.IntNodeDictionary.Count);
-        
         EditorUtility.SetDirty(gm);
 
         AssetDatabase.Refresh();
