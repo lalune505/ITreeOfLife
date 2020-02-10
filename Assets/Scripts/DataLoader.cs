@@ -10,7 +10,8 @@ public class DataLoader : MonoBehaviour
 
     private void Start()
     {
-        LoadAssetBundle("nodes");
+        
+        //LoadAssetBundle("nodes");
     }
 
     void LoadAssetBundle(string assetBundleName)
