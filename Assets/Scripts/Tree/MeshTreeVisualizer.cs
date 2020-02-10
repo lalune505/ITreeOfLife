@@ -28,7 +28,7 @@ public class MeshTreeVisualizer : MonoBehaviour
         List<int> meshTris = new List<int>(117000);
         allTreeStart = new GameObject("Tree");
         CreateSubTree(allTreeStart, branch,width, prefabVertices, prefabTris, nodes.IntNodeDictionary[2],
-          1, meshVertices, meshTris );
+          3, meshVertices, meshTris );
         
         CreateObject(meshVertices, meshTris, allTreeStart);
         meshVertices.Clear();

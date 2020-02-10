@@ -30,7 +30,7 @@ public class NodeLabelRenderController : MonoBehaviour
         var worldToScreenPoint = camera.WorldToScreenPoint(worldPosition);
         worldToScreenPoint.x += LabelGapX;
         worldToScreenPoint.z = 0.0f;
-        nodePanel.transform.position = worldPosition;
+        nodePanel.transform.position = worldToScreenPoint;
         
         EnableRenderer(true);
     }
