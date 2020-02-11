@@ -10,14 +10,14 @@ public class DataLoader : MonoBehaviour
 
     private void Awake()
     {
-        NodesDataFileCreator.SetNodesNames();
-        NodesDataFileCreator.SetNodesData();
-        NodesDataFileCreator.CreateNodesScriptableObject(131567);
+       // NodesDataFileCreator.SetNodesNames();
+       // NodesDataFileCreator.SetNodesData();
+       // NodesDataFileCreator.CreateNodesScriptableObject(131567);
     }
 
     private void Start()
     {
-        //LoadAssetBundle("nodes");
+        LoadAssetBundle("nodes");
     }
 
     void LoadAssetBundle(string assetBundleName)

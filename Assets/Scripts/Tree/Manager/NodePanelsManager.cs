@@ -36,7 +36,7 @@ public class NodePanelsManager : MonoBehaviour, IUserInteractable
             nodeLabelRenderController.EnableNodePanel(hit.point);
             nodeLabelController.UpdateLabelVisuals(
                 _selectedNodeView.nodeId.ToString(),
-                _selectedNodeView.rank);
+                _selectedNodeView.sciName);
         }
     }
 

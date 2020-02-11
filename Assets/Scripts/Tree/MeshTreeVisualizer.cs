@@ -16,7 +16,7 @@ public class MeshTreeVisualizer : MonoBehaviour
 
     private void Start()
     {
-      // DataLoader.OnDataLoaded += CreateTreeMeshes;
+       DataLoader.OnDataLoaded += CreateTreeMeshes;
     }
     public void CreateTreeMeshes(NodesData nodes)
     {
