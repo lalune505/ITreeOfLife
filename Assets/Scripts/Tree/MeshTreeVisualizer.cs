@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MeshTreeVisualizer : MonoBehaviour
 {
+    public int nodeId;
     public GameObject branchPrefab;
     public GameObject nodePrefab;
     public Material pointMaterial;
@@ -27,7 +28,7 @@ public class MeshTreeVisualizer : MonoBehaviour
         List<Vector3> meshVertices = new List<Vector3>(65000);
         List<int> meshTris = new List<int>(117000);
         allTreeStart = new GameObject("Tree");
-        CreateSubTree(allTreeStart, branch,width, prefabVertices, prefabTris, nodes.IntNodeDictionary[2],
+        CreateSubTree(allTreeStart, branch,width, prefabVertices, prefabTris, nodes.IntNodeDictionary[nodeId],
           3, meshVertices, meshTris );
         
         CreateObject(meshVertices, meshTris, allTreeStart);
@@ -40,7 +41,7 @@ public class MeshTreeVisualizer : MonoBehaviour
     private void CreateSubTree(GameObject root, GameObject branch, float branchWidth,Vector3[] branchVerts, int[] branchTris, Node node,int depth, List<Vector3> meshVertices,
         List<int> meshTris)
     {
-        if (node.childrenNodes.Count == 0 || depth == 0) return;
+        if (node.childrenNodes.Count == 0 /*|| depth == 0*/) return;
         float sumAngle = 0f;
         
         foreach (var childNode in node.childrenNodes)

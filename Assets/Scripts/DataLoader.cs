@@ -8,16 +8,18 @@ public class DataLoader : MonoBehaviour
     public delegate void DataHandler(NodesData data);
     public static event DataHandler OnDataLoaded;
 
+    public int rootId;
+
     private void Awake()
-    {
-       // NodesDataFileCreator.SetNodesNames();
-       // NodesDataFileCreator.SetNodesData();
-       // NodesDataFileCreator.CreateNodesScriptableObject(131567);
+    { 
+        /*NodesDataFileCreator.SetNodesNames(); 
+        NodesDataFileCreator.SetNodesData();
+        NodesDataFileCreator.CreateNodesScriptableObject(rootId);*/
     }
 
     private void Start()
     {
-        LoadAssetBundle("nodes");
+       LoadAssetBundle("nodes");
     }
 
     void LoadAssetBundle(string assetBundleName)
@@ -27,7 +29,7 @@ public class DataLoader : MonoBehaviour
         
          AssetBundle.LoadFromFileAsync(filePath).AsAsyncOperationObservable ()
              .Subscribe (xs => {if (xs.assetBundle != null) {
-                     LoadAssetFromBundle(xs.assetBundle, assetBundleName + "131567" ); } 
+                     LoadAssetFromBundle(xs.assetBundle, assetBundleName + rootId.ToString() ); } 
              }).AddTo (this);
         
     }

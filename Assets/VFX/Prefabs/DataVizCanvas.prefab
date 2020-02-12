@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8827570030801106666}
   - component: {fileID: 4251097197367283675}
   m_Layer: 5
-  m_Name: NodeRank
+  m_Name: NodeName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -424,8 +424,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b29243e6acbe42c8bdde6e5860bb770, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rankLabelText: {fileID: 4251097197367283675}
-  nameLabelText: {fileID: 7908781407831366128}
+  idLabelText: {fileID: 7908781407831366128}
+  nameLabelText: {fileID: 4251097197367283675}
 --- !u!1 &8995816812769031168
 GameObject:
   m_ObjectHideFlags: 0

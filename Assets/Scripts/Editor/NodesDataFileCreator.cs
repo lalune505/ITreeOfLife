@@ -37,19 +37,21 @@ public class NodesDataFileCreator
                 var sonRank = line.Split('|')[2].Replace("\t", "");
                 if (!nodes.ContainsKey(dad))
                 {
-                    nodes[dad] = new Node {id = dad, names = names[dad]};
+                    nodes[dad] = new Node {id = dad, rank = sonRank, authority = names[dad].authority, 
+                        synonym = names[dad].synonym, commonName = names[dad].commonName, sciName = names[dad].sciName};
                 }
                 if (!nodes.ContainsKey(son))
                 {
-                    nodes[son] = new Node {id = son, rank = sonRank, names = names[son]};
+                    nodes[son] = new Node {id = son, rank = sonRank, authority = names[son].authority, 
+                        synonym = names[son].synonym, commonName = names[son].commonName, sciName = names[son].sciName};
                 }
-                /* else
-                 {
+                else 
+                {
                      if (string.IsNullOrEmpty(nodes[son].rank))
                      {
                          nodes[son].rank = sonRank;
-                     }
-                 }*/
+                     } 
+                }
                 nodes[dad].childrenNodes.Add(nodes[son]);
             }
 

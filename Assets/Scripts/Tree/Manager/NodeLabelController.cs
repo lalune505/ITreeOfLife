@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class NodeLabelController : MonoBehaviour
 {
-   public Text rankLabelText;
+   public Text idLabelText;
    public Text nameLabelText;
 
-   public void UpdateLabelVisuals(string nodeName, string nodeRank)
+   public void UpdateLabelVisuals(string nodeId, string nodeName)
    {
-      rankLabelText.text = nodeRank;
+      idLabelText.text = nodeId;
       nameLabelText.text = nodeName;
    }
 }
