@@ -11,10 +11,10 @@ public class DataLoader : MonoBehaviour
     public int rootId;
 
     private void Awake()
-    { 
-        /*NodesDataFileCreator.SetNodesNames(); 
-        NodesDataFileCreator.SetNodesData();
-        NodesDataFileCreator.CreateNodesScriptableObject(rootId);*/
+    {
+      //  NodesDataFileCreator.SetNodesNames();
+      //  NodesDataFileCreator.SetNodesData();
+       // NodesDataFileCreator.CreateNodesScriptableObject(rootId);
     }
 
     private void Start()
