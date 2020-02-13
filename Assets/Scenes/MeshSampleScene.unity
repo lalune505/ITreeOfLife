@@ -1030,7 +1030,7 @@ PrefabInstance:
         type: 3}
       propertyPath: pointMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: 357b8652368b84b27bd1b5d4a02fe5fa, type: 2}
+      objectReference: {fileID: 2100000, guid: ed97a68dfc2f342d58f3da7a69dd7105, type: 2}
     - target: {fileID: 8381420928106252001, guid: fd98820f526d84420a10c0b0d5692834,
         type: 3}
       propertyPath: valueScaleMultiplier
