@@ -41,7 +41,7 @@ public class MeshTreeVisualizer : MonoBehaviour
     private void CreateSubTree(GameObject root, GameObject branch, float branchWidth,Vector3[] branchVerts, int[] branchTris, Node node,int depth, List<Vector3> meshVertices,
         List<int> meshTris)
     {
-        if (node.childrenNodes.Count == 0 /*|| depth == 0*/) return;
+        if (node.childrenNodes.Count == 0 || depth == 2) return;
         float sumAngle = 0f;
         
         foreach (var childNode in node.childrenNodes)
@@ -112,7 +112,10 @@ public class MeshTreeVisualizer : MonoBehaviour
     {
         var nodeObj = Instantiate(nodePrefab);
         nodeObj.name = node.id.ToString();
-        nodeObj.AddComponent<NodeView>().Init(node);
+        var nodeView = nodeObj.AddComponent<NodeView>();
+        nodeView.Init(node);
+        nodeView.branchLength = Vector3.Distance(rootGameObject.transform.position,
+            rootGameObject.transform.TransformPoint(nodePos));
         nodeObj.transform.parent = rootGameObject.transform;
         nodeObj.transform.localPosition = nodePos;
         nodeObj.transform.localRotation = Quaternion.LookRotation(Vector3.forward, nodePos);

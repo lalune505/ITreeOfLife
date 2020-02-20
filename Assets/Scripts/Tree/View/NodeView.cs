@@ -6,6 +6,7 @@ public class NodeView : MonoBehaviour
 {
     private Node node;
     public int nodeId;
+    public float branchLength;
     public string rank;
     public string sciName;
     
