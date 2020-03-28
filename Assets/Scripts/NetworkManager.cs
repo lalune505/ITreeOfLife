@@ -76,6 +76,7 @@ public class NetworkManager
             if (webRequest.isHttpError || webRequest.isNetworkError)
             {
                 Debug.LogError($"Request {webRequest.url} error: {webRequest.error}");
+                return null;
             }
 
             return DownloadHandlerTexture.GetContent(webRequest);
