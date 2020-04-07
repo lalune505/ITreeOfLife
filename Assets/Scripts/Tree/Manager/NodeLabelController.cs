@@ -5,12 +5,10 @@ using UnityEngine.UI;
 
 public class NodeLabelController : MonoBehaviour
 {
-   public Text idLabelText;
    public Text nameLabelText;
 
-   public void UpdateLabelVisuals(string nodeId, string nodeName)
+   public void UpdateLabelText(string nodeName)
    {
-      idLabelText.text = nodeId;
       nameLabelText.text = nodeName;
    }
 }

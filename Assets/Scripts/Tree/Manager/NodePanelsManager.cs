@@ -34,9 +34,7 @@ public class NodePanelsManager : MonoBehaviour, IUserInteractable
             _lastHitCollider = hit.collider;
 
             nodeLabelRenderController.EnableNodePanel(hit.point);
-            nodeLabelController.UpdateLabelVisuals(
-                _selectedNodeView.nodeId.ToString(),
-                _selectedNodeView.sciName);
+            nodeLabelController.UpdateLabelText(_selectedNodeView.sciName);
         }
     }
 
