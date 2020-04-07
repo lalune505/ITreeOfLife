@@ -596,7 +596,7 @@ GameObject:
   - component: {fileID: 1579055734}
   - component: {fileID: 1579055735}
   m_Layer: 0
-  m_Name: PageManager
+  m_Name: ImageManagerer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
