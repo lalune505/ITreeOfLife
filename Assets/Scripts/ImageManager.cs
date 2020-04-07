@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 
 using System.Collections.Generic;
 using System.IO;
@@ -11,9 +12,15 @@ public class ImageManager : MonoBehaviour
 {
     public string name;
     public RawImage nodeImage;
+    private string imagesDirPath = "";
   
     void Start()
     {
+        imagesDirPath = Path.Combine(Application.persistentDataPath, "Images");
+        
+        if (!Directory.Exists(imagesDirPath))
+            Directory.CreateDirectory(imagesDirPath);
+        
         NetworkManager.CheckConnection();
         GetPage();
     }
@@ -42,7 +49,7 @@ public class ImageManager : MonoBehaviour
     
     private Texture2D GetTextureFromCache(string fileName)
     {
-        var cacheFilePath = Path.Combine(Application.persistentDataPath, $"{fileName}.texture");
+        var cacheFilePath = Path.Combine(imagesDirPath, $"{fileName}.texture");
 
         Texture2D texture = null;
 
@@ -59,10 +66,13 @@ public class ImageManager : MonoBehaviour
     
     private void CacheTexture(string fileName, byte[] data)
     {
-        var cacheFilePath = Path.Combine(Application.persistentDataPath, $"{fileName}.texture");
+        var cacheFilePath = Path.Combine(imagesDirPath, $"{fileName}.texture");
 
         File.WriteAllBytes(cacheFilePath, data);
     }
 
-
+    private void OnDestroy()
+    {
+       // if (Directory.Exists(imagesDirPath)) { Directory.Delete(imagesDirPath, true); }
+    }
 }
