@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UniRx;
 using UniRx.Async;
+using Debug = UnityEngine.Debug;
 
 public class NetworkManager
 {
@@ -17,10 +19,10 @@ public class NetworkManager
     
     private const string SearchApiURL = "https://eol.org/api/search/1.0.json";
     private const string PagesApiURL = "https://eol.org/api/pages/1.0/";
-    private const string PingURL = "";
+    private const string PingURL = "https://eol.org/api/ping.json";
     
         
-    private static async UniTask Request(string url, string path)
+    private static async UniTask GetDataFile(string url, string path)
     {
         using (var webRequest = UnityWebRequest.Get(url))
         {
@@ -36,23 +38,37 @@ public class NetworkManager
             
         }
     }
-    
-    public static async UniTask<Texture> GetNodeImage(string nodeSciName)
-    {
-        var searchJson = await Request<JObject>($"{SearchApiURL}?q={nodeSciName}&page=1");
 
+    public static async UniTask<Texture2D> GetNodeImage(string nodeSciName)
+    {
+        var searchJson = await RequestJObject($"{SearchApiURL}?q={nodeSciName}&page=1");
+
+        if (!searchJson["results"].HasValues)
+        {
+            Debug.Log(nodeSciName + " no results");
+            return null;
+        }
         var pageId = searchJson["results"][0]["id"].Value<string>();
 
-        var pageJson = await Request<JObject>($"{PagesApiURL}{pageId}.json?details=false&images_per_page=1");
+        var pageJson = await RequestJObject($"{PagesApiURL}{pageId}.json?details=false&images_per_page=1");
 
-        var imageLink = pageJson["taxonConcept"]["dataObjects"][0]["mediaURL"].Value<string>();
+        var token = pageJson["taxonConcept"]["dataObjects"];
+        
+        if (token == null || !token.HasValues)
+        {
+            Debug.Log(nodeSciName + " no data objects");
+            return null;
+        }
+        var imageLink = token[0]["eolMediaURL"].Value<string>();
 
-        var nodeImage = await GetTexture<Texture>(imageLink);
+        imageLink = imageLink.Insert(imageLink.IndexOf(".jpg", StringComparison.Ordinal), ".130x130");
+
+        var nodeImage = await GetTexture(imageLink);
         
         return nodeImage;
     }
 
-    private static async UniTask<JObject> Request<T>(string urlMethod)
+    private static async UniTask<JObject> RequestJObject(string urlMethod)
     {
         using (var webRequest = UnityWebRequest.Get(urlMethod))
         {
@@ -61,13 +77,15 @@ public class NetworkManager
             if (webRequest.isHttpError || webRequest.isNetworkError)
             {
                 Debug.LogError($"Request {webRequest.url} error: {webRequest.error}");
+                return null;
             }
             string rawJson = Encoding.Default.GetString(webRequest.downloadHandler.data);
             
             return JObject.Parse(rawJson);
         }
     }
-    private static async UniTask<Texture> GetTexture<T>(string urlMethod)
+
+    private static async UniTask<Texture2D> GetTexture(string urlMethod)
     {
         using (var webRequest = UnityWebRequestTexture.GetTexture(urlMethod))
         {
@@ -85,7 +103,14 @@ public class NetworkManager
 
     public static async UniTask GetTaxDumpFile(string path)
     {
-        await Request(TaxDumpURL,path);
+        await GetDataFile(TaxDumpURL,path);
+    }
+
+    public static async void CheckConnection()
+    {
+        var request = await RequestJObject(PingURL);
+        if(request != null) 
+            Debug.Log(request["response"]["message"]);
     }
 
 }
