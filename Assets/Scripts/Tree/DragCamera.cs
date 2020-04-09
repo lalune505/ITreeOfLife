@@ -333,7 +333,7 @@ public class DragCamera : MonoBehaviour
             currentTargetType = TargetType.ProjectPoint;
             currentTargetPoint = _point;
 
-            _currentLerpMoveProcess = StartCoroutine(MoveToTarget_Process(_point.position + _offsetPointCamPos));
+            _currentLerpMoveProcess = StartCoroutine(MoveToTarget_Process(_point.position + _point.lossyScale.x * 10 * _offsetPointCamPos));
         }
 
 
@@ -448,4 +448,6 @@ public class DragCamera : MonoBehaviour
                 goalPosition.z = cameraBoundsCenterPoint.position.z + camBoundsHeight * 0.5f;
             }
         }
+        
+        
     }
