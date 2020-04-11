@@ -11,9 +11,10 @@ public class MeshTreeVisualizer : MonoBehaviour
     public Material pointMaterial;
     public float R;
     public float width;
-    public float widthDecreaseFactor;
+    public int treeDepth;
     private GameObject allTreeStart;
     private int meshCount = 0;
+    
 
     private void Start()
     {
@@ -28,8 +29,8 @@ public class MeshTreeVisualizer : MonoBehaviour
         List<Vector3> meshVertices = new List<Vector3>(65000);
         List<int> meshTris = new List<int>(117000);
         allTreeStart = new GameObject("Tree");
-        CreateSubTree(allTreeStart, branch,width, prefabVertices, prefabTris, nodes.IntNodeDictionary[nodeId],
-          3, meshVertices, meshTris );
+        CreateSubTree(allTreeStart, branch, prefabVertices, prefabTris, nodes.IntNodeDictionary[nodeId],
+          treeDepth, meshVertices, meshTris );
         
         CreateObject(meshVertices, meshTris, allTreeStart);
         meshVertices.Clear();
@@ -38,7 +39,7 @@ public class MeshTreeVisualizer : MonoBehaviour
         
     }
     
-    private void CreateSubTree(GameObject root, GameObject branch, float branchWidth,Vector3[] branchVerts, int[] branchTris, Node node,int depth, List<Vector3> meshVertices,
+    private void CreateSubTree(GameObject root, GameObject branch,Vector3[] branchVerts, int[] branchTris, Node node,int depth, List<Vector3> meshVertices,
         List<int> meshTris)
     {
         if (node.childrenNodes.Count == 0 /*|| depth == 0*/) return;
@@ -51,9 +52,9 @@ public class MeshTreeVisualizer : MonoBehaviour
             Vector3 childNodePos = GetChildNodePosition(childAngle / 2 + sumAngle, R - childRad);
             sumAngle += childAngle;
             GameObject childNodeGo = CreateNodeObj(childNode,childNodePos, root, childRad);
-            AppendBranchVertices(root, branch,branchWidth, branchVerts, branchTris,childNodePos, meshVertices, meshTris);
+            AppendBranchVertices(root, branch,width * depth / treeDepth, branchVerts, branchTris,childNodePos, meshVertices, meshTris);
             
-            CreateSubTree(childNodeGo,branch,branchWidth * widthDecreaseFactor, branchVerts, branchTris,childNode, depth - 1, meshVertices, meshTris);
+            CreateSubTree(childNodeGo,branch, branchVerts, branchTris,childNode, depth - 1, meshVertices, meshTris);
             if (meshVertices.Count + branchVerts.Length > 65000)
             {
                 CreateObject(meshVertices, meshTris,allTreeStart);
@@ -63,7 +64,7 @@ public class MeshTreeVisualizer : MonoBehaviour
         }
         
     }
-    private void AppendBranchVertices(GameObject root, GameObject b,float width,Vector3[] bVerts, int[] bTris,Vector3 endPoint, List<Vector3> meshVertices,
+    private void AppendBranchVertices(GameObject root, GameObject b,float bWidth,Vector3[] bVerts, int[] bTris,Vector3 endPoint, List<Vector3> meshVertices,
         List<int> meshTris)
     {
         b.transform.parent = root.transform;
@@ -72,7 +73,7 @@ public class MeshTreeVisualizer : MonoBehaviour
 
         b.transform.localScale = Vector3.one;
         var lossyScale = b.transform.lossyScale.x;
-        b.transform.localScale = new Vector3(width / lossyScale,width / lossyScale, endPoint.magnitude );
+        b.transform.localScale = new Vector3( bWidth / lossyScale,bWidth / lossyScale, endPoint.magnitude );
         
         int prevVertCount = meshVertices.Count;
 
