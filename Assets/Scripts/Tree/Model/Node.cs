@@ -14,7 +14,6 @@ public class Node
     public string commonName;
     public string synonym;
     public List<Node> childrenNodes = new List<Node>();
-    public string imageLink;
 
     public int GetSize()
     {
