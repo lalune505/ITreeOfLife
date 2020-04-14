@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UniRx.Async;
 using UnityEngine;
 
-public class MeshTreeVisualizer : MonoBehaviour
+public class MeshTreeVisualizer : InitializableMonoBehaviour
 {
     public int nodeId;
     public GameObject branchPrefab;
@@ -12,16 +13,24 @@ public class MeshTreeVisualizer : MonoBehaviour
     public float R;
     public float width;
     public int treeDepth;
-    private NodeView allTreeStart;
+    public NodeView allTreeStart;
     private int meshCount = 0;
-    private Dictionary<int, List<NodeView>> _nodeViews = new Dictionary<int, List<NodeView>>();
-    
+    private List<NodeView> _nodeViews = new List<NodeView>();
 
-    private void Start()
+
+    public override async UniTask Init()
     {
-       DataLoader.OnDataLoaded += CreateTreeMeshes;
+        DataLoader.OnDataLoaded += StartCreatingMeshes;
+        await UniTask.Yield();
+
     }
-    public void CreateTreeMeshes(NodesData nodes)
+
+    private void StartCreatingMeshes(NodesData data)
+    {
+       CreateTreeMeshes(data);
+    }
+
+    private void CreateTreeMeshes(NodesData nodes)
     {
         GameObject branch = Instantiate(branchPrefab);
         Vector3[] prefabVertices = branch.GetComponentInChildren<MeshFilter>().mesh.vertices;
@@ -29,7 +38,6 @@ public class MeshTreeVisualizer : MonoBehaviour
 
         List<Vector3> meshVertices = new List<Vector3>(65000);
         List<int> meshTris = new List<int>(117000);
-        allTreeStart = new GameObject("Tree").AddComponent<NodeView>();
         CreateSubTree(allTreeStart, branch, prefabVertices, prefabTris, nodes.IntNodeDictionary[nodeId],
           treeDepth, meshVertices, meshTris );
         
@@ -54,7 +62,7 @@ public class MeshTreeVisualizer : MonoBehaviour
             sumAngle += childAngle;
             NodeView childNodeGo = CreateNodeObj(childNode,childNodePos,nodeView, childRad);
             childNodeGo.depth = depth;
-            _nodeViews[depth].Add(childNodeGo);
+            _nodeViews.Add(childNodeGo);
             
             AppendBranchVertices(nodeView, branch,width * depth / treeDepth, branchVerts, branchTris,childNodePos, meshVertices, meshTris);
             
@@ -65,6 +73,7 @@ public class MeshTreeVisualizer : MonoBehaviour
                 meshVertices.Clear();
                 meshTris.Clear();
             }
+            
         }
         
     }
@@ -100,7 +109,7 @@ public class MeshTreeVisualizer : MonoBehaviour
         obj.AddComponent<MeshFilter>().mesh = mesh;
         obj.AddComponent<MeshRenderer>().material = pointMaterial;
        
-        obj.transform.SetParent(parentObj.transform, false);
+        obj.transform.SetParent(parentObj.transform, true);
 
         meshCount++;
     }
@@ -144,6 +153,6 @@ public class MeshTreeVisualizer : MonoBehaviour
 
     public List<NodeView> GetNodeViewsByDepthLevel(int d)
     {
-        return _nodeViews[d];
+        return _nodeViews.Where(x => x.depth == d).ToList();
     }
 }

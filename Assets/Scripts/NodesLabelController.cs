@@ -6,8 +6,9 @@ using UnityEngine.UI;
 
 public class NodesLabelController : InitializableMonoBehaviour
 {
+    public NodeView nodeView;
     public float minBranchLength;
-    public int depthLevels;
+    public int dDepth;
     public class NodeNameLabel
         {
             public Text textLabel;
@@ -17,7 +18,7 @@ public class NodesLabelController : InitializableMonoBehaviour
         }
         
         private Camera _cam;
-        private int _dDepth = 0;
+        private int depthLevel = 0;
             
         private NodeNameLabel[] _currentTextNameLabels;
 
@@ -31,6 +32,8 @@ public class NodesLabelController : InitializableMonoBehaviour
 
         private MeshTreeVisualizer _meshTreeVisualizer;
 
+        private bool _updNodes = false;
+
         public override async UniTask Init()
         {
             _dragCam = FindObjectOfType<DragCamera>();
@@ -41,7 +44,7 @@ public class NodesLabelController : InitializableMonoBehaviour
 
             _dragCam.OnCameraZoneChanged.AddListener(OnCamZoneChanged);
 
-            _currentTextNameLabels = new NodeNameLabel[100];
+            _currentTextNameLabels = new NodeNameLabel[30];
 
             for (var i = 0; i < _currentTextNameLabels.Length; i++)
             {
@@ -57,8 +60,9 @@ public class NodesLabelController : InitializableMonoBehaviour
                 _currentTextNameLabels[i] = nodeNameLabel;
             }
             
-
             await UniTask.Yield();
+
+            _updNodes = true;
         }
         
 
@@ -66,20 +70,24 @@ public class NodesLabelController : InitializableMonoBehaviour
         {
             if (zone == 0)
             {
-                _dDepth = 0;
+                depthLevel = 0;
             }
             else if (zone == 1)
             {
-                _dDepth = 3;
+                depthLevel = 3;
             }
             else if (zone == 2)
             {
-                _dDepth = 6;
+                depthLevel = 6;
             }
         }
 
         private void LateUpdate()
         {
+            if (!_updNodes)
+            {
+                return;
+            }
             if (_updatePause > 0f)
             {
                 _updatePause -= Time.deltaTime;
@@ -107,31 +115,33 @@ public class NodesLabelController : InitializableMonoBehaviour
 
         private IEnumerator GetRoadsInView_Process()
         {
-            _distNodeViews.Clear();
-            
-            foreach (var nodeView in _meshTreeVisualizer.GetNodeViewsByDepthLevel(_dDepth))
+            if (nodeView == null)
             {
-                Queue<NodeView> queue = new Queue<NodeView>();
-            
-                queue.Enqueue(nodeView);
-
-                while (queue.Count > 0)
-                {
-                    var element = queue.Dequeue();
-
-                    if ((element.branchLength  < (minBranchLength * _cam.transform.position.y / _dragCam.yMax)) & (element.depth - nodeView.depth) > depthLevels)
-                    {
-                        continue;
-                    }
-
-                    foreach (var child in element.childrenNodes)
-                    {
-                        queue.Enqueue(child);
-                    }
-                
-                    _distNodeViews.Add(element);
-                }
+                yield break;
             }
+            _distNodeViews.Clear();
+
+            Queue<NodeView> queue = new Queue<NodeView>();
+            
+            queue.Enqueue(nodeView);
+
+            while (queue.Count > 0)
+            {
+                var element = queue.Dequeue();
+
+                if ((element.branchLength  < (minBranchLength * _cam.transform.position.y / _dragCam.yMax)) & (element.depth - nodeView.depth) > dDepth)
+                {
+                    continue;
+                }
+
+                foreach (var child in element.childrenNodes)
+                {
+                    queue.Enqueue(child);
+                }
+                
+                _distNodeViews.Add(element);
+            }
+            
 
             yield return null;
         }
