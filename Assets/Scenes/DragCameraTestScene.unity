@@ -305,8 +305,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc1699d414ea4f5f89612de95886007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeView: {fileID: 0}
-  minBranchLength: 0.6
+  rootNodeView: {fileID: 321499743}
+  tRad: 0.4
   dDepth: 3
   labelPrefab: {fileID: 1031165987485068115, guid: 7ed5e0f4d859a4b3fa9bf72fc76e5b5d,
     type: 3}
@@ -387,6 +387,16 @@ PrefabInstance:
       propertyPath: allTreeStart
       value: 
       objectReference: {fileID: 321499743}
+    - target: {fileID: 8381420928106252001, guid: fd98820f526d84420a10c0b0d5692834,
+        type: 3}
+      propertyPath: nodesLabelController
+      value: 
+      objectReference: {fileID: 47240089}
+    - target: {fileID: 8381420928106252001, guid: fd98820f526d84420a10c0b0d5692834,
+        type: 3}
+      propertyPath: treeDepth
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd98820f526d84420a10c0b0d5692834, type: 3}
 --- !u!114 &51685783 stripped
@@ -448,7 +458,7 @@ MonoBehaviour:
   rank: 
   sciName: 
   depth: 0
-  branchLength: 0
+  nodeRad: 0
   childrenNodes: []
 --- !u!1001 &489638270
 PrefabInstance:

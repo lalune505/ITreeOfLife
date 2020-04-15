@@ -8,7 +8,7 @@ public class NodeView : MonoBehaviour
     public string rank;
     public string sciName;
     public int depth;
-    public float branchLength;
+    public float nodeRad;
     public List<NodeView> childrenNodes = new List<NodeView>();
     
     public void Init(Node node)

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UniRx.Async;
 using UnityEngine;
@@ -6,8 +7,8 @@ using UnityEngine.UI;
 
 public class NodesLabelController : InitializableMonoBehaviour
 {
-    public NodeView nodeView;
-    public float minBranchLength;
+    public NodeView rootNodeView;
+    public float tRad;
     public int dDepth;
     public class NodeNameLabel
         {
@@ -29,22 +30,18 @@ public class NodesLabelController : InitializableMonoBehaviour
         private DragCamera _dragCam;
         
         private List<NodeView> _distNodeViews = new List<NodeView>();
-
-        private MeshTreeVisualizer _meshTreeVisualizer;
-
-        private bool _updNodes = false;
-
+        private List<NodeView> _nodeViews = new List<NodeView>();
+        
+        public bool updNodes = false;
         public override async UniTask Init()
         {
             _dragCam = FindObjectOfType<DragCamera>();
-
-            _meshTreeVisualizer = FindObjectOfType<MeshTreeVisualizer>();
             
             _cam = _dragCam.GetComponent<Camera>();
 
             _dragCam.OnCameraZoneChanged.AddListener(OnCamZoneChanged);
 
-            _currentTextNameLabels = new NodeNameLabel[30];
+            _currentTextNameLabels = new NodeNameLabel[20];
 
             for (var i = 0; i < _currentTextNameLabels.Length; i++)
             {
@@ -59,10 +56,9 @@ public class NodesLabelController : InitializableMonoBehaviour
 
                 _currentTextNameLabels[i] = nodeNameLabel;
             }
-            
+
             await UniTask.Yield();
 
-            _updNodes = true;
         }
         
 
@@ -84,7 +80,7 @@ public class NodesLabelController : InitializableMonoBehaviour
 
         private void LateUpdate()
         {
-            if (!_updNodes)
+            if (!updNodes)
             {
                 return;
             }
@@ -115,7 +111,7 @@ public class NodesLabelController : InitializableMonoBehaviour
 
         private IEnumerator GetRoadsInView_Process()
         {
-            if (nodeView == null)
+            if (rootNodeView == null)
             {
                 yield break;
             }
@@ -123,13 +119,13 @@ public class NodesLabelController : InitializableMonoBehaviour
 
             Queue<NodeView> queue = new Queue<NodeView>();
             
-            queue.Enqueue(nodeView);
+            queue.Enqueue(rootNodeView);
 
             while (queue.Count > 0)
             {
                 var element = queue.Dequeue();
 
-                if ((element.branchLength  < (minBranchLength * _cam.transform.position.y / _dragCam.yMax)) & (element.depth - nodeView.depth) > dDepth)
+                if ((element.nodeRad  < (tRad /** _cam.transform.position.y / _dragCam.yMax)*/) & (rootNodeView.depth - element.depth) > dDepth))
                 {
                     continue;
                 }
@@ -178,6 +174,11 @@ public class NodesLabelController : InitializableMonoBehaviour
                     label.gameObject.transform.position.y, label.pointCoord.z);
             }
         }
-        
+
+        public void AddNodeView(NodeView nodeView)
+        {
+            _nodeViews.Add(nodeView);
+        }
+    
     }
 

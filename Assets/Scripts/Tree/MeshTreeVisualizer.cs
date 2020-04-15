@@ -14,20 +14,19 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
     public float width;
     public int treeDepth;
     public NodeView allTreeStart;
+    public NodesLabelController nodesLabelController;
     private int meshCount = 0;
-    private List<NodeView> _nodeViews = new List<NodeView>();
 
 
     public override async UniTask Init()
     {
         DataLoader.OnDataLoaded += StartCreatingMeshes;
         await UniTask.Yield();
-
     }
 
     private void StartCreatingMeshes(NodesData data)
     {
-       CreateTreeMeshes(data);
+        CreateTreeMeshes(data);
     }
 
     private void CreateTreeMeshes(NodesData nodes)
@@ -38,7 +37,13 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
 
         List<Vector3> meshVertices = new List<Vector3>(65000);
         List<int> meshTris = new List<int>(117000);
-        CreateSubTree(allTreeStart, branch, prefabVertices, prefabTris, nodes.IntNodeDictionary[nodeId],
+
+        Node rootNode = nodes.IntNodeDictionary[nodeId];
+        allTreeStart.Init(rootNode);
+        allTreeStart.depth = treeDepth;
+        allTreeStart.nodeRad = R;
+        
+        CreateSubTree(allTreeStart, branch, prefabVertices, prefabTris, rootNode,
           treeDepth, meshVertices, meshTris );
         
         CreateObject(meshVertices, meshTris, allTreeStart.gameObject);
@@ -62,7 +67,8 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
             sumAngle += childAngle;
             NodeView childNodeGo = CreateNodeObj(childNode,childNodePos,nodeView, childRad);
             childNodeGo.depth = depth;
-            _nodeViews.Add(childNodeGo);
+            childNodeGo.nodeRad = childRad;
+            nodesLabelController.AddNodeView(childNodeGo);
             
             AppendBranchVertices(nodeView, branch,width * depth / treeDepth, branchVerts, branchTris,childNodePos, meshVertices, meshTris);
             
@@ -135,8 +141,6 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
         nodeObj.transform.localRotation = Quaternion.LookRotation(Vector3.forward, nodePos);
         nodeObj.transform.localScale =  new Vector3(scale, scale, scale);
 
-        nodeView.branchLength = (rootView.transform.position - nodeView.transform.position).magnitude;
-        
         return nodeView;
     }
     
@@ -149,10 +153,5 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
         float t = Mathf.Tan(nodeAngle * Mathf.Deg2Rad);
 
         return R * t / (t + 1);
-    }
-
-    public List<NodeView> GetNodeViewsByDepthLevel(int d)
-    {
-        return _nodeViews.Where(x => x.depth == d).ToList();
     }
 }
