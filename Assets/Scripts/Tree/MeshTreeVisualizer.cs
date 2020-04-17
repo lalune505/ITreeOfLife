@@ -40,8 +40,10 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
 
         Node rootNode = nodes.IntNodeDictionary[nodeId];
         allTreeStart.Init(rootNode);
-        allTreeStart.depth = treeDepth;
+        allTreeStart.depth = treeDepth + 1;
         allTreeStart.nodeRad = R;
+        
+        nodesLabelController.AddNodeView(allTreeStart);
         
         CreateSubTree(allTreeStart, branch, prefabVertices, prefabTris, rootNode,
           treeDepth, meshVertices, meshTris );

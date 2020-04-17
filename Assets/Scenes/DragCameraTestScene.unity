@@ -305,11 +305,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc1699d414ea4f5f89612de95886007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rootNodeView: {fileID: 321499743}
-  tRad: 0.4
   dDepth: 3
   labelPrefab: {fileID: 1031165987485068115, guid: 7ed5e0f4d859a4b3fa9bf72fc76e5b5d,
     type: 3}
+  updNodes: 0
 --- !u!1001 &51685782
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -838,9 +837,9 @@ MonoBehaviour:
   currentTargetType: 0
   camZonesHeights:
   - 0
-  - 0.3
+  - 0.05
   - 0.5
-  - 1
+  - 3
   previousZone: 0
   currentZone: 0
   canMouseDrag: 1

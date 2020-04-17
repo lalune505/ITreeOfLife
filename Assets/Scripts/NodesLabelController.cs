@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx.Async;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class NodesLabelController : InitializableMonoBehaviour
 {
-    public NodeView rootNodeView;
-    public float tRad;
     public int dDepth;
     public class NodeNameLabel
         {
@@ -19,7 +18,7 @@ public class NodesLabelController : InitializableMonoBehaviour
         }
         
         private Camera _cam;
-        private int depthLevel = 0;
+        private int depthLevel = 11;
             
         private NodeNameLabel[] _currentTextNameLabels;
 
@@ -28,7 +27,9 @@ public class NodesLabelController : InitializableMonoBehaviour
         private float _updatePause = 1f;
         
         private DragCamera _dragCam;
-        
+        private float yMin = 0f;
+        private float yMax = 3f;
+
         private List<NodeView> _distNodeViews = new List<NodeView>();
         private List<NodeView> _nodeViews = new List<NodeView>();
         
@@ -41,7 +42,7 @@ public class NodesLabelController : InitializableMonoBehaviour
 
             _dragCam.OnCameraZoneChanged.AddListener(OnCamZoneChanged);
 
-            _currentTextNameLabels = new NodeNameLabel[20];
+            _currentTextNameLabels = new NodeNameLabel[30];
 
             for (var i = 0; i < _currentTextNameLabels.Length; i++)
             {
@@ -66,21 +67,24 @@ public class NodesLabelController : InitializableMonoBehaviour
         {
             if (zone == 0)
             {
-                depthLevel = 0;
+                depthLevel = 9;
             }
             else if (zone == 1)
             {
-                depthLevel = 3;
+                depthLevel = 10;
             }
             else if (zone == 2)
             {
-                depthLevel = 6;
+                depthLevel = 11;
             }
+
+            yMin = _dragCam.camZonesHeights[zone];
+            yMax = _dragCam.camZonesHeights[zone + 1];
         }
 
         private void LateUpdate()
         {
-            if (!updNodes)
+            if (!(updNodes))
             {
                 return;
             }
@@ -92,7 +96,7 @@ public class NodesLabelController : InitializableMonoBehaviour
             else
             {
                 _updatePause = 1f;
-                GetRoadsInView();
+                GetNodesInView(_nodeViews.FirstOrDefault(x => x.depth == depthLevel));
                 UpdateRoadNamesLabels();
             }
             
@@ -104,14 +108,14 @@ public class NodesLabelController : InitializableMonoBehaviour
         }
 
 
-        private void GetRoadsInView()
+        private void GetNodesInView(NodeView nodeView)
         {
-            StartCoroutine(GetRoadsInView_Process());
+            StartCoroutine(GetNodesInView_Process(nodeView));
         }
 
-        private IEnumerator GetRoadsInView_Process()
+        private IEnumerator GetNodesInView_Process(NodeView nodeView)
         {
-            if (rootNodeView == null)
+            if (nodeView == null)
             {
                 yield break;
             }
@@ -119,17 +123,14 @@ public class NodesLabelController : InitializableMonoBehaviour
 
             Queue<NodeView> queue = new Queue<NodeView>();
             
-            queue.Enqueue(rootNodeView);
+            queue.Enqueue(nodeView);
 
             while (queue.Count > 0)
             {
                 var element = queue.Dequeue();
 
-                if ((element.nodeRad  < (tRad /** _cam.transform.position.y / _dragCam.yMax)*/) & (rootNodeView.depth - element.depth) > dDepth))
-                {
-                    continue;
-                }
-
+                if (!(element.nodeRad > _cam.transform.position.y / (yMax - yMin) &
+                      (nodeView.depth - element.depth) < dDepth)) continue;
                 foreach (var child in element.childrenNodes)
                 {
                     queue.Enqueue(child);
@@ -178,6 +179,11 @@ public class NodesLabelController : InitializableMonoBehaviour
         public void AddNodeView(NodeView nodeView)
         {
             _nodeViews.Add(nodeView);
+        }
+
+        private List<NodeView> GetNodeViewsByDepthLevel(int d)
+        {
+            return _nodeViews.Where(x => x.depth == d).ToList();
         }
     
     }
