@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UniRx.Async;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class MeshTreeVisualizer : InitializableMonoBehaviour
@@ -13,11 +14,19 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
     public float R;
     public float width;
     public int treeDepth;
-    public NodeView allTreeStart;
+    public GameObject allTreeStart;
     public NodesLabelController nodesLabelController;
     private int meshCount = 0;
+    private List<Mesh> _meshes = new List<Mesh>();
 
 
+    void Update()
+    {
+        foreach (var mesh in _meshes)
+        {
+            Graphics.DrawMesh(mesh,allTreeStart.transform.position,Quaternion.identity,pointMaterial,0 , Camera.main);
+        }
+    }
     public override async UniTask Init()
     {
         DataLoader.OnDataLoaded += StartCreatingMeshes;
@@ -39,13 +48,11 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
         List<int> meshTris = new List<int>(117000);
 
         Node rootNode = nodes.IntNodeDictionary[nodeId];
-        allTreeStart.Init(rootNode);
-        allTreeStart.depth = treeDepth + 1;
-        allTreeStart.nodeRad = R;
+        NodeView rootNodeView = new NodeView();
+        rootNodeView.Init(rootNode, treeDepth, R, allTreeStart.transform.position, new List<NodeView>());
+        nodesLabelController.AddNodeView(rootNode.id,rootNodeView);
         
-        nodesLabelController.AddNodeView(allTreeStart);
-        
-        CreateSubTree(allTreeStart, branch, prefabVertices, prefabTris, rootNode,
+        CreateSubTree(allTreeStart,rootNodeView, branch, prefabVertices, prefabTris, rootNode,
           treeDepth, meshVertices, meshTris );
         
         CreateObject(meshVertices, meshTris, allTreeStart.gameObject);
@@ -55,7 +62,7 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
         
     }
     
-    private void CreateSubTree(NodeView nodeView, GameObject branch,Vector3[] branchVerts, int[] branchTris, Node node,int depth, List<Vector3> meshVertices,
+    private void CreateSubTree(GameObject parent,NodeView parentNodeView, GameObject branch,Vector3[] branchVerts, int[] branchTris, Node node,int depth, List<Vector3> meshVertices,
         List<int> meshTris)
     {
         if (node.childrenNodes.Count == 0 || depth == 0) return;
@@ -67,14 +74,11 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
             float childRad = GetNodeRadius(childAngle / 2);
             Vector3 childNodePos = GetChildNodePosition(childAngle / 2 + sumAngle, R - childRad);
             sumAngle += childAngle;
-            NodeView childNodeGo = CreateNodeObj(childNode,childNodePos,nodeView, childRad);
-            childNodeGo.depth = depth;
-            childNodeGo.nodeRad = childRad;
-            nodesLabelController.AddNodeView(childNodeGo);
+            CreateNodeObj(childNode,childNodePos,parent,parentNodeView, childRad,out NodeView childNodeView,  out GameObject childGo,depth);
+            nodesLabelController.AddNodeView(childNode.id,childNodeView);
+            AppendBranchVertices(parent, branch,width * depth / treeDepth, branchVerts, branchTris,childNodePos, meshVertices, meshTris);
             
-            AppendBranchVertices(nodeView, branch,width * depth / treeDepth, branchVerts, branchTris,childNodePos, meshVertices, meshTris);
-            
-            CreateSubTree(childNodeGo,branch, branchVerts, branchTris,childNode, depth - 1, meshVertices, meshTris);
+            CreateSubTree(childGo,childNodeView,branch, branchVerts, branchTris,childNode, depth - 1, meshVertices, meshTris);
             if (meshVertices.Count + branchVerts.Length > 65000)
             {
                 CreateObject(meshVertices, meshTris,allTreeStart.gameObject);
@@ -85,10 +89,10 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
         }
         
     }
-    private void AppendBranchVertices(NodeView rootView, GameObject b,float bWidth,Vector3[] bVerts, int[] bTris,Vector3 endPoint, List<Vector3> meshVertices,
+    private void AppendBranchVertices(GameObject parent, GameObject b,float bWidth,Vector3[] bVerts, int[] bTris,Vector3 endPoint, List<Vector3> meshVertices,
         List<int> meshTris)
     {
-        b.transform.parent = rootView.transform;
+        b.transform.parent = parent.transform;
         b.transform.localPosition = Vector3.zero;
         b.transform.localRotation = Quaternion.LookRotation(endPoint, Vector3.right);
 
@@ -113,46 +117,49 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
         Mesh mesh = new Mesh();
         mesh.vertices = meshVertices.ToArray();
         mesh.triangles = meshTris.ToArray();
-        GameObject obj = new GameObject("TreeMesh" + meshCount);
-        obj.AddComponent<MeshFilter>().mesh = mesh;
-        obj.AddComponent<MeshRenderer>().material = pointMaterial;
+        //GameObject obj = new GameObject("TreeMesh" + meshCount);
+        //obj.AddComponent<MeshFilter>().mesh = mesh;
+       // obj.AddComponent<MeshRenderer>().material = pointMaterial;
        
-        obj.transform.SetParent(parentObj.transform, true);
+       // obj.transform.SetParent(parentObj.transform, true);
+       
+       _meshes.Add(mesh);
 
-        meshCount++;
+       meshCount++;
     }
     private Vector3 GetChildNodePosition(float angle, float branchLength)
     {
         Vector3 endPoint;
-        endPoint.x = branchLength * Mathf.Cos((angle) * Mathf.Deg2Rad) ;
-        endPoint.y = branchLength * Mathf.Sin((angle) * Mathf.Deg2Rad);
+        endPoint.x = branchLength * math.cos((angle) * math.PI/180f);
+        endPoint.y = branchLength * math.sin((angle) * math.PI/180f);
         endPoint.z = 0;
         return endPoint;
     }
     
-    private NodeView CreateNodeObj(Node node,Vector3 nodePos, NodeView rootView, float scale)
+    private void CreateNodeObj(Node node,Vector3 nodePos, GameObject parent,NodeView parentNodeView, float scale, out NodeView nodeView,out GameObject nodeObj, int d)
     {
-        var nodeObj = Instantiate(nodePrefab);
+        nodeObj = Instantiate(nodePrefab);
         nodeObj.name = node.id.ToString();
-        var nodeView = nodeObj.AddComponent<NodeView>();
-        nodeView.Init(node);
-        rootView.AddChildrenNode(nodeView);
-        
-        nodeObj.transform.parent = rootView.transform;
+
+        nodeObj.transform.parent = parent.transform;
         nodeObj.transform.localPosition = nodePos;
         nodeObj.transform.localRotation = Quaternion.LookRotation(Vector3.forward, nodePos);
         nodeObj.transform.localScale =  new Vector3(scale, scale, scale);
 
-        return nodeView;
+        var r = nodeObj.transform.lossyScale.x;
+
+        nodeView = new NodeView();
+        nodeView.Init(node, d, r, nodeObj.transform.position, new List<NodeView>());
+        parentNodeView.AddChildrenNode(nodeView);
     }
     
     private float GetNodeAngle(Node node,Node childNode)
     {
-        return 180f * Mathf.Sqrt(childNode.GetSize()) / node.childrenNodes.Sum(x => Mathf.Sqrt(x.GetSize()));
+        return 180f * math.sqrt(childNode.GetSize()) / node.childrenNodes.Sum(x => math.sqrt(x.GetSize()));
     }
     private float GetNodeRadius(float nodeAngle)
     {
-        float t = Mathf.Tan(nodeAngle * Mathf.Deg2Rad);
+        float t =  math.tan(nodeAngle * Mathf.Deg2Rad);
 
         return R * t / (t + 1);
     }

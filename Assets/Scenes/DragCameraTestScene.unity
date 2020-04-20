@@ -385,7 +385,7 @@ PrefabInstance:
         type: 3}
       propertyPath: allTreeStart
       value: 
-      objectReference: {fileID: 321499743}
+      objectReference: {fileID: 321499741}
     - target: {fileID: 8381420928106252001, guid: fd98820f526d84420a10c0b0d5692834,
         type: 3}
       propertyPath: nodesLabelController
@@ -395,6 +395,38 @@ PrefabInstance:
         type: 3}
       propertyPath: treeDepth
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8381420928106252001, guid: fd98820f526d84420a10c0b0d5692834,
+        type: 3}
+      propertyPath: nodeId
+      value: 2759
+      objectReference: {fileID: 0}
+    - target: {fileID: 8381420928106252001, guid: fd98820f526d84420a10c0b0d5692834,
+        type: 3}
+      propertyPath: branchPrefab
+      value: 
+      objectReference: {fileID: 1000012603317774, guid: 413f803a1d5eb4c22b368385e68057bc,
+        type: 3}
+    - target: {fileID: 8381420928106252001, guid: fd98820f526d84420a10c0b0d5692834,
+        type: 3}
+      propertyPath: nodePrefab
+      value: 
+      objectReference: {fileID: 6347162221850679450, guid: 5a5c5c71ae92749a3ac46fccba4dc810,
+        type: 3}
+    - target: {fileID: 8381420928106252001, guid: fd98820f526d84420a10c0b0d5692834,
+        type: 3}
+      propertyPath: pointMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: ed97a68dfc2f342d58f3da7a69dd7105, type: 2}
+    - target: {fileID: 8381420928106252001, guid: fd98820f526d84420a10c0b0d5692834,
+        type: 3}
+      propertyPath: R
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8381420928106252001, guid: fd98820f526d84420a10c0b0d5692834,
+        type: 3}
+      propertyPath: width
+      value: 0.07
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd98820f526d84420a10c0b0d5692834, type: 3}
@@ -419,7 +451,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 321499742}
-  - component: {fileID: 321499743}
   m_Layer: 0
   m_Name: Tree
   m_TagString: Untagged
@@ -441,24 +472,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &321499743
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 321499741}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0e9152ffbbb649c5a379ae2c9976373, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeId: 2759
-  rank: 
-  sciName: 
-  depth: 0
-  nodeRad: 0
-  childrenNodes: []
 --- !u!1001 &489638270
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -719,8 +732,8 @@ Camera:
   m_GameObject: {fileID: 1984516399}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.01886791, g: 0.01886791, b: 0.01886791, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
@@ -787,7 +800,7 @@ MonoBehaviour:
   zoom: 0
   zoom01: 0
   yMin: 0
-  yMax: 3
+  yMax: 2
   camViewsLerpTime: 2
   lerpTime: 2
   cameraYAnim:
@@ -837,8 +850,8 @@ MonoBehaviour:
   currentTargetType: 0
   camZonesHeights:
   - 0
-  - 0.05
-  - 0.5
+  - 0.4
+  - 1
   - 3
   previousZone: 0
   currentZone: 0
