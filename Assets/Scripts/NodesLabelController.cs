@@ -6,14 +6,16 @@ using UniRx;
 using UniRx.Async;
 using Unity.Collections;
 using Unity.Jobs;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NodesLabelController : InitializableMonoBehaviour
-{
-    public int dDepth;
-    public class NodeNameLabel
-        {
+    public class NodesLabelController : InitializableMonoBehaviour
+    {
+        public bool updNodes = false;
+
+        private class NodeNameLabel
+        { 
             public Text textLabel;
             public Vector3 pointCoord;
             public CanvasGroup alphaControl;
@@ -21,7 +23,7 @@ public class NodesLabelController : InitializableMonoBehaviour
         }
         
         private Camera _cam;
-        private int depthLevel = 11;
+        private int _depthLevel = 11;
             
         private NodeNameLabel[] _currentTextNameLabels;
 
@@ -30,16 +32,25 @@ public class NodesLabelController : InitializableMonoBehaviour
         private float _updatePause = 1f;
         
         private DragCamera _dragCam;
-        private float yMin = 0f;
-        private float yMax = 3f;
-
-        private List<NodeView> _largeNodeViews = new List<NodeView>();
-        private List<NodeView>_nodeViews = new List<NodeView>();
-        private NativeArray<float> _rads;
+        
+        private readonly int dDepth = 3;
 
         private bool _created = false;
 
-        public bool updNodes = false;
+        private List<NodeView> _largeNodeViews = new List<NodeView>();
+        private List<NodeView>_nodeViews = new List<NodeView>();
+        private List<NodeView> _visibleNodeViews = new List<NodeView>();
+        
+        private JobHandle _sizesJobHandle;
+        private CheckSizeNodeViewJob _checkSizeNodeViewJob;
+        private NativeArray<int> _nodeViewsSizes;
+        private NativeArray<float> _rads;
+        
+        private JobHandle _visibleJobHandle;
+        private CheckVisibleNodeViewJob _checkVisibleNodeViewJob;
+        private NativeArray<int> _nodeViewsVisible;
+        private NativeArray<float3> _poses;
+
         public override async UniTask Init()
         {
             _dragCam = FindObjectOfType<DragCamera>();
@@ -48,7 +59,7 @@ public class NodesLabelController : InitializableMonoBehaviour
 
             _dragCam.OnCameraZoneChanged.AddListener(OnCamZoneChanged);
 
-            _currentTextNameLabels = new NodeNameLabel[30];
+            _currentTextNameLabels = new NodeNameLabel[60];
 
             for (var i = 0; i < _currentTextNameLabels.Length; i++)
             {
@@ -73,19 +84,16 @@ public class NodesLabelController : InitializableMonoBehaviour
         {
             if (zone == 0)
             {
-                depthLevel = 7;
+                _depthLevel = 7;
             }
             else if (zone == 1)
             {
-                depthLevel = 9;
+                _depthLevel = 9;
             }
             else if (zone == 2)
             {
-                depthLevel = 11;
+                _depthLevel = 11;
             }
-
-            yMin = _dragCam.camZonesHeights[zone];
-            yMax = _dragCam.camZonesHeights[zone + 1];
         }
 
         private void LateUpdate()
@@ -102,13 +110,11 @@ public class NodesLabelController : InitializableMonoBehaviour
             else
             {
                 _updatePause = 1f;
-
                 if (!_created)
                 {
                     CreateNativeArray();
                 }
-                ExecuteAJob();
-                UpdateRoadNamesLabels();
+                ExecuteJobs();
             }
             
             foreach (var roadNameLabel in _currentTextNameLabels)
@@ -127,22 +133,22 @@ public class NodesLabelController : InitializableMonoBehaviour
         {
             Queue<NodeView> queue = new Queue<NodeView>();
             
-            //List<NodeView> list = new List<NodeView>();
+            List<NodeView> list = new List<NodeView>();
             
             queue.Enqueue(nodeView);
 
             while (queue.Count > 0)
             {
-                /*var element = queue.Dequeue();
+                var element = queue.Dequeue();
 
-                if (!(element.nodeRad >  & ()
+                if (!(element.nodeRad > math.lerp(0.0001f, 1f, _cam.transform.position.y / _dragCam.yMax) &
                       (nodeView.depth - element.depth) < dDepth)) continue;
                 foreach (var child in element.childrenNodes)
                 {
                     queue.Enqueue(child);
                 }
                 
-                _largeDistNodeViews.Add(element);*/
+                list.Add(element);
             }
 
 
@@ -159,14 +165,14 @@ public class NodesLabelController : InitializableMonoBehaviour
         {
             for (int i = 0; i < _currentTextNameLabels.Length; i++)
             {
-                if (_largeNodeViews.Count <= i)
+                if (_visibleNodeViews.Count <= i)
                 {
                     _currentTextNameLabels[i].textLabel.text = "";
-                    yield break;
+                    continue;
                 }
 
-                _currentTextNameLabels[i].pointCoord = _largeNodeViews[i].pos;
-                _currentTextNameLabels[i].textLabel.text = _largeNodeViews[i].sciName;
+                _currentTextNameLabels[i].pointCoord = _visibleNodeViews[i].pos;
+                _currentTextNameLabels[i].textLabel.text = _visibleNodeViews[i].sciName;
             }
 
             yield return null;
@@ -199,30 +205,64 @@ public class NodesLabelController : InitializableMonoBehaviour
             _created = true;
         }
 
-        private void ExecuteAJob()
+        private void ExecuteJobs()
         {
-            NativeArray<int> bools = new NativeArray<int>(_nodeViews.Count, Allocator.TempJob);
+             var t = _cam.transform.position.y / _dragCam.yMax;
+            _nodeViewsSizes = new NativeArray<int>(_nodeViews.Count, Allocator.TempJob);
             
-            NodeViewJob nodeViewJob = new NodeViewJob{yMax = _dragCam.yMax, camPosY = _cam.transform.position.y, nodesRads = _rads, nodeIsLarge = bools};
+            _checkSizeNodeViewJob = new CheckSizeNodeViewJob{t = t, nodesRads = _rads, nodesSizes = _nodeViewsSizes};
             
-            var jobHandle = nodeViewJob.Schedule(_nodeViews.Count, 250);
+            _sizesJobHandle = _checkSizeNodeViewJob.Schedule(_nodeViews.Count, 250);
             
-            jobHandle.Complete();
+            _sizesJobHandle.Complete();
             
             _largeNodeViews.Clear();
 
-            for (var i = 0; i < bools.Length; i++)
+            for (var i = 0; i < _nodeViewsSizes.Length; i++)
             {
-                if (bools[i] == 1)
+                if (_nodeViewsSizes[i] == 1)
                 {
                     _largeNodeViews.Add(_nodeViews[i]);
                 }
             }
+            _nodeViewsSizes.Dispose();
             
-            bools.Dispose();
+            _poses = new NativeArray<float3>(_largeNodeViews.Count, Allocator.TempJob);
+            
+            for (var i = 0; i < _largeNodeViews.Count; i++)
+            {
+                _poses[i] = _cam.WorldToViewportPoint(_largeNodeViews[i].pos);
+            }
+
+            _nodeViewsVisible = new NativeArray<int>(_largeNodeViews.Count, Allocator.TempJob);
+            
+            _checkVisibleNodeViewJob = new CheckVisibleNodeViewJob{positions = _poses, visibleNodes = _nodeViewsVisible};
+
+            _visibleJobHandle = _checkVisibleNodeViewJob.Schedule(_largeNodeViews.Count, 250);
+            
+            _visibleJobHandle.Complete();
+
+            _visibleNodeViews.Clear();
+            for (var i = 0; i < _nodeViewsVisible.Length; i++)
+            {
+                if (_nodeViewsVisible[i] == 1)
+                {
+                    _visibleNodeViews.Add(_largeNodeViews[i]);
+                }
+            }
+            
+            _nodeViewsVisible.Dispose();
+
+            UpdateRoadNamesLabels();
             
         }
-        
-    
+
+        private void OnDestroy()
+        {
+            if (_created)
+            {
+                _rads.Dispose();
+            }
+        }
     }
 

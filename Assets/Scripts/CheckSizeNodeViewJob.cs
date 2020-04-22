@@ -7,25 +7,23 @@ using Unity.Mathematics;
 using UnityEngine;
 
 [BurstCompile]
-public struct NodeViewJob : IJobParallelFor
+public struct CheckSizeNodeViewJob : IJobParallelFor
 {
     [ReadOnly]
     public NativeArray<float> nodesRads;
     [WriteOnly]
-    public NativeArray<int> nodeIsLarge;
+    public NativeArray<int> nodesSizes;
     
-    public float camPosY;
-    public float yMax;
-    
+    public float t;
+
     public void Execute(int i)
     {
-        if (nodesRads[i] < math.lerp(0.0001f, 1f, camPosY / yMax))
+        if (nodesRads[i] > math.lerp(0.0001f, 1f, 0.4 * t))
         {
-            nodeIsLarge[i] = 1;
-        }
-        else
+            nodesSizes[i] = 1;
+        }else
         {
-            nodeIsLarge[i] = 0;
+            nodesSizes[i] = 0;
         }
     }
 }
