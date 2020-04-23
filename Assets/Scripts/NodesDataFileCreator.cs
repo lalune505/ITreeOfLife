@@ -2,9 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Text;
 using UnityEditor;
 using UnityEngine;
 using static System.Int32;
@@ -148,6 +145,34 @@ public class NodesDataFileCreator
         }
 
         FillNodesDataById(rootNodeId,  gm.IntNodeDictionary);
+
+        EditorUtility.SetDirty(gm);
+
+        AssetDatabase.Refresh();
+
+        AssetDatabase.SaveAssets();
+
+    }
+    
+    public static void CreateSceneDataScriptableObject(int id, List<NodeView> nodeViews, List<MeshData> meshData)
+    {
+        EnsureDirectoryExists(SCRIPTABLE_OBJECTS_DESTIONATION_PATH);
+
+        string fileName = "SceneData";
+
+        string destinationPath = GetDestinationPath(fileName,id);
+      
+        SceneData gm = AssetDatabase.LoadAssetAtPath<SceneData>(destinationPath);
+        
+        if (gm == null)
+        {
+            gm = ScriptableObject.CreateInstance<SceneData>();
+            AssetDatabase.CreateAsset(gm, destinationPath);
+        }
+
+        gm.nodeViews = nodeViews;
+
+        gm.meshData = meshData;
 
         EditorUtility.SetDirty(gm);
 

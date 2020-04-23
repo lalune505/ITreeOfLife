@@ -14,22 +14,22 @@ public class DataLoader : MonoBehaviour
     {
       //  NodesDataFileCreator.SetNodesNames();
       //  NodesDataFileCreator.SetNodesData();
-       // NodesDataFileCreator.CreateNodesScriptableObject(rootId);
+        //NodesDataFileCreator.CreateNodesScriptableObject(rootId);
     }
 
     private void Start()
     {
-       LoadAssetBundle("nodes");
+       LoadAssetBundle("nodes", rootId.ToString());
     }
 
-    void LoadAssetBundle(string assetBundleName)
+    void LoadAssetBundle(string assetBundleName,string id)
     {
         string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "AssetBundles");
         filePath = System.IO.Path.Combine(filePath, assetBundleName);
         
          AssetBundle.LoadFromFileAsync(filePath).AsAsyncOperationObservable ()
              .Subscribe (xs => {if (xs.assetBundle != null) {
-                     LoadAssetFromBundle(xs.assetBundle, assetBundleName + rootId.ToString() ); } 
+                     LoadAssetFromBundle(xs.assetBundle, assetBundleName + id.ToString() ); } 
              }).AddTo (this);
         
     }
