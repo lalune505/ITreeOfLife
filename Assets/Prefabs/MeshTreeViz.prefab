@@ -43,7 +43,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55679b6b530634354a271af1be693362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  branchPrefab: {fileID: 0}
-  allTreeStart: {fileID: 0}
-  R: 0
-  valueScaleMultiplier: 1
+  nodeId: 2759
+  branchPrefab: {fileID: 1000012603317774, guid: 413f803a1d5eb4c22b368385e68057bc,
+    type: 3}
+  nodePrefab: {fileID: 6347162221850679450, guid: 5a5c5c71ae92749a3ac46fccba4dc810,
+    type: 3}
+  pointMaterial: {fileID: 2100000, guid: ed97a68dfc2f342d58f3da7a69dd7105, type: 2}
+  R: 1
+  width: 0.07
+  treeDepth: 9

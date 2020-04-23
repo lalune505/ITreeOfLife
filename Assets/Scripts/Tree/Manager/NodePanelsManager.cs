@@ -27,8 +27,8 @@ public class NodePanelsManager : MonoBehaviour, IUserInteractable
 
     private void EnableNodePanel(RaycastHit hit)
     {
-        if (_selectedNodeView == null ||
-            _lastHitCollider != null && _lastHitCollider != hit.collider)
+        //if (_selectedNodeView == null ||
+            //_lastHitCollider != null && _lastHitCollider != hit.collider)
         {
             _selectedNodeView = hit.transform.GetComponent<NodeView>();
             _lastHitCollider = hit.collider;
@@ -40,21 +40,21 @@ public class NodePanelsManager : MonoBehaviour, IUserInteractable
 
     private void DisableNodePanel()
     {
-        if (_selectedNodeView == null)
-        {
-            return;
-        }
+       // if (_selectedNodeView == null)
+        //{
+          //  return;
+       // }
         
         nodeLabelRenderController.DisableNodePanel();
-        _selectedNodeView = null;
+        //_selectedNodeView = null;
     }
 
     private void MoveCameraToSelectedNode()
     {
-        if (_selectedNodeView == null) return;
-        var nodeTransform = _selectedNodeView.transform;
+        //if (_selectedNodeView == null) return;
+        //var nodeTransform = _selectedNodeView.transform;
 
-        if (nodeTransform != null)
+       // if (nodeTransform != null)
         {
             //TODO: camera.MoveToSelectedNode();
         }
