@@ -132,8 +132,8 @@ using UnityEngine.UI;
         private IEnumerator GetNodesInView_Process(NodeView nodeView)
         {
             Queue<NodeView> queue = new Queue<NodeView>();
-            
-            List<NodeView> list = new List<NodeView>();
+
+            _visibleNodeViews.Clear();
             
             queue.Enqueue(nodeView);
 
@@ -141,18 +141,19 @@ using UnityEngine.UI;
             {
                 var element = queue.Dequeue();
 
-                if (!(element.nodeRad > math.lerp(0.0001f, 1f, _cam.transform.position.y / _dragCam.yMax) &
-                      (nodeView.depth - element.depth) < dDepth)) continue;
+                if (!(element.nodeRad > math.lerp(0.0001f, 1f, 0.4 * _cam.transform.position.y / _dragCam.yMax)))
+                { continue;}
                 foreach (var child in element.childrenNodes)
                 {
                     queue.Enqueue(child);
                 }
                 
-                list.Add(element);
+                _visibleNodeViews.Add(element);
             }
 
 
             yield return null;
+            
         }
 
 

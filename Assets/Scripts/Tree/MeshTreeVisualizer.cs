@@ -49,7 +49,7 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
 
         Node rootNode = nodes.IntNodeDictionary[nodeId];
         NodeView rootNodeView = new NodeView();
-        rootNodeView.Init(rootNode, treeDepth, R, allTreeStart.transform.position, new List<NodeView>());
+        rootNodeView.Init(rootNode, treeDepth + 1, R, allTreeStart.transform.position, new List<NodeView>());
         nodesLabelController.AddNodeView(rootNode.id,rootNodeView);
         
         CreateSubTree(allTreeStart,rootNodeView, branch, prefabVertices, prefabTris, rootNode,
