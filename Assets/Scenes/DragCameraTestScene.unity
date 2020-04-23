@@ -305,10 +305,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc1699d414ea4f5f89612de95886007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dDepth: 3
+  updNodes: 0
   labelPrefab: {fileID: 1031165987485068115, guid: 7ed5e0f4d859a4b3fa9bf72fc76e5b5d,
     type: 3}
-  updNodes: 0
+  sceneData: {fileID: 11400000, guid: 9658550196a6c4c0d9fdff769f5689f2, type: 2}
 --- !u!1001 &51685782
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -428,6 +428,12 @@ PrefabInstance:
       propertyPath: width
       value: 0.07
       objectReference: {fileID: 0}
+    - target: {fileID: 8381420928106252001, guid: fd98820f526d84420a10c0b0d5692834,
+        type: 3}
+      propertyPath: sceneData
+      value: 
+      objectReference: {fileID: 11400000, guid: 9658550196a6c4c0d9fdff769f5689f2,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd98820f526d84420a10c0b0d5692834, type: 3}
 --- !u!114 &51685783 stripped
@@ -571,7 +577,7 @@ PrefabInstance:
     - target: {fileID: 5770258435356419781, guid: 52866bca4baa7445c957c8c6a2019042,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5770258435356419783, guid: 52866bca4baa7445c957c8c6a2019042,
         type: 3}
@@ -627,6 +633,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5770258435356419782, guid: 52866bca4baa7445c957c8c6a2019042,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52866bca4baa7445c957c8c6a2019042, type: 3}

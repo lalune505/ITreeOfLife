@@ -29,6 +29,8 @@ using UnityEngine.UI;
 
         public GameObject labelPrefab;
 
+        public SceneData sceneData;
+
         private float _updatePause = 1f;
         
         private DragCamera _dragCam;
@@ -38,7 +40,7 @@ using UnityEngine.UI;
         private bool _created = false;
 
         private List<NodeView> _largeNodeViews = new List<NodeView>();
-        private List<NodeView>_nodeViews = new List<NodeView>();
+        private List<NodeView> _nodeViews;
         private List<NodeView> _visibleNodeViews = new List<NodeView>();
         
         private JobHandle _sizesJobHandle;
@@ -53,6 +55,7 @@ using UnityEngine.UI;
 
         public override async UniTask Init()
         {
+            _nodeViews = sceneData.nodeViews;
             _dragCam = FindObjectOfType<DragCamera>();
             
             _cam = _dragCam.GetComponent<Camera>();
@@ -189,7 +192,7 @@ using UnityEngine.UI;
             }
         }
 
-        public void AddNodeView(int id,NodeView nodeView)
+        public void AddNodeView(NodeView nodeView)
         {
             _nodeViews.Add(nodeView);
         }
