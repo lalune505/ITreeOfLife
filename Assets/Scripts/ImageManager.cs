@@ -3,6 +3,7 @@ using System.Collections;
 
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,69 +11,54 @@ using UnityEngine.UI;
 
 public class ImageManager : MonoBehaviour
 {
-    public string name;
-    public RawImage nodeImage;
-    private string imagesDirPath = "";
-  
+    private string _imagesDirPath = "";
+
     void Start()
     {
-        imagesDirPath = Path.Combine(Application.persistentDataPath, "Images");
+        _imagesDirPath = Path.Combine(Application.persistentDataPath, "Images");
         
-        if (!Directory.Exists(imagesDirPath))
-            Directory.CreateDirectory(imagesDirPath);
+        if (!Directory.Exists(_imagesDirPath))
+            Directory.CreateDirectory(_imagesDirPath);
         
         NetworkManager.CheckConnection();
-        GetPage();
-    }
-
-    private async void GetPage()
-    {
-        var texture = GetTextureFromCache(name);
-
-        if (texture == null)
-        {
-            texture = await NetworkManager.GetNodeImage(name);
-
-            if (texture == null)
-            {
-                return;
-            }
-
-            CacheTexture(name,texture.EncodeToJPG());
-        }
         
-        nodeImage.texture = texture;
-        nodeImage.SetNativeSize();
-
-        nodeImage.enabled = true;
     }
-    
-    private Texture2D GetTextureFromCache(string fileName)
+
+    public async void GetPage(string nodeName, NodesLabelController.NodeLabel nodeLabel)
     {
-        var cacheFilePath = Path.Combine(imagesDirPath, $"{fileName}.texture");
-
+        var cacheFilePath = Path.Combine(_imagesDirPath, $"{nodeName}.texture");
+        nodeLabel.HideImage();
         Texture2D texture = null;
-
         if (File.Exists(cacheFilePath))
         {
             var data = File.ReadAllBytes(cacheFilePath);
 
             texture = new Texture2D(1, 1);
             texture.LoadImage(data, true);
+
+        }else
+        {
+            texture = await NetworkManager.GetNodeImage(nodeName);
+            if (texture)
+            {
+                CacheTexture(nodeName,texture.EncodeToJPG());
+            }
+            else
+            {
+                return;
+            }
         }
 
-        return texture;
+        if (nodeLabel.textLabel.text != nodeName) return;
+        
+        nodeLabel.image.texture = texture;
+        nodeLabel.ShowImage();
     }
-    
+
     private void CacheTexture(string fileName, byte[] data)
     {
-        var cacheFilePath = Path.Combine(imagesDirPath, $"{fileName}.texture");
+        var cacheFilePath = Path.Combine(_imagesDirPath, $"{fileName}.texture");
 
         File.WriteAllBytes(cacheFilePath, data);
-    }
-
-    private void OnDestroy()
-    {
-       // if (Directory.Exists(imagesDirPath)) { Directory.Delete(imagesDirPath, true); }
     }
 }

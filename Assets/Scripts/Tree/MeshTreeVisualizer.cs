@@ -15,12 +15,12 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
     public float width;
     public int treeDepth;
     public GameObject allTreeStart;
-    //public NodesLabelController nodesLabelController;
-    //private int meshCount = 0;
-    private List<Mesh> _meshes = new List<Mesh>();
-
     public SceneData sceneData;
-
+    private Camera _cam;
+    //public NodesLabelController nodesLabelController;
+    private int meshCount = 0;
+    private List<Mesh> _meshes = new List<Mesh>();
+    
     /*private List<NodeView> nodeViews = new List<NodeView>();
 
     private List<MeshData> _meshData = new List<MeshData>();
@@ -29,18 +29,20 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
 
     void Update()
     {
-        foreach (var mesh in _meshes)
+        /*foreach (var mesh in _meshes)
         {
-            Graphics.DrawMesh(mesh,allTreeStart.transform.position,Quaternion.identity,pointMaterial,0 , Camera.main);
-        }
+            Graphics.DrawMesh(mesh,allTreeStart.transform.position,Quaternion.identity,pointMaterial,0 , _cam);
+        }*/
     }
     public override async UniTask Init()
     {
+        _cam = Camera.main;
+        
         DataLoader.OnDataLoaded += StartCreatingMeshes;
 
         foreach (var item in sceneData.meshData)
         {
-            CreateMesh(item);
+            CreateMesh(item, allTreeStart);
         }
         await UniTask.Yield();
     }
@@ -130,28 +132,31 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
     }
     private void CreateObject(List<Vector3> meshVertices, List<int> meshTris, GameObject parentObj)
     {
-        /*Mesh mesh = new Mesh();
+        Mesh mesh = new Mesh();
         mesh.vertices = meshVertices.ToArray();
-        mesh.triangles = meshTris.ToArray();*/
-        
-        //MeshData meshData = new MeshData(meshVertices.ToArray(), meshTris.ToArray());
-       // _meshData.Add(meshData);
+        mesh.triangles = meshTris.ToArray();
 
-        //GameObject obj = new GameObject("TreeMesh" + meshCount);
-        //obj.AddComponent<MeshFilter>().mesh = mesh;
-       // obj.AddComponent<MeshRenderer>().material = pointMaterial;
+        GameObject obj = new GameObject("TreeMesh" + meshCount);
+        obj.AddComponent<MeshFilter>().mesh = mesh;
+        obj.AddComponent<MeshRenderer>().material = pointMaterial;
        
-       // obj.transform.SetParent(parentObj.transform, true);
-       
-       //_meshes.Add(mesh);
+        obj.transform.SetParent(parentObj.transform, true);
 
-       //meshCount++;
+       meshCount++;
     }
     
-    private void CreateMesh(MeshData meshData)
+    private void CreateMesh(MeshData meshData, GameObject parentObj)
     {
         Mesh mesh = new Mesh {vertices = meshData.vertices, triangles = meshData.tris};
         _meshes.Add(mesh);
+
+        GameObject obj = new GameObject("TreeMesh" + meshCount);
+        obj.AddComponent<MeshFilter>().mesh = mesh;
+        obj.AddComponent<MeshRenderer>().material = pointMaterial;
+       
+        obj.transform.SetParent(parentObj.transform, true);
+
+        meshCount++;
     }
     private Vector3 GetChildNodePosition(float angle, float branchLength)
     {

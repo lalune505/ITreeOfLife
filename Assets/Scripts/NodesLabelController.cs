@@ -12,20 +12,36 @@ using UnityEngine.UI;
 
     public class NodesLabelController : InitializableMonoBehaviour
     {
+        public ImageManager imageManager;
         public bool updNodes = false;
 
-        private class NodeNameLabel
+        public class NodeLabel
         { 
             public Text textLabel;
+            public RawImage image;
+            public Image mask;
             public Vector3 pointCoord;
             public CanvasGroup alphaControl;
             public GameObject gameObject;
+            
+            private readonly Color _hiddenColor = new Color(1f,1f,1f,0f);
+            private readonly Color _defaultColor = new Color(1f,1f,1f,0.6f);
+
+            public void HideImage()
+            {
+                mask.color = _hiddenColor;
+            }
+
+            public void ShowImage()
+            {
+                mask.color = _defaultColor;
+            }
         }
         
         private Camera _cam;
         private int _depthLevel = 11;
             
-        private NodeNameLabel[] _currentTextNameLabels;
+        private NodeLabel[] _currentLabels;
 
         public GameObject labelPrefab;
 
@@ -61,21 +77,25 @@ using UnityEngine.UI;
             _cam = _dragCam.GetComponent<Camera>();
 
             _dragCam.OnCameraZoneChanged.AddListener(OnCamZoneChanged);
+            
+            NetworkManager.CheckConnection();
 
-            _currentTextNameLabels = new NodeNameLabel[60];
+            _currentLabels = new NodeLabel[60];
 
-            for (var i = 0; i < _currentTextNameLabels.Length; i++)
+            for (var i = 0; i < _currentLabels.Length; i++)
             {
-                var nodeNameLabel = new NodeNameLabel();
+                var nodeNameLabel = new NodeLabel();
 
                 var label = Instantiate(labelPrefab);
                 label.transform.localScale = Vector3.one;
 
                 nodeNameLabel.alphaControl = label.GetComponentInChildren<CanvasGroup>();
                 nodeNameLabel.textLabel = label.GetComponentInChildren<Text>();
+                nodeNameLabel.mask = label.GetComponentInChildren<Image>();
+                nodeNameLabel.image = label.GetComponentInChildren<RawImage>();
                 nodeNameLabel.gameObject = label;
 
-                _currentTextNameLabels[i] = nodeNameLabel;
+                _currentLabels[i] = nodeNameLabel;
             }
 
             await UniTask.Yield();
@@ -120,7 +140,7 @@ using UnityEngine.UI;
                 ExecuteJobs();
             }
             
-            foreach (var roadNameLabel in _currentTextNameLabels)
+            foreach (var roadNameLabel in _currentLabels)
             {
                 var trans = roadNameLabel.gameObject.transform;
                 trans.localScale = Vector3.one * (_cam.transform.position - trans.position).magnitude / 1000f;
@@ -167,16 +187,21 @@ using UnityEngine.UI;
 
         IEnumerator UpdateRoadNamesLabels_Process()
         {
-            for (int i = 0; i < _currentTextNameLabels.Length; i++)
+            for (int i = 0; i < _currentLabels.Length; i++)
             {
                 if (_visibleNodeViews.Count <= i)
                 {
-                    _currentTextNameLabels[i].textLabel.text = "";
+                    _currentLabels[i].textLabel.text = "";
+                    _currentLabels[i].HideImage();
                     continue;
                 }
 
-                _currentTextNameLabels[i].pointCoord = _visibleNodeViews[i].pos;
-                _currentTextNameLabels[i].textLabel.text = _visibleNodeViews[i].sciName;
+                if (_currentLabels[i].textLabel.text != _visibleNodeViews[i].sciName)
+                {
+                    _currentLabels[i].pointCoord = _visibleNodeViews[i].pos;
+                    _currentLabels[i].textLabel.text = _visibleNodeViews[i].sciName;
+                    imageManager.GetPage(_visibleNodeViews[i].sciName, _currentLabels[i]);
+                }
             }
 
             yield return null;
@@ -185,7 +210,7 @@ using UnityEngine.UI;
 
         private void UpdateLabelsScreenPositions()
         {
-            foreach (var label in _currentTextNameLabels)
+            foreach (var label in _currentLabels)
             {
                 label.gameObject.transform.position = new Vector3(label.pointCoord.x, 
                     label.gameObject.transform.position.y, label.pointCoord.z);
