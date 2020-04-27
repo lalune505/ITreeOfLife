@@ -45,7 +45,7 @@ public class NetworkManager
 
         if (!searchJson["results"].HasValues)
         {
-            Debug.Log(nodeSciName + " no results");
+            //Debug.Log(nodeSciName + " no results");
             return null;
         }
         var pageId = searchJson["results"][0]["id"].Value<string>();
@@ -56,7 +56,7 @@ public class NetworkManager
         
         if (token == null || !token.HasValues)
         {
-            Debug.Log(nodeSciName + " no data objects");
+            //Debug.Log(nodeSciName + " no data objects");
             return null;
         }
         var imageLink = token[0]["eolMediaURL"].Value<string>();
@@ -76,7 +76,7 @@ public class NetworkManager
             await webRequest.SendWebRequest();
             if (webRequest.isHttpError || webRequest.isNetworkError)
             {
-                Debug.LogError($"Request {webRequest.url} error: {webRequest.error}");
+                //Debug.LogError($"Request {webRequest.url} error: {webRequest.error}");
                 return null;
             }
             string rawJson = Encoding.Default.GetString(webRequest.downloadHandler.data);
@@ -93,7 +93,7 @@ public class NetworkManager
             await webRequest.SendWebRequest();
             if (webRequest.isHttpError || webRequest.isNetworkError)
             {
-                Debug.LogError($"Request {webRequest.url} error: {webRequest.error}");
+                //Debug.LogError($"Request {webRequest.url} error: {webRequest.error}");
                 return null;
             }
 
