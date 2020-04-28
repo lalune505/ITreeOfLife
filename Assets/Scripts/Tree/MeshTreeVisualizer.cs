@@ -29,10 +29,10 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
 
     void Update()
     {
-        /*foreach (var mesh in _meshes)
+        foreach (var mesh in _meshes)
         {
             Graphics.DrawMesh(mesh,allTreeStart.transform.position,Quaternion.identity,pointMaterial,0 , _cam);
-        }*/
+        }
     }
     public override async UniTask Init()
     {
@@ -150,13 +150,13 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
         Mesh mesh = new Mesh {vertices = meshData.vertices, triangles = meshData.tris};
         _meshes.Add(mesh);
 
-        GameObject obj = new GameObject("TreeMesh" + meshCount);
+       /* GameObject obj = new GameObject("TreeMesh" + meshCount);
         obj.AddComponent<MeshFilter>().mesh = mesh;
         obj.AddComponent<MeshRenderer>().material = pointMaterial;
        
         obj.transform.SetParent(parentObj.transform, true);
 
-        meshCount++;
+        meshCount++;*/
     }
     private Vector3 GetChildNodePosition(float angle, float branchLength)
     {
