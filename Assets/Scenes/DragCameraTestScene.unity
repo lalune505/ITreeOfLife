@@ -466,6 +466,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ImageManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1686754990720762081, guid: 13f2bd7b706dc4670adf4e6a303d6281,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1686754990720762083, guid: 13f2bd7b706dc4670adf4e6a303d6281,
         type: 3}
       propertyPath: m_LocalPosition.x

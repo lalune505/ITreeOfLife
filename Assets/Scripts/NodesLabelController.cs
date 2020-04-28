@@ -54,8 +54,7 @@ using UnityEngine.UI;
         private readonly int dDepth = 3;
 
         private bool _created = false;
-
-        private List<NodeView> _largeNodeViews = new List<NodeView>();
+        
         private List<NodeView> _nodeViews;
         private List<NodeView> _visibleNodeViews = new List<NodeView>();
         
@@ -63,10 +62,6 @@ using UnityEngine.UI;
         private CheckSizeNodeViewJob _checkSizeNodeViewJob;
         private NativeArray<int> _nodeViewsSizes;
         private NativeArray<float> _rads;
-        
-        private JobHandle _visibleJobHandle;
-        private CheckVisibleNodeViewJob _checkVisibleNodeViewJob;
-        private NativeArray<int> _nodeViewsVisible;
         private NativeArray<float3> _poses;
 
         public override async UniTask Init()
@@ -258,48 +253,7 @@ using UnityEngine.UI;
             }
             _nodeViewsSizes.Dispose();
             UpdateRoadNamesLabels();
-            
-            /*_sizesJobHandle.Complete();
-            
-            _visibleNodeViews.Clear();
 
-            for (var i = 0; i < _nodeViewsSizes.Length; i++)
-            {
-                if (_nodeViewsSizes[i] == 1)
-                {
-                    _visibleNodeViews.Add(_nodeViews[i]);
-                }
-            }
-            _nodeViewsSizes.Dispose();*/
-            
-          /*  _poses = new NativeArray<float3>(_largeNodeViews.Count, Allocator.TempJob);
-            
-            for (var i = 0; i < _largeNodeViews.Count; i++)
-            {
-                _poses[i] = _cam.WorldToViewportPoint(_largeNodeViews[i].pos);
-            }
-
-            _nodeViewsVisible = new NativeArray<int>(_largeNodeViews.Count, Allocator.TempJob);
-            
-            _checkVisibleNodeViewJob = new CheckVisibleNodeViewJob{positions = _poses, visibleNodes = _nodeViewsVisible};
-
-            _visibleJobHandle = _checkVisibleNodeViewJob.Schedule(_largeNodeViews.Count, 250);
-            
-            _visibleJobHandle.Complete();
-
-            _visibleNodeViews.Clear();
-            for (var i = 0; i < _nodeViewsVisible.Length; i++)
-            {
-                if (_nodeViewsVisible[i] == 1)
-                {
-                    _visibleNodeViews.Add(_largeNodeViews[i]);
-                }
-            }
-            
-            _nodeViewsVisible.Dispose();*/
-
-            //UpdateRoadNamesLabels();
-            
         }
 
         private void OnDestroy()
