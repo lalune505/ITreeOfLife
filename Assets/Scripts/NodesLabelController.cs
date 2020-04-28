@@ -139,7 +139,7 @@ using UnityEngine.UI;
                 }
                 ExecuteJobs();
             }
-            
+
             foreach (var roadNameLabel in _currentLabels)
             {
                 var trans = roadNameLabel.gameObject.transform;
@@ -225,10 +225,12 @@ using UnityEngine.UI;
         private void CreateNativeArray()
         {
             _rads = new NativeArray<float>(_nodeViews.Count, Allocator.Persistent);
+            _poses = new NativeArray<float3>(_nodeViews.Count, Allocator.Persistent);
 
             for (var i = 0; i < _nodeViews.Count; i++)
             {
                 _rads[i] = _nodeViews[i].nodeRad;
+                _poses[i] = _cam.WorldToViewportPoint(_nodeViews[i].pos);
             }
 
             _created = true;
@@ -238,25 +240,39 @@ using UnityEngine.UI;
         {
              var t = _cam.transform.position.y / _dragCam.yMax;
             _nodeViewsSizes = new NativeArray<int>(_nodeViews.Count, Allocator.TempJob);
+
+            _checkSizeNodeViewJob = new CheckSizeNodeViewJob{t = t, nodesRads = _rads, positions = _poses, nodesSizes = _nodeViewsSizes};
             
-            _checkSizeNodeViewJob = new CheckSizeNodeViewJob{t = t, nodesRads = _rads, nodesSizes = _nodeViewsSizes};
-            
-            _sizesJobHandle = _checkSizeNodeViewJob.Schedule(_nodeViews.Count, 250);
+            _sizesJobHandle = _checkSizeNodeViewJob.Schedule(_nodeViews.Count, 255);
             
             _sizesJobHandle.Complete();
             
-            _largeNodeViews.Clear();
+            _visibleNodeViews.Clear();
 
             for (var i = 0; i < _nodeViewsSizes.Length; i++)
             {
                 if (_nodeViewsSizes[i] == 1)
                 {
-                    _largeNodeViews.Add(_nodeViews[i]);
+                    _visibleNodeViews.Add(_nodeViews[i]);
                 }
             }
             _nodeViewsSizes.Dispose();
+            UpdateRoadNamesLabels();
             
-            _poses = new NativeArray<float3>(_largeNodeViews.Count, Allocator.TempJob);
+            /*_sizesJobHandle.Complete();
+            
+            _visibleNodeViews.Clear();
+
+            for (var i = 0; i < _nodeViewsSizes.Length; i++)
+            {
+                if (_nodeViewsSizes[i] == 1)
+                {
+                    _visibleNodeViews.Add(_nodeViews[i]);
+                }
+            }
+            _nodeViewsSizes.Dispose();*/
+            
+          /*  _poses = new NativeArray<float3>(_largeNodeViews.Count, Allocator.TempJob);
             
             for (var i = 0; i < _largeNodeViews.Count; i++)
             {
@@ -280,9 +296,9 @@ using UnityEngine.UI;
                 }
             }
             
-            _nodeViewsVisible.Dispose();
+            _nodeViewsVisible.Dispose();*/
 
-            UpdateRoadNamesLabels();
+            //UpdateRoadNamesLabels();
             
         }
 
@@ -291,6 +307,7 @@ using UnityEngine.UI;
             if (_created)
             {
                 _rads.Dispose();
+                _poses.Dispose();
             }
         }
     }
