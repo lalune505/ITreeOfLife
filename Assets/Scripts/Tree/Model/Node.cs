@@ -17,6 +17,6 @@ public class Node
 
     public int GetSize()
     {
-        return this.childrenNodes.Count == 0 ? 1 : this.childrenNodes.Sum(x => x.GetSize());
+        return  1 + this.childrenNodes.Sum(x => x.GetSize());
     }
 }

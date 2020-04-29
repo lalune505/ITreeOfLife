@@ -201,7 +201,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!225 &47240084
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -395,12 +395,12 @@ PrefabInstance:
     - target: {fileID: 8381420928106252001, guid: fd98820f526d84420a10c0b0d5692834,
         type: 3}
       propertyPath: treeDepth
-      value: 10
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8381420928106252001, guid: fd98820f526d84420a10c0b0d5692834,
         type: 3}
       propertyPath: nodeId
-      value: 2759
+      value: 33511
       objectReference: {fileID: 0}
     - target: {fileID: 8381420928106252001, guid: fd98820f526d84420a10c0b0d5692834,
         type: 3}
@@ -427,7 +427,7 @@ PrefabInstance:
     - target: {fileID: 8381420928106252001, guid: fd98820f526d84420a10c0b0d5692834,
         type: 3}
       propertyPath: width
-      value: 0.07
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8381420928106252001, guid: fd98820f526d84420a10c0b0d5692834,
         type: 3}
@@ -465,6 +465,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ImageManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 1686754990720762081, guid: 13f2bd7b706dc4670adf4e6a303d6281,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1686754990720762083, guid: 13f2bd7b706dc4670adf4e6a303d6281,
         type: 3}
@@ -582,6 +587,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AppManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2572561905750729972, guid: 073a02756a9304c26801bf09d552654e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2572561905750729738, guid: 073a02756a9304c26801bf09d552654e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -640,7 +650,7 @@ PrefabInstance:
     - target: {fileID: 2572561905750729973, guid: 073a02756a9304c26801bf09d552654e,
         type: 3}
       propertyPath: _initializables.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2572561905750729973, guid: 073a02756a9304c26801bf09d552654e,
         type: 3}
@@ -651,7 +661,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _initializables.Array.data[1]
       value: 
-      objectReference: {fileID: 47240089}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 073a02756a9304c26801bf09d552654e, type: 3}
 --- !u!1001 &1061040275
