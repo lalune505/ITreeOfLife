@@ -18,7 +18,7 @@ public struct CheckSizeNodeViewJob : IJobParallelFor
 
     public void Execute(int i)
     {
-        if (nodesRads[i] > math.lerp(0.0001f, 1f, 0.4 * t))
+        if (nodesRads[i] > math.lerp(0.0001f, 1f, 0.25 * t))
         {
             nodesSizes[i] = 1;
         }else
