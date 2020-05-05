@@ -67,7 +67,7 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
 
         Node rootNode = nodes[nodeId];
         NodeView rootNodeView = new NodeView();
-       rootNodeView.Init(rootNode, treeDepth + 1, R, allTreeStart.transform.position, new List<NodeView>());
+        rootNodeView.Init(rootNode, treeDepth + 1, R, allTreeStart.transform.position, new List<NodeView>());
         //nodeViews.Add(rootNodeView);
         //nodesLabelController.AddNodeView(rootNode.id,rootNodeView);
         
@@ -84,7 +84,7 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
     private void CreateSubTree(GameObject parent,NodeView parentNodeView, GameObject branch,Vector3[] branchVerts, int[] branchTris, Node node,int depth, List<Vector3> meshVertices,
         List<int> meshTris)
     {
-        if (node.childrenNodes.Count == 0 || depth == 0) return;
+        if (node.childrenNodes.Count == 0 || depth == 0 || parentNodeView.nodeRad < 0.001f) return;
         float sumAngle = 0f;
         
         foreach (var childNode in node.childrenNodes)
