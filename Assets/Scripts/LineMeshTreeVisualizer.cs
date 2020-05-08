@@ -58,7 +58,7 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
         {
             float childAngle = GetNodeAngle(node, childNode);
             float childRad = GetNodeRadius(childAngle / 2);
-            Vector3 childNodePos = GetChildNodePosition(childAngle / 2 + sumAngle, R - childRad);
+            Vector3 childNodePos = GetChildNodePosition(childAngle / 2 + sumAngle, 1 - childRad);
             sumAngle += childAngle;
             CreateNodeObj(childNode,childNodePos,parent,parentNodeView, childRad,out NodeView childNodeView,  out GameObject childGo,depth);
             CreateSubTree(childGo,childNodeView,childNode, depth - 1);
@@ -77,10 +77,9 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
     
     private void CreateNodeObj(Node node,Vector3 nodePos, GameObject parent,NodeView parentNodeView, float scale, out NodeView nodeView,out GameObject nodeObj, int d)
     {
-        nodeObj = Instantiate(nodePrefab);
+        nodeObj = Instantiate(nodePrefab, parent.transform, true);
         nodeObj.name = node.id.ToString();
 
-        nodeObj.transform.parent = parent.transform;
         nodeObj.transform.localPosition = nodePos;
         nodeObj.transform.localRotation = Quaternion.LookRotation(Vector3.forward, nodePos);
         nodeObj.transform.localScale =  new Vector3(scale, scale, scale);
@@ -105,7 +104,7 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
     {
         float t =  math.tan(nodeAngle * Mathf.Deg2Rad);
 
-        return 1 * t / (t + 1);
+        return t / (t + 1);
     }
 
     private void CreateMesh()
