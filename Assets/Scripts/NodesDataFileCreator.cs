@@ -137,7 +137,7 @@ public class NodesDataFileCreator
 
     }
     
-    public static void CreateSceneDataScriptableObject(int id, List<NodeView> nodeViews, List<MeshData> meshData)
+    public static void CreateSceneDataScriptableObject(int id, List<NodeView> nodeViews)
     {
         EnsureDirectoryExists(SCRIPTABLE_OBJECTS_DESTIONATION_PATH);
 
@@ -154,8 +154,6 @@ public class NodesDataFileCreator
         }
 
         gm.nodeViews = nodeViews;
-
-        gm.meshData = meshData;
 
         EditorUtility.SetDirty(gm);
 

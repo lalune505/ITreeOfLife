@@ -33,7 +33,7 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
     private void StartCreatingMeshes(Dictionary<int, Node> nodes)
     {
         CreateTreeMeshes(nodes);
-        CreateMesh();
+        //CreateMesh();
     }
 
     private void CreateTreeMeshes(Dictionary<int, Node> nodes)
