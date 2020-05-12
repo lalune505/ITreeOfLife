@@ -26,76 +26,62 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
         NodesDataFileCreator.SetNodesData();
         
         StartCreatingMeshes( NodesDataFileCreator.nodes);
-        
-        await UniTask.Yield();
+
+       await UniTask.Yield();
     }
 
     private void StartCreatingMeshes(Dictionary<int, Node> nodes)
     {
         CreateTreeMeshes(nodes);
-        //CreateMesh();
+        CreateMesh();
     }
 
     private void CreateTreeMeshes(Dictionary<int, Node> nodes)
     {
         Node rootNode = nodes[nodeId];
-        NodeView rootNodeView = new NodeView();
-        rootNodeView.Init(rootNode, treeDepth + 1, R, allTreeStart.transform.position, new List<NodeView>());
-        
-        _nodeViews.Add(rootNodeView);
-        
-        CreateSubTree(allTreeStart,rootNodeView, rootNode,
-          treeDepth );
-
+        CreateSubTree(rootNode, treeDepth, R, Vector3.zero, Quaternion.identity);
     }
     
-    private void CreateSubTree(GameObject parent,NodeView parentNodeView, Node node,int depth)
+    private NodeView CreateSubTree(Node node, int depth,float r, Vector3 pos, Quaternion rot)
     {
-        if (node.childrenNodes.Count == 0 || depth == 0) return;
+        NodeView nodeView = new NodeView();
+        nodeView.Init(node, depth, r, pos, rot,new List<NodeView>());
+        
+        GameObject go = new GameObject(node.id.ToString());
+
+        go.transform.position = pos;
+
+        go.transform.rotation = Quaternion.LookRotation(Vector3.forward, pos);
+        _nodeViews.Add(nodeView);
+
+        if (depth == 0) return nodeView;
         float sumAngle = 0f;
+        
+        Matrix4x4 m = Matrix4x4.TRS(nodeView.pos,  nodeView.rot,
+            new Vector3(nodeView.nodeRad, nodeView.nodeRad, nodeView.nodeRad));
         
         foreach (var childNode in node.childrenNodes)
         {
             float childAngle = GetNodeAngle(node, childNode);
             float childRad = GetNodeRadius(childAngle / 2);
-            Vector3 childNodePos = GetChildNodePosition(childAngle / 2 + sumAngle, 1 - childRad);
+            Vector3 childNodePos = GetChildNodePosition(nodeView,childAngle / 2 + sumAngle, 1 - childRad);
             sumAngle += childAngle;
-            CreateNodeObj(childNode,childNodePos,parent,parentNodeView, childRad,out NodeView childNodeView,  out GameObject childGo,depth);
-            CreateSubTree(childGo,childNodeView,childNode, depth - 1);
+            
+            nodeView.AddChildrenNode(CreateSubTree(childNode,depth - 1, childRad * r, m.MultiplyPoint3x4(childNodePos), Quaternion.LookRotation(Vector3.forward,m.MultiplyVector(childNodePos))));
         }
-        
+
+        return nodeView;
     }
 
-    private Vector3 GetChildNodePosition(float angle, float branchLength)
+    private Vector3 GetChildNodePosition(NodeView parentNodeView,float angle, float branchLength)
     {
         Vector3 endPoint;
         endPoint.x = branchLength * math.cos((angle) * math.PI/180f);
         endPoint.y = branchLength * math.sin((angle) * math.PI/180f);
         endPoint.z = 0;
-        return endPoint;
+        return endPoint; 
     }
-    
-    private void CreateNodeObj(Node node,Vector3 nodePos, GameObject parent,NodeView parentNodeView, float scale, out NodeView nodeView,out GameObject nodeObj, int d)
-    {
-        nodeObj = Instantiate(nodePrefab, parent.transform, true);
-        nodeObj.name = node.id.ToString();
 
-        nodeObj.transform.localPosition = nodePos;
-        nodeObj.transform.localRotation = Quaternion.LookRotation(Vector3.forward, nodePos);
-        nodeObj.transform.localScale =  new Vector3(scale, scale, scale);
-
-        var r = nodeObj.transform.lossyScale.x;
-
-        nodeView = new NodeView();
-        
-        nodeView.Init(node, d, r, nodeObj.transform.position, new List<NodeView>());
-        
-        _nodeViews.Add(nodeView);
-        parentNodeView.AddChildrenNode(nodeView);
-        
-
-    }
-    
     private float GetNodeAngle(Node node,Node childNode)
     {
         return 180f * math.sqrt(childNode.GetSize()) / node.childrenNodes.Sum(x => math.sqrt(x.GetSize()));

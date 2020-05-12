@@ -213,7 +213,7 @@ Transform:
   m_GameObject: {fileID: 1487845953}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -433,7 +433,7 @@ MonoBehaviour:
     type: 3}
   pointMaterial: {fileID: 2100000, guid: ed97a68dfc2f342d58f3da7a69dd7105, type: 2}
   R: 1
-  treeDepth: 30
+  treeDepth: 3
   allTreeStart: {fileID: 1487845953}
   mesh: {fileID: 1487845955}
 --- !u!114 &2071619282
