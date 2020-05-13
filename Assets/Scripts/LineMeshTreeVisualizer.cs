@@ -42,14 +42,13 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
 
     private void CreateSubTree(NodeView nodeView, int depth, float r, Vector3 pos, Quaternion rot)
     {
-         nodeView.Init(r, pos, rot);
-          
-         GameObject go = new GameObject(nodeView.nodeId.ToString());
+        nodeView.Init(r, pos, rot);
+        GameObject go = new GameObject(nodeView.nodeId.ToString());
  
-         go.transform.position = pos;
+        go.transform.position = pos;
  
-         go.transform.rotation = Quaternion.LookRotation(Vector3.forward, pos);
-         _nodeViews.Add(nodeView);
+        go.transform.rotation = Quaternion.LookRotation(Vector3.forward, pos);
+        _nodeViews.Add(nodeView);
 
         if (depth == 0) return;
         float sumAngle = 0f;
