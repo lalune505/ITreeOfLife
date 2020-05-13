@@ -297,9 +297,8 @@ MonoBehaviour:
     type: 3}
   pointMaterial: {fileID: 2100000, guid: ed97a68dfc2f342d58f3da7a69dd7105, type: 2}
   R: 1
-  treeDepth: 10
+  treeDepth: 4
   allTreeStart: {fileID: 1487845953}
-  mesh: {fileID: 1487845955}
 --- !u!4 &1585939210
 Transform:
   m_ObjectHideFlags: 0

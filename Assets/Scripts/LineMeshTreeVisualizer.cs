@@ -9,7 +9,6 @@ using UnityEngine;
 public class LineMeshTreeVisualizer : InitializableMonoBehaviour
 {
     public int nodeId;
-    public GameObject nodePrefab;
     public Material pointMaterial;
     public float R;
     public int treeDepth;
@@ -17,7 +16,7 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
 
     List<NodeView> _nodeViews = new List<NodeView>();
     
-    private int meshCount = 0;
+    private int _meshCount = 0;
 
     public override async UniTask Init()
     {
@@ -26,7 +25,7 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
         
         StartCreatingMeshes( NodesDataFileCreator.nodes);
 
-       await UniTask.Yield();
+        await UniTask.Yield();
     }
 
     private void StartCreatingMeshes(Dictionary<int, Node> nodes)
@@ -46,12 +45,7 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
         NodeView nodeView = new NodeView();
         nodeView.Init(node, r, pos, rot,new List<NodeView>());
         
-       /* GameObject go = new GameObject(node.id.ToString());
-
-        go.transform.position = pos;
-
-        go.transform.rotation = Quaternion.LookRotation(Vector3.forward, pos);
-        _nodeViews.Add(nodeView);*/
+        _nodeViews.Add(nodeView);
 
         if (depth == 0) return nodeView;
         float sumAngle = 0f;
@@ -138,13 +132,13 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
          mesh.vertices = meshVertices.ToArray();
          mesh.SetIndices(meshTris.ToArray(),MeshTopology.Lines, 0, true);
         
-         GameObject obj = new GameObject("TreeMesh" + meshCount);
+         GameObject obj = new GameObject("TreeMesh" + _meshCount);
          obj.AddComponent<MeshFilter>().mesh = mesh;
          obj.AddComponent<MeshRenderer>().material = pointMaterial;
         
          obj.transform.SetParent(parentObj.transform, true);
  
-         meshCount++;
+         _meshCount++;
     }
     
 }
