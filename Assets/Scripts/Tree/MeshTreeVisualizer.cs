@@ -20,41 +20,43 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
     //public NodesLabelController nodesLabelController;
     private int meshCount = 0;
     private List<Mesh> _meshes = new List<Mesh>();
-    
-    /*private List<NodeView> nodeViews = new List<NodeView>();
+
+    private List<NodeView> nodeViews = new List<NodeView>();
 
     private List<MeshData> _meshData = new List<MeshData>();
-    */
+    
 
 
     void Update()
     {
-        foreach (var mesh in _meshes)
-        {
-            Graphics.DrawMesh(mesh,allTreeStart.transform.position,Quaternion.identity,pointMaterial,0 , _cam);
-        }
+       foreach (var mesh in _meshes)
+       {
+           Graphics.DrawMesh(mesh,allTreeStart.transform.position,Quaternion.identity,pointMaterial,0 , _cam);
+       }
     }
     public override async UniTask Init()
     {
         _cam = Camera.main;
         
-        DataLoader.OnDataLoaded += StartCreatingMeshes;
+        NodesDataFileCreator.SetNodesNames();
+        NodesDataFileCreator.SetNodesData();
+        
+        StartCreatingMeshes( NodesDataFileCreator.nodes);
 
-        foreach (var item in sceneData.meshData)
+        /*foreach (var item in sceneData.meshData)
         {
             CreateMesh(item, allTreeStart);
-        }
+        }*/
         await UniTask.Yield();
     }
 
-    private void StartCreatingMeshes(NodesData data)
+    private void StartCreatingMeshes(Dictionary<int, Node> nodes)
     {
-        CreateTreeMeshes(data);
-        
-       // NodesDataFileCreator.CreateSceneDataScriptableObject(1, nodeViews, _meshData);
+        CreateTreeMeshes(nodes);
+        //NodesDataFileCreator.CreateSceneDataScriptableObject(nodeId, nodeViews, _meshData);
     }
 
-    private void CreateTreeMeshes(NodesData nodes)
+    private void CreateTreeMeshes(Dictionary<int, Node> nodes)
     {
         GameObject branch = Instantiate(branchPrefab);
         Vector3[] prefabVertices = branch.GetComponentInChildren<MeshFilter>().mesh.vertices;
@@ -63,9 +65,9 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
         List<Vector3> meshVertices = new List<Vector3>(65000);
         List<int> meshTris = new List<int>(117000);
 
-        Node rootNode = nodes.IntNodeDictionary[nodeId];
+        Node rootNode = nodes[nodeId];
         NodeView rootNodeView = new NodeView();
-        rootNodeView.Init(rootNode, treeDepth + 1, R, allTreeStart.transform.position, new List<NodeView>());
+        rootNodeView.Init(rootNode, R, allTreeStart.transform.position, allTreeStart.transform.rotation,new List<NodeView>());
         //nodeViews.Add(rootNodeView);
         //nodesLabelController.AddNodeView(rootNode.id,rootNodeView);
         
@@ -82,7 +84,7 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
     private void CreateSubTree(GameObject parent,NodeView parentNodeView, GameObject branch,Vector3[] branchVerts, int[] branchTris, Node node,int depth, List<Vector3> meshVertices,
         List<int> meshTris)
     {
-        if (node.childrenNodes.Count == 0 || depth == 0) return;
+        if (node.childrenNodes.Count == 0 || depth == 0 || parentNodeView.nodeRad < 0.001f) return;
         float sumAngle = 0f;
         
         foreach (var childNode in node.childrenNodes)
@@ -94,7 +96,7 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
             CreateNodeObj(childNode,childNodePos,parent,parentNodeView, childRad,out NodeView childNodeView,  out GameObject childGo,depth);
             //nodeViews.Add(childNodeView);
             //nodesLabelController.AddNodeView(childNode.id,childNodeView);
-            AppendBranchVertices(parent, branch,width * depth / treeDepth, branchVerts, branchTris,childNodePos, meshVertices, meshTris);
+            AppendBranchVertices(parent, branch,  width * depth/treeDepth, branchVerts, branchTris,childNodePos, meshVertices, meshTris);
             
             CreateSubTree(childGo,childNodeView,branch, branchVerts, branchTris,childNode, depth - 1, meshVertices, meshTris);
             if (meshVertices.Count + branchVerts.Length > 65000)
@@ -132,17 +134,22 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
     }
     private void CreateObject(List<Vector3> meshVertices, List<int> meshTris, GameObject parentObj)
     {
-        Mesh mesh = new Mesh();
+       Mesh mesh = new Mesh();
         mesh.vertices = meshVertices.ToArray();
         mesh.triangles = meshTris.ToArray();
+        _meshes.Add(mesh);
+        
+        /*MeshData meshData = new MeshData(meshVertices.ToArray(),meshTris.ToArray());
+        
+        _meshData.Add(meshData);*/
 
-        GameObject obj = new GameObject("TreeMesh" + meshCount);
+       /* GameObject obj = new GameObject("TreeMesh" + meshCount);
         obj.AddComponent<MeshFilter>().mesh = mesh;
         obj.AddComponent<MeshRenderer>().material = pointMaterial;
        
         obj.transform.SetParent(parentObj.transform, true);
 
-       meshCount++;
+        meshCount++;*/
     }
     
     private void CreateMesh(MeshData meshData, GameObject parentObj)
@@ -180,7 +187,7 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
         var r = nodeObj.transform.lossyScale.x;
 
         nodeView = new NodeView();
-        nodeView.Init(node, d, r, nodeObj.transform.position, new List<NodeView>());
+        nodeView.Init(node, r, nodeObj.transform.position,Quaternion.LookRotation(Vector3.forward, nodePos), new List<NodeView>());
         parentNodeView.AddChildrenNode(nodeView);
     }
     

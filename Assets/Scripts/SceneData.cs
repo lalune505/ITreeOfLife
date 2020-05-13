@@ -9,10 +9,6 @@ public class SceneData : ScriptableObject
 {
     [SerializeField]
     public List<NodeView> nodeViews;
-    
-    [SerializeField]
-    public List<MeshData> meshData;
-
 }
 
 [Serializable]

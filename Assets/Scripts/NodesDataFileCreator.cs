@@ -14,7 +14,7 @@ public class NodesDataFileCreator
     private const string NodesFileName = "nodes.dmp";
     private const string NamesFileName = "names.dmp";
     private const string SCRIPTABLE_OBJECTS_DESTIONATION_PATH = "Assets/Resources/ScriptableObjects"; 
-    private static Dictionary<int, Node> nodes = new Dictionary<int, Node>();
+    public static Dictionary<int, Node> nodes = new Dictionary<int, Node>();
     private static Dictionary<int, NodeName> names = new Dictionary<int, NodeName>();
     private async void GetTaxDumpFiles()
     {
@@ -41,13 +41,6 @@ public class NodesDataFileCreator
                 {
                     nodes[son] = new Node {id = son, rank = sonRank, authority = names[son].authority, 
                         synonym = names[son].synonym, commonName = names[son].commonName, sciName = names[son].sciName};
-                }
-                else 
-                {
-                     if (string.IsNullOrEmpty(nodes[son].rank))
-                     {
-                         nodes[son].rank = sonRank;
-                     } 
                 }
                 nodes[dad].childrenNodes.Add(nodes[son]);
             }
@@ -117,17 +110,7 @@ public class NodesDataFileCreator
             Debug.Log( $"The process failed with error: {e}");
         }
     }
-    
 
-   private static void FillNodesDataById(int nodeId, IDictionary<int, Node> dict)
-   {
-       foreach (var child in nodes[nodeId].childrenNodes)
-       {
-           dict[child.id] = child;
-           FillNodesDataById(child.id, dict);
-       }
-   }
-    
     public static void CreateNodesScriptableObject(int rootNodeId)
     {
         EnsureDirectoryExists(SCRIPTABLE_OBJECTS_DESTIONATION_PATH);
@@ -144,7 +127,7 @@ public class NodesDataFileCreator
             AssetDatabase.CreateAsset(gm, destinationPath);
         }
 
-        FillNodesDataById(rootNodeId,  gm.IntNodeDictionary);
+        gm.IntNodeDictionary = nodes;
 
         EditorUtility.SetDirty(gm);
 
@@ -154,7 +137,7 @@ public class NodesDataFileCreator
 
     }
     
-    public static void CreateSceneDataScriptableObject(int id, List<NodeView> nodeViews, List<MeshData> meshData)
+    public static void CreateSceneDataScriptableObject(int id, List<NodeView> nodeViews)
     {
         EnsureDirectoryExists(SCRIPTABLE_OBJECTS_DESTIONATION_PATH);
 
@@ -171,8 +154,6 @@ public class NodesDataFileCreator
         }
 
         gm.nodeViews = nodeViews;
-
-        gm.meshData = meshData;
 
         EditorUtility.SetDirty(gm);
 

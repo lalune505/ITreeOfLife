@@ -14,9 +14,14 @@ public class Node
     public string commonName;
     public string synonym;
     public List<Node> childrenNodes = new List<Node>();
+    private int _size;
 
     public int GetSize()
     {
-        return this.childrenNodes.Count == 0 ? 1 : this.childrenNodes.Sum(x => x.GetSize());
+        if (_size == 0)
+        {
+            _size = 1 + this.childrenNodes.Sum(x => x.GetSize());
+        }
+        return _size;
     }
 }
