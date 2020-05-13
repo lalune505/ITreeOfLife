@@ -20,7 +20,7 @@ public class TreeVisualizer : MonoBehaviour
     {
         //DataLoader.OnDataLoaded += CreateObjectFromData;
     }
-    private void CreateTree(Node node, GameObject parentNodeGameObject,int depth)
+    private void CreateTree(NodeView node, GameObject parentNodeGameObject,int depth)
     {
         if (node.childrenNodes.Count == 0 || depth == 0) return;
         DrawHalfCircle(parentNodeGameObject);
@@ -60,9 +60,9 @@ public class TreeVisualizer : MonoBehaviour
         endPoint.z = 0;
         return endPoint;
     }
-    private GameObject CreateNodeObj(Node node, Vector3 nodePos, GameObject parentNodeGameObject, float scale)
+    private GameObject CreateNodeObj(NodeView node, Vector3 nodePos, GameObject parentNodeGameObject, float scale)
     {
-        var nodeObj = new GameObject("Node" + node.id);
+        var nodeObj = new GameObject("Node" + node.nodeId);
         nodeObj.transform.SetParent(parentNodeGameObject.transform, false);
         nodeObj.transform.localPosition = nodePos;
         nodeObj.transform.localRotation = Quaternion.LookRotation(Vector3.forward, nodePos);
@@ -71,7 +71,7 @@ public class TreeVisualizer : MonoBehaviour
         return nodeObj;
     }
 
-    private float GetHalfCircleSize(Node parentNode,Node childNode)
+    private float GetHalfCircleSize(NodeView parentNode,NodeView childNode)
     {
         return 180f * Mathf.Sqrt(childNode.GetSize()) / parentNode.childrenNodes.Sum(x => Mathf.Sqrt(x.GetSize()));
     }

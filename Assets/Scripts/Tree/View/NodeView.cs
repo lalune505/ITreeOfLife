@@ -15,16 +15,22 @@ public struct NodeView
     public Quaternion rot;
     public List<NodeView> childrenNodes;
     
-    public void Init(Node node, float r,Vector3 position, Quaternion rotation, List<NodeView> children)
+    private int _size;
+
+    public int GetSize()
     {
-        nodeId = node.id;
-        rank = node.rank;
-        sciName = node.sciName;
-        
+        if (_size == 0)
+        {
+            _size = 1 + this.childrenNodes.Sum(x => x.GetSize());
+        }
+        return _size;
+    }
+    
+    public void Init(float r,Vector3 position, Quaternion rotation)
+    {
         nodeRad = r;
         pos = position;
         rot = rotation;
-        childrenNodes = children;
     }
 
     public void AddChildrenNode(NodeView nodeView)
@@ -32,5 +38,10 @@ public struct NodeView
         childrenNodes.Add(nodeView);
     }
     
-    
+    public Matrix4x4 GetMatrix4X4()
+    {
+        return Matrix4x4.TRS(this.pos,  this.rot,
+            new Vector3(this.nodeRad, this.nodeRad, this.nodeRad));
+    }
+
 }

@@ -9,15 +9,14 @@ using UnityEngine;
 public class LineMeshTreeVisualizer : InitializableMonoBehaviour
 {
     public int nodeId;
-    public GameObject nodePrefab;
     public Material pointMaterial;
     public float R;
     public int treeDepth;
     public GameObject allTreeStart;
 
-    List<NodeView> _nodeViews = new List<NodeView>();
-    
     private int meshCount = 0;
+    
+    private List<NodeView> _nodeViews = new List<NodeView>();
 
     public override async UniTask Init()
     {
@@ -26,55 +25,47 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
         
         StartCreatingMeshes( NodesDataFileCreator.nodes);
 
-       await UniTask.Yield();
+        await UniTask.Yield();
     }
 
-    private void StartCreatingMeshes(Dictionary<int, Node> nodes)
+    private void StartCreatingMeshes(Dictionary<int, NodeView> nodes)
     {
         CreateTreeMeshes(nodes);
         CreateMesh();
     }
 
-    private void CreateTreeMeshes(Dictionary<int, Node> nodes)
+    private void CreateTreeMeshes(Dictionary<int, NodeView> nodes)
     {
-        Node rootNode = nodes[nodeId];
+        NodeView rootNode = nodes[nodeId];
         CreateSubTree(rootNode, treeDepth, R, Vector3.zero, Quaternion.identity);
     }
-    
-    private NodeView CreateSubTree(Node node, int depth,float r, Vector3 pos, Quaternion rot)
+
+    private void CreateSubTree(NodeView nodeView, int depth, float r, Vector3 pos, Quaternion rot)
     {
-        NodeView nodeView = new NodeView();
-        nodeView.Init(node, r, pos, rot,new List<NodeView>());
-        
-       /* GameObject go = new GameObject(node.id.ToString());
+         nodeView.Init(r, pos, rot);
+          
+         GameObject go = new GameObject(nodeView.nodeId.ToString());
+ 
+         go.transform.position = pos;
+ 
+         go.transform.rotation = Quaternion.LookRotation(Vector3.forward, pos);
+         _nodeViews.Add(nodeView);
 
-        go.transform.position = pos;
-
-        go.transform.rotation = Quaternion.LookRotation(Vector3.forward, pos);
-        _nodeViews.Add(nodeView);*/
-
-        if (depth == 0) return nodeView;
+        if (depth == 0) return;
         float sumAngle = 0f;
 
-        Matrix4x4 m = GetMatrix4X4(nodeView);
-        
-        foreach (var childNode in node.childrenNodes)
+        Matrix4x4 m = nodeView.GetMatrix4X4();
+
+        foreach (var childNode in nodeView.childrenNodes)
         {
-            float childAngle = GetNodeAngle(node, childNode);
+            float childAngle = GetNodeAngle(nodeView, childNode);
             float childRad = GetNodeRadius(childAngle / 2);
             Vector3 childNodePos = GetChildNodePosition(childAngle / 2 + sumAngle, 1 - childRad);
             sumAngle += childAngle;
-            
-            nodeView.AddChildrenNode(CreateSubTree(childNode,depth - 1, childRad * r, m.MultiplyPoint3x4(childNodePos), Quaternion.LookRotation(Vector3.forward,m.MultiplyVector(childNodePos))));
+
+            CreateSubTree(childNode, depth - 1, childRad * r, m.MultiplyPoint3x4(childNodePos),
+                Quaternion.LookRotation(Vector3.forward, m.MultiplyVector(childNodePos)));
         }
-
-        return nodeView;
-    }
-
-    private Matrix4x4 GetMatrix4X4(NodeView nodeView)
-    {
-        return Matrix4x4.TRS(nodeView.pos,  nodeView.rot,
-            new Vector3(nodeView.nodeRad, nodeView.nodeRad, nodeView.nodeRad));
     }
 
     private Vector3 GetChildNodePosition(float angle, float branchLength)
@@ -86,7 +77,7 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
         return endPoint; 
     }
 
-    private float GetNodeAngle(Node node,Node childNode)
+    private float GetNodeAngle(NodeView node,NodeView childNode)
     {
         return 180f * math.sqrt(childNode.GetSize()) / node.childrenNodes.Sum(x => math.sqrt(x.GetSize()));
     }

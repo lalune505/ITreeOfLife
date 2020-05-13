@@ -183,7 +183,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _initializables.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1585939209}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 073a02756a9304c26801bf09d552654e, type: 3}
 --- !u!1 &1487845953
@@ -293,13 +293,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeId: 2759
-  nodePrefab: {fileID: 6347162221850679450, guid: 5a5c5c71ae92749a3ac46fccba4dc810,
-    type: 3}
   pointMaterial: {fileID: 2100000, guid: ed97a68dfc2f342d58f3da7a69dd7105, type: 2}
   R: 1
-  treeDepth: 10
+  treeDepth: 4
   allTreeStart: {fileID: 1487845953}
-  mesh: {fileID: 1487845955}
 --- !u!4 &1585939210
 Transform:
   m_ObjectHideFlags: 0
@@ -419,8 +416,8 @@ Camera:
   m_GameObject: {fileID: 2071619277}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
