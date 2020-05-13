@@ -14,7 +14,7 @@ public class NodesDataFileCreator
     private const string NodesFileName = "nodes.dmp";
     private const string NamesFileName = "names.dmp";
     private const string SCRIPTABLE_OBJECTS_DESTIONATION_PATH = "Assets/Resources/ScriptableObjects"; 
-    public static Dictionary<int, NodeView> nodes = new Dictionary<int, NodeView>();
+    public static Dictionary<int, Node> nodes = new Dictionary<int, Node>();
     private static Dictionary<int, NodeName> names = new Dictionary<int, NodeName>();
     private async void GetTaxDumpFiles()
     {
@@ -34,15 +34,15 @@ public class NodesDataFileCreator
                 var sonRank = line.Split('|')[2].Replace("\t", "");
                 if (!nodes.ContainsKey(dad))
                 {
-                    nodes[dad] = new NodeView {nodeId = dad, rank = sonRank,/* authority = names[dad].authority, 
-                        synonym = names[dad].synonym, commonName = names[dad].commonName,*/ sciName = names[dad].sciName, childrenNodes = new List<NodeView>()};
+                    nodes[dad] = new Node {id = dad, rank = sonRank, authority = names[dad].authority, 
+                        synonym = names[dad].synonym, commonName = names[dad].commonName, sciName = names[dad].sciName};
                 }
                 if (!nodes.ContainsKey(son))
                 {
-                    nodes[son] = new NodeView {nodeId = son, rank = sonRank, /*authority = names[son].authority, 
-                        synonym = names[son].synonym, commonName = names[son].commonName,*/ sciName = names[son].sciName, childrenNodes = new List<NodeView>()};
+                    nodes[son] = new Node {id = son, rank = sonRank, authority = names[son].authority, 
+                        synonym = names[son].synonym, commonName = names[son].commonName, sciName = names[son].sciName};
                 }
-                nodes[dad].AddChildrenNode(nodes[son]);
+                nodes[dad].childrenNodes.Add(nodes[son]);
             }
 
         }

@@ -9,7 +9,7 @@ public class NodesData : ScriptableObject
     [SerializeField]
     IntNodeDictionary nodes;
 
-    public IDictionary<int, NodeView> IntNodeDictionary
+    public IDictionary<int, Node> IntNodeDictionary
     {
         get => nodes;
         set => nodes.CopyFrom(value);
