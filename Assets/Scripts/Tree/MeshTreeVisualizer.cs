@@ -67,7 +67,7 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
 
         Node rootNode = nodes[nodeId];
         NodeView rootNodeView = new NodeView();
-        rootNodeView.Init(rootNode, treeDepth + 1, R, allTreeStart.transform.position, allTreeStart.transform.rotation,new List<NodeView>());
+        rootNodeView.Init(rootNode, R, allTreeStart.transform.position, allTreeStart.transform.rotation,new List<NodeView>());
         //nodeViews.Add(rootNodeView);
         //nodesLabelController.AddNodeView(rootNode.id,rootNodeView);
         
@@ -187,7 +187,7 @@ public class MeshTreeVisualizer : InitializableMonoBehaviour
         var r = nodeObj.transform.lossyScale.x;
 
         nodeView = new NodeView();
-        nodeView.Init(node, d, r, nodeObj.transform.position,Quaternion.LookRotation(Vector3.forward, nodePos), new List<NodeView>());
+        nodeView.Init(node, r, nodeObj.transform.position,Quaternion.LookRotation(Vector3.forward, nodePos), new List<NodeView>());
         parentNodeView.AddChildrenNode(nodeView);
     }
     

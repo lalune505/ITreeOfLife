@@ -14,7 +14,6 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
     public float R;
     public int treeDepth;
     public GameObject allTreeStart;
-    public MeshFilter mesh;
 
     List<NodeView> _nodeViews = new List<NodeView>();
     
@@ -45,26 +44,25 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
     private NodeView CreateSubTree(Node node, int depth,float r, Vector3 pos, Quaternion rot)
     {
         NodeView nodeView = new NodeView();
-        nodeView.Init(node, depth, r, pos, rot,new List<NodeView>());
+        nodeView.Init(node, r, pos, rot,new List<NodeView>());
         
-        GameObject go = new GameObject(node.id.ToString());
+       /* GameObject go = new GameObject(node.id.ToString());
 
         go.transform.position = pos;
 
         go.transform.rotation = Quaternion.LookRotation(Vector3.forward, pos);
-        _nodeViews.Add(nodeView);
+        _nodeViews.Add(nodeView);*/
 
         if (depth == 0) return nodeView;
         float sumAngle = 0f;
-        
-        Matrix4x4 m = Matrix4x4.TRS(nodeView.pos,  nodeView.rot,
-            new Vector3(nodeView.nodeRad, nodeView.nodeRad, nodeView.nodeRad));
+
+        Matrix4x4 m = GetMatrix4X4(nodeView);
         
         foreach (var childNode in node.childrenNodes)
         {
             float childAngle = GetNodeAngle(node, childNode);
             float childRad = GetNodeRadius(childAngle / 2);
-            Vector3 childNodePos = GetChildNodePosition(nodeView,childAngle / 2 + sumAngle, 1 - childRad);
+            Vector3 childNodePos = GetChildNodePosition(childAngle / 2 + sumAngle, 1 - childRad);
             sumAngle += childAngle;
             
             nodeView.AddChildrenNode(CreateSubTree(childNode,depth - 1, childRad * r, m.MultiplyPoint3x4(childNodePos), Quaternion.LookRotation(Vector3.forward,m.MultiplyVector(childNodePos))));
@@ -73,7 +71,13 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
         return nodeView;
     }
 
-    private Vector3 GetChildNodePosition(NodeView parentNodeView,float angle, float branchLength)
+    private Matrix4x4 GetMatrix4X4(NodeView nodeView)
+    {
+        return Matrix4x4.TRS(nodeView.pos,  nodeView.rot,
+            new Vector3(nodeView.nodeRad, nodeView.nodeRad, nodeView.nodeRad));
+    }
+
+    private Vector3 GetChildNodePosition(float angle, float branchLength)
     {
         Vector3 endPoint;
         endPoint.x = branchLength * math.cos((angle) * math.PI/180f);
