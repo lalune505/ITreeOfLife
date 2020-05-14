@@ -183,7 +183,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _initializables.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1585939209}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 073a02756a9304c26801bf09d552654e, type: 3}
 --- !u!1 &1487845953
@@ -293,8 +293,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeId: 2759
-  nodePrefab: {fileID: 6347162221850679450, guid: 5a5c5c71ae92749a3ac46fccba4dc810,
-    type: 3}
   pointMaterial: {fileID: 2100000, guid: ed97a68dfc2f342d58f3da7a69dd7105, type: 2}
   R: 1
   treeDepth: 4
