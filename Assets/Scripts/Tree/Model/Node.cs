@@ -18,10 +18,9 @@ public class Node
 
     public int GetSize()
     {
-        if (_size == 0)
-        {
-            _size = 1 + this.childrenNodes.Sum(x => x.GetSize());
-        }
+        
+        _size = 1 + this.childrenNodes.Sum(x => x.GetSize());
+        
         return _size;
     }
 }

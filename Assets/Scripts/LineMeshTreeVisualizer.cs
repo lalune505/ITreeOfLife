@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UniRx.Async;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class LineMeshTreeVisualizer : InitializableMonoBehaviour
+public class LineMeshTreeVisualizer : MonoBehaviour
 {
     public int nodeId;
     public Material pointMaterial;
@@ -17,33 +18,25 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
     List<NodeView> _nodeViews = new List<NodeView>();
     
     private int _meshCount = 0;
-
-    public override async UniTask Init()
-    {
-        NodesDataFileCreator.SetNodesNames();
-        NodesDataFileCreator.SetNodesData();
-        
-        StartCreatingMeshes( NodesDataFileCreator.nodes);
-
-        await UniTask.Yield();
-    }
-
-    private void StartCreatingMeshes(Dictionary<int, Node> nodes)
-    {
-        CreateTreeMeshes(nodes);
-        CreateMesh();
-    }
-
-    private void CreateTreeMeshes(Dictionary<int, Node> nodes)
+    
+    public void CreateTreeMeshes(Dictionary<int, Node> nodes)
     {
         Node rootNode = nodes[nodeId];
         CreateSubTree(rootNode, treeDepth, R, Vector3.zero, Quaternion.identity);
+        
+        CreateMesh();
     }
     
     private NodeView CreateSubTree(Node node, int depth,float r, Vector3 pos, Quaternion rot)
     {
         NodeView nodeView = new NodeView();
         nodeView.Init(node, r, pos, rot,new List<NodeView>());
+        
+        GameObject go = new GameObject(node.id.ToString());
+        
+        go.transform.position = pos;
+
+        go.transform.rotation = rot;
         
         _nodeViews.Add(nodeView);
 
@@ -58,7 +51,6 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
             float childRad = GetNodeRadius(childAngle / 2);
             Vector3 childNodePos = GetChildNodePosition(childAngle / 2 + sumAngle, 1 - childRad);
             sumAngle += childAngle;
-            
             nodeView.AddChildrenNode(CreateSubTree(childNode,depth - 1, childRad * r, m.MultiplyPoint3x4(childNodePos), Quaternion.LookRotation(Vector3.forward,m.MultiplyVector(childNodePos))));
         }
 
@@ -86,9 +78,17 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
     }
     private float GetNodeRadius(float nodeAngle)
     {
-        float t =  math.tan(nodeAngle * Mathf.Deg2Rad);
-
-        return t / (t + 1);
+        float result;
+        if (Math.Abs(nodeAngle - 90f) < 0.00001f)
+        {
+            result = 0.9f;
+        }
+        else
+        {
+            float t =  math.tan(nodeAngle  * math.PI/180f);
+            result = t / (t + 1);
+        }
+        return result;
     }
 
     private void CreateMesh()
@@ -120,7 +120,6 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
             index1 = index + 1;
             index = index1;
         }
-        
         CreateObject(vertices, indices,allTreeStart.gameObject);
         vertices.Clear();
         indices.Clear();
@@ -140,5 +139,5 @@ public class LineMeshTreeVisualizer : InitializableMonoBehaviour
  
          _meshCount++;
     }
-    
+
 }
