@@ -9,6 +9,7 @@ using UnityEngine;
 
 public class LineMeshTreeVisualizer : MonoBehaviour
 {
+    public Camera _cam;
     public int nodeId;
     public Material pointMaterial;
     public float R;
@@ -17,8 +18,18 @@ public class LineMeshTreeVisualizer : MonoBehaviour
 
     List<NodeView> _nodeViews = new List<NodeView>();
     
+    private List<Mesh> _meshes = new List<Mesh>();
+    
     private int _meshCount = 0;
     
+    private void Update()
+    {
+        foreach (var mesh in _meshes)
+        {
+            Graphics.DrawMesh(mesh,allTreeStart.transform.position,allTreeStart.transform.rotation,pointMaterial,0 , _cam);
+        }
+    }
+
     public void CreateTreeMeshes(Dictionary<int, Node> nodes)
     {
         Node rootNode = nodes[nodeId];
@@ -31,13 +42,7 @@ public class LineMeshTreeVisualizer : MonoBehaviour
     {
         NodeView nodeView = new NodeView();
         nodeView.Init(node, r, pos, rot,new List<NodeView>());
-        
-        GameObject go = new GameObject(node.id.ToString());
-        
-        go.transform.position = pos;
 
-        go.transform.rotation = rot;
-        
         _nodeViews.Add(nodeView);
 
         if (depth == 0) return nodeView;
@@ -131,13 +136,14 @@ public class LineMeshTreeVisualizer : MonoBehaviour
          mesh.vertices = meshVertices.ToArray();
          mesh.SetIndices(meshTris.ToArray(),MeshTopology.Lines, 0, true);
         
-         GameObject obj = new GameObject("TreeMesh" + _meshCount);
+         _meshes.Add(mesh);
+         /*GameObject obj = new GameObject("TreeMesh" + _meshCount);
          obj.AddComponent<MeshFilter>().mesh = mesh;
          obj.AddComponent<MeshRenderer>().material = pointMaterial;
         
          obj.transform.SetParent(parentObj.transform, true);
  
-         _meshCount++;
+         _meshCount++;*/
     }
 
 }
