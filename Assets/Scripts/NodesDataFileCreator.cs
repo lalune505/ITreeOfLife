@@ -16,12 +16,22 @@ public class NodesDataFileCreator
     private const string SCRIPTABLE_OBJECTS_DESTIONATION_PATH = "Assets/Resources/ScriptableObjects"; 
     public static Dictionary<int, Node> nodes = new Dictionary<int, Node>();
     private static Dictionary<int, NodeName> names = new Dictionary<int, NodeName>();
+    
+    public static bool threadRunning = false;
     private async void GetTaxDumpFiles()
     {
         await NetworkManager.GetTaxDumpFile(Path.Combine(DirectoryPath,TaxDumpFileName));
         
         Tar.ExtractTarGz(Path.Combine(DirectoryPath,TaxDumpFileName),TaxDumpFiles);
         
+    }
+
+    public static void SetNodesNamesAndData()
+    {
+        SetNodesNames();
+        SetNodesData();
+
+        threadRunning = false;
     }
     public static void SetNodesData()
     {
