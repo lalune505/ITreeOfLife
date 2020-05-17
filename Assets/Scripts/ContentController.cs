@@ -8,7 +8,7 @@ public class ContentController : MonoBehaviour
     public LineMeshTreeVisualizer lineMeshTreeVisualizer;
     public LoadingScreen loadingScreen;
     Thread _thread;
-    private bool _workDone = false;
+    
     // Start is called before the first frame update
     private void Start()
     {
@@ -22,22 +22,32 @@ public class ContentController : MonoBehaviour
 
         NodesDataFileCreator.threadRunning = true;
 
-        while (NodesDataFileCreator.threadRunning & !_workDone)
+        while (NodesDataFileCreator.threadRunning)
         {
             yield return null;
         }
-
-        lineMeshTreeVisualizer.CreateTreeMeshes(NodesDataFileCreator.nodes);
-        _workDone = true;
-        loadingScreen.m_SceneReadyToActivate = _workDone;
+     
+        _thread = new Thread(lineMeshTreeVisualizer.SetNodeViews);
+        _thread.Start();
+        lineMeshTreeVisualizer.threadRunning = true;
+        
+        while (lineMeshTreeVisualizer.threadRunning)
+        {
+            yield return null;
+        }
+        
+        lineMeshTreeVisualizer.CreateMesh(LineMeshTree.NodeViews);
+        
+        loadingScreen.m_SceneReadyToActivate = true;
     }
     
     
     void OnDisable()
     {
-        if (NodesDataFileCreator.threadRunning)
+        if (NodesDataFileCreator.threadRunning || lineMeshTreeVisualizer.threadRunning)
         {
             NodesDataFileCreator.threadRunning = false;
+            lineMeshTreeVisualizer.threadRunning = false;
             _thread.Join();
         }
         
