@@ -9,7 +9,7 @@ public static class LineMeshTree
 {
     private static readonly List<NodeView> NodeViews = new List<NodeView>();
     
-    public static List<NodeView> GetNodeViews(Dictionary<int, Node> nodes, int nodeId, int treeDepth, float r)
+    public static IEnumerable<NodeView> GetNodeViews(Dictionary<int, Node> nodes, int nodeId, int treeDepth, float r)
     {
         Node rootNode = nodes[nodeId];
         CreateSubTree(rootNode, treeDepth, r, Vector3.zero, Quaternion.identity);
