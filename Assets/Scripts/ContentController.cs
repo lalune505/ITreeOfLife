@@ -26,12 +26,12 @@ public class ContentController : MonoBehaviour
         {
             yield return null;
         }
-        
+
         lineMeshTreeVisualizer.CreateTreeMeshes(NodesDataFileCreator.nodes);
         _workDone = true;
         loadingScreen.m_SceneReadyToActivate = _workDone;
-
     }
+    
     
     void OnDisable()
     {
