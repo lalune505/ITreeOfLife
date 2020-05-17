@@ -17,13 +17,16 @@ public class LineMeshTreeVisualizer : MonoBehaviour
     public int treeDepth;
     public GameObject allTreeStart;
 
+    [HideInInspector]
+    public bool threadRunning = false;
+    
     private readonly List<Mesh> _meshes = new List<Mesh>();
     //private int _meshCount = 0;
-    public void CreateTreeMeshes(Dictionary<int, Node> nodes)
+    public void SetNodeViews()
     {
-        CreateMesh(LineMeshTree.GetNodeViews(nodes, nodeId, treeDepth, R));
+        LineMeshTree.SetNodeViews(NodesDataFileCreator.nodes, nodeId, treeDepth, R);
+        threadRunning = false;
     }
-    
     private void Update()
     {
         foreach (var mesh in _meshes)
@@ -32,7 +35,7 @@ public class LineMeshTreeVisualizer : MonoBehaviour
         }
     }
 
-    private void CreateMesh(IEnumerable<NodeView> nodeViews)
+    public void CreateMesh(IEnumerable<NodeView> nodeViews)
     {
         List<Vector3> vertices = new List<Vector3>();
         List<int> indices = new List<int>();

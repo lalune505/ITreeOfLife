@@ -282,12 +282,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9120b6e771ae24704ba47834f5c30be9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cam: {fileID: 1738529756}
+  cam: {fileID: 1738529756}
   nodeId: 2759
   pointMaterial: {fileID: 2100000, guid: ed97a68dfc2f342d58f3da7a69dd7105, type: 2}
   R: 2
   treeDepth: 10
   allTreeStart: {fileID: 1487845953}
+  threadRunning: 0
 --- !u!4 &1585939210
 Transform:
   m_ObjectHideFlags: 0

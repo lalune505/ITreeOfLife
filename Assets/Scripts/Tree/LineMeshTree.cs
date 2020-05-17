@@ -7,14 +7,12 @@ using UnityEngine;
 
 public static class LineMeshTree 
 {
-    private static readonly List<NodeView> NodeViews = new List<NodeView>();
+    public static readonly List<NodeView> NodeViews = new List<NodeView>();
     
-    public static IEnumerable<NodeView> GetNodeViews(Dictionary<int, Node> nodes, int nodeId, int treeDepth, float r)
+    public static void SetNodeViews(Dictionary<int, Node> nodes, int nodeId, int treeDepth, float r)
     {
         Node rootNode = nodes[nodeId];
         CreateSubTree(rootNode, treeDepth, r, Vector3.zero, Quaternion.identity);
-
-        return NodeViews;
     }
     
     private static NodeView CreateSubTree(Node node, int depth,float r, Vector3 pos, Quaternion rot)
