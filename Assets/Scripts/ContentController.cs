@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
@@ -20,18 +19,15 @@ public class ContentController : MonoBehaviour
         _thread = new Thread(NodesDataFileCreator.SetNodesNamesAndData);
         _thread.Start();
 
-        NodesDataFileCreator.threadRunning = true;
-
-        while (NodesDataFileCreator.threadRunning)
+        while (!NodesDataFileCreator.filesDone)
         {
             yield return null;
         }
      
         _thread = new Thread(lineMeshTreeVisualizer.SetNodeViews);
         _thread.Start();
-        lineMeshTreeVisualizer.threadRunning = true;
-        
-        while (lineMeshTreeVisualizer.threadRunning)
+
+        while (!lineMeshTreeVisualizer.workDone)
         {
             yield return null;
         }
@@ -44,10 +40,10 @@ public class ContentController : MonoBehaviour
     
     void OnDisable()
     {
-        if (NodesDataFileCreator.threadRunning || lineMeshTreeVisualizer.threadRunning)
+        if (!NodesDataFileCreator.filesDone || !lineMeshTreeVisualizer.workDone)
         {
-            NodesDataFileCreator.threadRunning = false;
-            lineMeshTreeVisualizer.threadRunning = false;
+            NodesDataFileCreator.filesDone = true;
+            lineMeshTreeVisualizer.workDone = true;
             _thread.Join();
         }
         

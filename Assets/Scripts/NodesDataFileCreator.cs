@@ -17,7 +17,7 @@ public class NodesDataFileCreator
     public static Dictionary<int, Node> nodes = new Dictionary<int, Node>();
     private static Dictionary<int, NodeName> names = new Dictionary<int, NodeName>();
     
-    public static bool threadRunning = false;
+    public static bool filesDone = false;
     private async void GetTaxDumpFiles()
     {
         await NetworkManager.GetTaxDumpFile(Path.Combine(DirectoryPath,TaxDumpFileName));
@@ -31,7 +31,7 @@ public class NodesDataFileCreator
         SetNodesNames();
         SetNodesData();
 
-        threadRunning = false;
+        filesDone = true;
     }
     public static void SetNodesData()
     {
