@@ -18,7 +18,6 @@ public class Node
 
     public int GetSize()
     {
-        
         _size = 1 + this.childrenNodes.Sum(x => x.GetSize());
         
         return _size;

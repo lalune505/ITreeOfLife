@@ -8,9 +8,6 @@ public class ChunkFileLoader : MonoBehaviour
 {
     public string chunkDirectoryName = "chunks";
     private string chunkDicrectory;
-    
-    private World world;
-
     public bool enableSaving = false;
     
     public void Awake()
@@ -21,9 +18,9 @@ public class ChunkFileLoader : MonoBehaviour
             Directory.CreateDirectory(chunkDicrectory);
     }
     
-    public Chunk LoadChunkAt(Vector3 worldOrigin)
+    public Chunk LoadChunkAt(Vector3 chunkPos)
     { 
-        var filename = worldOrigin.ToString().Md5Sum();
+        var filename = chunkPos.ToString().Md5Sum();
         
         var fullPath = chunkDicrectory + filename + ".json";
         if (!File.Exists(fullPath)) return null;
@@ -32,7 +29,7 @@ public class ChunkFileLoader : MonoBehaviour
 
         var chunk = JsonConvert.DeserializeObject<Chunk>(fileContents);
 
-        if (chunk.Verticies.Count == 0)
+        if (chunk.verticies.Count == 0)
         {
             File.Delete(fullPath);
             return null; //This chunk is corrupt, ignore it..
@@ -48,14 +45,12 @@ public class ChunkFileLoader : MonoBehaviour
         if (!enableSaving)
             return;
         
-        if (chunk.Verticies.Count == 0)
+        if (chunk.verticies.Count == 0)
             return; //Don't save an empty chunk..
         
-        var chunkPos = chunk.Position;
+        var chunkPos = chunk.position;
         
-        var worldOrigin = new Vector3(chunkPos.X * world.voxelSize * world.chunkSize, 0.0f, chunkPos.Z * world.voxelSize * world.chunkSize);
-        
-        var filename = worldOrigin.ToString().Md5Sum();
+        var filename = chunkPos.ToString().Md5Sum();
         
         var fullPath = chunkDicrectory + filename + ".json";
 
