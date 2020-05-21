@@ -17,7 +17,6 @@ public class NodesDataFileCreator
     private const string NamesFileName = "names.dmp";
     private const string SCRIPTABLE_OBJECTS_DESTIONATION_PATH = "Assets/Resources/ScriptableObjects"; 
     public static Dictionary<int, Node> nodes = new Dictionary<int, Node>();
-    public static Dictionary<int, Node1> nodes1 = new Dictionary<int, Node1>();
     private static Dictionary<int, NodeName> names = new Dictionary<int, NodeName>();
 
     public static bool filesDone = false;
@@ -33,8 +32,7 @@ public class NodesDataFileCreator
     {
         SetNodesNames();
         SetNodesData();
-
-        filesDone = true;
+        
     }
     public static void SetNodesData()
     {
@@ -73,15 +71,15 @@ public class NodesDataFileCreator
             {
                 var dad = Parse(line.Split('|')[1].Replace("\t", ""));
                 var son = Parse(line.Split('|')[0].Replace("\t", ""));
-                if (!nodes1.ContainsKey(dad))
+                if (!nodes.ContainsKey(dad))
                 {
-                    nodes1[dad] = new Node1 {id = dad, childrenNodes = new List<Node1>()};
+                    nodes[dad] = new Node {id = dad};
                 }
-                if (!nodes1.ContainsKey(son))
+                if (!nodes.ContainsKey(son))
                 {
-                    nodes1[son] = new Node1 {id = son, childrenNodes = new List<Node1>()};
+                    nodes[son] = new Node {id = son};
                 }
-                nodes1[dad].childrenNodes.Add(nodes1[son]);
+                nodes[dad].childrenNodes.Add(nodes[son]);
             }
 
         }
@@ -89,6 +87,8 @@ public class NodesDataFileCreator
         {
             Debug.Log( $"The process failed with error: {e}");
         }
+
+        filesDone = true;
     }
     
     public static void SetNodesNames()

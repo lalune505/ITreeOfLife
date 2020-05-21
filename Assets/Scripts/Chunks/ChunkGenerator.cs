@@ -50,7 +50,7 @@ public class ChunkGenerator : MonoBehaviour
                 c.Recalculate(sample);
                 
                 if (fileLoader != null)
-                    fileLoader.SaveChunk(c);
+                   // fileLoader.SaveChunk(c);
 
                 _jobs.Remove(nodeId);
 
@@ -81,7 +81,7 @@ public class ChunkGenerator : MonoBehaviour
                 c.Recalculate(sample);
                 
                 if (fileLoader != null)
-                    fileLoader.SaveChunk(c);
+                    //fileLoader.SaveChunk(c);
 
                 _jobs.Remove(nodeId);
 
