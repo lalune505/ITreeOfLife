@@ -10,13 +10,13 @@ public struct Node1
     public Vector3 pos;
     public Quaternion rot;
     public float r;
-    public NativeList<Node1> childrenNodes;
+    public List<Node1> childrenNodes;
     private int _size;
 
     public int GetSize()
     {
         var sum = 0;
-        for (var i = 0; id < childrenNodes.Length; i++)
+        for (var i = 0; id < childrenNodes.Count; i++)
         {
             sum += childrenNodes[i].GetSize();
         }

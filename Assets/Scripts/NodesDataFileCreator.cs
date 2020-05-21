@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Unity.Collections;
 using UnityEditor;
 using UnityEngine;
@@ -16,10 +17,9 @@ public class NodesDataFileCreator
     private const string NamesFileName = "names.dmp";
     private const string SCRIPTABLE_OBJECTS_DESTIONATION_PATH = "Assets/Resources/ScriptableObjects"; 
     public static Dictionary<int, Node> nodes = new Dictionary<int, Node>();
-    private static Dictionary<int, NodeName> names = new Dictionary<int, NodeName>();
-    
     public static Dictionary<int, Node1> nodes1 = new Dictionary<int, Node1>();
-    
+    private static Dictionary<int, NodeName> names = new Dictionary<int, NodeName>();
+
     public static bool filesDone = false;
     private async void GetTaxDumpFiles()
     {
@@ -64,6 +64,7 @@ public class NodesDataFileCreator
             Debug.Log( $"The process failed with error: {e}");
         }
     }
+    
     public static void SetNodes1Data()
     {
         try
@@ -72,13 +73,13 @@ public class NodesDataFileCreator
             {
                 var dad = Parse(line.Split('|')[1].Replace("\t", ""));
                 var son = Parse(line.Split('|')[0].Replace("\t", ""));
-                if (!nodes.ContainsKey(dad))
+                if (!nodes1.ContainsKey(dad))
                 {
-                    nodes1[dad] = new Node1 {id = dad, childrenNodes = new NativeList<Node1>()};
+                    nodes1[dad] = new Node1 {id = dad, childrenNodes = new List<Node1>()};
                 }
-                if (!nodes.ContainsKey(son))
+                if (!nodes1.ContainsKey(son))
                 {
-                    nodes1[son] = new Node1 {id = son, childrenNodes = new NativeList<Node1>()};
+                    nodes1[son] = new Node1 {id = son, childrenNodes = new List<Node1>()};
                 }
                 nodes1[dad].childrenNodes.Add(nodes1[son]);
             }
@@ -89,6 +90,7 @@ public class NodesDataFileCreator
             Debug.Log( $"The process failed with error: {e}");
         }
     }
+    
     public static void SetNodesNames()
     {
         try

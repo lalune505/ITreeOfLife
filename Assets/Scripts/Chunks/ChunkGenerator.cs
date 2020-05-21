@@ -45,9 +45,9 @@ public class ChunkGenerator : MonoBehaviour
 
                 var sample = ChunkFromJob(job);
                 
-                var c = new Chunk(origin,sample, nodeId, world.treeDepth, world.R);
+                var c = new Chunk(origin, nodeId, world.treeDepth, world.R);
             
-                //c.Recalculate(size, scale, worldOrigin, true);
+                c.Recalculate(sample);
                 
                 if (fileLoader != null)
                     fileLoader.SaveChunk(c);
@@ -76,9 +76,9 @@ public class ChunkGenerator : MonoBehaviour
 
                 var sample = ChunkFromJob(holder.job);
                 
-                var c = new Chunk(origin, sample,nodeId, world.treeDepth, world.R);
+                var c = new Chunk(origin, nodeId, world.treeDepth, world.R);
             
-               // c.Recalculate(size, scale, worldOrigin, true);
+                c.Recalculate(sample);
                 
                 if (fileLoader != null)
                     fileLoader.SaveChunk(c);
@@ -102,21 +102,20 @@ public class ChunkGenerator : MonoBehaviour
 
     private ChunkJob CreateJob(Vector3 origin, int nodeId)
     {
-
         return new ChunkJob
         {
-            chunk = new NativeList<Vector3>(NodesDataFileCreator.nodes1[nodeId].GetSize(), Allocator.Persistent),
-            rootNode = NodesDataFileCreator.nodes1[nodeId],
+            //childrenNodes = new NativeList<Node1>(NodesDataFileCreator.nodes1[nodeId].GetSize(), Allocator.Persistent),
+            //rootNode = NodesDataFileCreator.nodes1[nodeId],
             origin = origin,
             chunkDepth = world.treeDepth,
             rad = world.R
         };
     }
 
-    private Vector3[] ChunkFromJob(ChunkJob job)
+    private Node1[] ChunkFromJob(ChunkJob job)
     {
-        Vector3[] array = job.chunk.ToArray();
-        job.chunk.Dispose();
+        Node1[] array = job.childrenNodes.ToArray();
+        job.childrenNodes.Dispose();
         return array;
     }
 
@@ -140,7 +139,7 @@ public struct ChunkJob : IJob
     public float rad;
     public Vector3 origin;
     
-    public NativeList<Vector3> chunk;
+    public NativeList<Node1> childrenNodes;
     public void Execute()
     {
         CreateSubTree(rootNode, chunkDepth, rad, origin, Quaternion.identity);
@@ -151,14 +150,14 @@ public struct ChunkJob : IJob
         node.r = r;
         node.rot = rot;
         
-        chunk.Add(node.pos);
+        childrenNodes.Add(node);
         if (depth == 0) return;
         float sumAngle = 0f;
 
         Matrix4x4 m = GetMatrix4X4(node);
         float sum = GetSqrtSum(node);
 
-        for (var i = 0; i < node.childrenNodes.Length; i++)
+        for (var i = 0; i < node.childrenNodes.Count; i++)
         {
             float childAngle = GetNodeAngle(node, sum);
             float childRad = GetNodeRadius(childAngle / 2);
@@ -192,7 +191,7 @@ public struct ChunkJob : IJob
     private static float GetSqrtSum(Node1 node)
     {
         float sum = 0f;
-        for (var i = 0; i < node.childrenNodes.Length; i++)
+        for (var i = 0; i < node.childrenNodes.Count; i++)
         {
            sum += math.sqrt(node.childrenNodes[i].GetSize());
         }

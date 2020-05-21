@@ -16,10 +16,12 @@ public class LineMeshTreeVisualizer : MonoBehaviour
     
     private readonly List<Mesh> _meshes = new List<Mesh>();
     //private int _meshCount = 0;
-    public void SetNodeViews()
+    public void Start()
     {
-        LineMeshTree.SetNodeViews(NodesDataFileCreator.nodes, nodeId, treeDepth, R);
-        workDone = true;
+       // LineMeshTree.SetNodeViews(NodesDataFileCreator.nodes, nodeId, treeDepth, R);
+        //workDone = true;
+        
+        NodesDataFileCreator.SetNodes1Data();
     }
     private void Update()
     {
