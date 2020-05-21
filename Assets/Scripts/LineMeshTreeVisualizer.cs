@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using UniRx.Async;
-using Unity.Mathematics;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public class LineMeshTreeVisualizer : MonoBehaviour
 {
@@ -18,14 +12,16 @@ public class LineMeshTreeVisualizer : MonoBehaviour
     public GameObject allTreeStart;
 
     [HideInInspector]
-    public bool threadRunning = false;
+    public bool workDone = false;
     
     private readonly List<Mesh> _meshes = new List<Mesh>();
     //private int _meshCount = 0;
-    public void SetNodeViews()
+    public void Start()
     {
-        LineMeshTree.SetNodeViews(NodesDataFileCreator.nodes, nodeId, treeDepth, R);
-        threadRunning = false;
+       // LineMeshTree.SetNodeViews(NodesDataFileCreator.nodes, nodeId, treeDepth, R);
+        //workDone = true;
+        
+        NodesDataFileCreator.SetNodes1Data();
     }
     private void Update()
     {
