@@ -66,9 +66,9 @@ public static class LineMeshTree
     private static float GetNodeRadius(float nodeAngle)
     {
         float result;
-        if (math.abs(nodeAngle - 90f) < 0.00001f)
+        if (math.abs(nodeAngle - 90f) < 0.001f)
         {
-            result = 0.9f;
+            result = 0.8f;
         }
         else
         {

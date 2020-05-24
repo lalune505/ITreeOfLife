@@ -268,7 +268,17 @@ PrefabInstance:
     - target: {fileID: 1308619502626970531, guid: 1fea22efb0f834394b2e40b1b4f5a082,
         type: 3}
       propertyPath: treeDepth
-      value: 12
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1308619502626970531, guid: 1fea22efb0f834394b2e40b1b4f5a082,
+        type: 3}
+      propertyPath: loadingScreen
+      value: 
+      objectReference: {fileID: 1587989924}
+    - target: {fileID: 1308619502626970531, guid: 1fea22efb0f834394b2e40b1b4f5a082,
+        type: 3}
+      propertyPath: R
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fea22efb0f834394b2e40b1b4f5a082, type: 3}
@@ -504,17 +514,37 @@ PrefabInstance:
     - target: {fileID: 5974058231699592791, guid: 52242ea9b4d444bc79e9e6918e10954b,
         type: 3}
       propertyPath: camBoundsWidth
-      value: 5
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 5974058231699592791, guid: 52242ea9b4d444bc79e9e6918e10954b,
         type: 3}
       propertyPath: camBoundsHeight
-      value: 5
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 5974058231699592791, guid: 52242ea9b4d444bc79e9e6918e10954b,
         type: 3}
       propertyPath: yMax
-      value: 5
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5974058231699592789, guid: 52242ea9b4d444bc79e9e6918e10954b,
+        type: 3}
+      propertyPath: m_projectionMatrixMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5974058231699592789, guid: 52242ea9b4d444bc79e9e6918e10954b,
+        type: 3}
+      propertyPath: field of view
+      value: 41
+      objectReference: {fileID: 0}
+    - target: {fileID: 5974058231699592789, guid: 52242ea9b4d444bc79e9e6918e10954b,
+        type: 3}
+      propertyPath: orthographic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5974058231699592789, guid: 52242ea9b4d444bc79e9e6918e10954b,
+        type: 3}
+      propertyPath: near clip plane
+      value: 0.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52242ea9b4d444bc79e9e6918e10954b, type: 3}

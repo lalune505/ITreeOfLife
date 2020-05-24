@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using UniRx.Async;
 using UnityEngine;
 
 public class LineMeshTreeVisualizer : MonoBehaviour
@@ -14,14 +15,17 @@ public class LineMeshTreeVisualizer : MonoBehaviour
     public int treeDepth;
     public GameObject allTreeStart;
     public ChunkFileLoader chunkFileLoader;
+    public LoadingScreen loadingScreen;
     
     private readonly List<Mesh> _meshes = new List<Mesh>();
+    private List<int> nodes = new List<int>();
+    private List<int> nodesSizes = new List<int>();
     //private int _meshCount = 0;
     public void Start()
-    {
-       // StartCoroutine(TreeChunkGenerator());
+    { 
+        StartCoroutine(TreeChunkGenerator());
 
-       CreateMeshFromChunk(chunkFileLoader.LoadChunkAt(Vector3.zero));
+        //CreateMeshFromChunk(chunkFileLoader.LoadChunkAt(Vector3.zero));
     }
 
     private IEnumerator TreeChunkGenerator()
@@ -32,13 +36,14 @@ public class LineMeshTreeVisualizer : MonoBehaviour
         {
             yield return null;
         }
-
         new Thread(() => { LineMeshTree.CreateTreeChunkPoints(NodesDataFileCreator.nodes[nodeId], treeDepth, R); }).Start();
 
         while (!LineMeshTree.workDone)
         {
             yield return null;
         }
+
+        loadingScreen.m_SceneReadyToActivate = true;
         
         TreeChunk chunk = new TreeChunk( Vector3.zero,nodeId,treeDepth, R);
         
@@ -49,6 +54,8 @@ public class LineMeshTreeVisualizer : MonoBehaviour
         CreateMeshFromChunk(chunk);
 
     }
+    
+    
     private void Update()
     {
         foreach (var mesh in _meshes)
