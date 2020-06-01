@@ -36,7 +36,11 @@ public class ImageManager : MonoBehaviour
             texture = new Texture2D(1, 1);
             texture.LoadImage(data, true);
 
-        }else
+        }
+        else
+        {
+            return;
+        }/*else
         {
             texture = await NetworkManager.GetNodeImage(nodeName);
             if (texture)
@@ -47,7 +51,7 @@ public class ImageManager : MonoBehaviour
             {
                 return;
             }
-        }
+        }*/
 
         if (nodeLabel.textLabel.text != nodeName) return;
         

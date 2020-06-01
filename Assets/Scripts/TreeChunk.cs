@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class TreeChunk
 {
+    public List<NodeView> _nodeViews;
     public List<Vector3> nodes = new List<Vector3>();
     public List<int> sizes = new List<int>();
    
@@ -23,6 +24,7 @@ public class TreeChunk
 
     public void Recalculate(List<NodeView> nodeViews)
     {
+        _nodeViews = nodeViews;
         foreach (var node in nodeViews)
         {
             nodes.Add(node.pos);

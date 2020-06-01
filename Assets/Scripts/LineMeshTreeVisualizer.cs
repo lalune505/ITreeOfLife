@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class LineMeshTreeVisualizer : MonoBehaviour
 {
+    public NodesLabelController _nodeLabelController;
+    public TreeChunk currentChunk;
     public Camera cam;
     public int nodeId;
     public Material pointMaterial;
@@ -20,21 +22,29 @@ public class LineMeshTreeVisualizer : MonoBehaviour
     private readonly List<Mesh> _meshes = new List<Mesh>();
     //private int _meshCount = 0;
     public void Start()
-    { 
-        //StartCoroutine(TreeChunkGenerator());
+    {
+        //DataLoader.OnDataLoaded += CreateNodeView;
+        
+        currentChunk = chunkFileLoader.LoadChunkAt(Vector3.zero);
+        CreateMeshFromChunk(currentChunk);
 
-        CreateMeshFromChunk(chunkFileLoader.LoadChunkAt(Vector3.zero));
+        _nodeLabelController.nodeViews = currentChunk._nodeViews;
     }
 
-    private IEnumerator TreeChunkGenerator()
+    private void CreateNodeView(NodesData data)
     {
-        new Thread(NodesDataFileCreator.SetNodesNamesAndData).Start();
+        StartCoroutine(TreeChunkGenerator(data));
+    }
+
+    private IEnumerator TreeChunkGenerator(NodesData data)
+    {
+        /*new Thread(NodesDataFileCreator.SetNodesNamesAndData).Start();
 
         while (!NodesDataFileCreator.filesDone)
         {
             yield return null;
-        }
-        new Thread(() => { LineMeshTree.CreateTreeChunkPoints(NodesDataFileCreator.nodes[nodeId], treeDepth, R); }).Start();
+        }*/
+        new Thread(() => { LineMeshTree.CreateTreeChunkPoints(data.IntNodeDictionary[nodeId], treeDepth, R); }).Start();
 
         while (!LineMeshTree.workDone)
         {
@@ -51,8 +61,9 @@ public class LineMeshTreeVisualizer : MonoBehaviour
         CreateMeshFromChunk(chunk);
 
     }
-    
-    
+
+
+
     private void Update()
     {
         foreach (var mesh in _meshes)

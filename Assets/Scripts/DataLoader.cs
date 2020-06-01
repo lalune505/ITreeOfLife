@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class DataLoader : MonoBehaviour
 {
-    public delegate void DataHandler(Dictionary<int, Node> nodes);
+    public delegate void DataHandler(NodesData data);
     public static event DataHandler OnDataLoaded;
 
     public int rootId;
@@ -21,7 +21,7 @@ public class DataLoader : MonoBehaviour
 
     private void Start()
     {
-       //LoadAssetBundle("nodes", rootId.ToString());
+       LoadAssetBundle("nodes", rootId.ToString());
     }
 
     void LoadAssetBundle(string assetBundleName,string id)
@@ -43,7 +43,7 @@ public class DataLoader : MonoBehaviour
                 if (x.asset != null)
                 {
                     NodesData data = x.asset as NodesData;
-                    //OnDataLoaded?.Invoke(data);
+                    OnDataLoaded?.Invoke(data);
                     assetBundle.Unload(true);
                 }
            }).AddTo (this);

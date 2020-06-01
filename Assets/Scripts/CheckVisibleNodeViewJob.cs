@@ -17,7 +17,7 @@ public struct CheckVisibleNodeViewJob : IJobParallelFor
     public void Execute(int index)
     {
         var p = positions[index];
-        if ((0 < p.x & p.x < 1) & (0 < p.y & p.y < 1))
+        if ((0 < p.x & p.x < 1) /*& (0 < p.y  & p.y  < 1)*/)
         {
             visibleNodes[index] = 1;
         }
