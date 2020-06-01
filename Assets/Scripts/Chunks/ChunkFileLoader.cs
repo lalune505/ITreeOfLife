@@ -29,11 +29,11 @@ public class ChunkFileLoader : MonoBehaviour
 
         var chunk = JsonConvert.DeserializeObject<TreeChunk>(fileContents);
 
-        if (chunk.meshData.Count == 0)
+       /* if (chunk.meshData.Count == 0)
         {
             File.Delete(fullPath);
             return null; //This chunk is corrupt, ignore it..
-        }
+        }*/
 
         Debug.Log("Loaded from " + fullPath);
 
@@ -45,8 +45,8 @@ public class ChunkFileLoader : MonoBehaviour
         if (!enableSaving)
             return;
         
-        if (chunk.meshData.Count == 0)
-            return; //Don't save an empty chunk..
+        /*if (chunk.meshData.Count == 0)
+            return; //Don't save an empty chunk..*/
         
         var chunkPos = chunk.position;
         

@@ -185,15 +185,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7133326699060760934, guid: 1fea22efb0f834394b2e40b1b4f5a082,
-        type: 3}
-      propertyPath: enableSaving
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1308619502626970530, guid: 1fea22efb0f834394b2e40b1b4f5a082,
         type: 3}
       propertyPath: m_Name
       value: LineMeshTreeVisualizer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133326699060760934, guid: 1fea22efb0f834394b2e40b1b4f5a082,
+        type: 3}
+      propertyPath: enableSaving
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1308619502626970528, guid: 1fea22efb0f834394b2e40b1b4f5a082,
         type: 3}
@@ -268,7 +268,7 @@ PrefabInstance:
     - target: {fileID: 1308619502626970531, guid: 1fea22efb0f834394b2e40b1b4f5a082,
         type: 3}
       propertyPath: treeDepth
-      value: 15
+      value: 52
       objectReference: {fileID: 0}
     - target: {fileID: 1308619502626970531, guid: 1fea22efb0f834394b2e40b1b4f5a082,
         type: 3}
@@ -278,7 +278,12 @@ PrefabInstance:
     - target: {fileID: 1308619502626970531, guid: 1fea22efb0f834394b2e40b1b4f5a082,
         type: 3}
       propertyPath: R
-      value: 20
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1308619502626970531, guid: 1fea22efb0f834394b2e40b1b4f5a082,
+        type: 3}
+      propertyPath: nodeLabelController
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fea22efb0f834394b2e40b1b4f5a082, type: 3}
@@ -514,17 +519,17 @@ PrefabInstance:
     - target: {fileID: 5974058231699592791, guid: 52242ea9b4d444bc79e9e6918e10954b,
         type: 3}
       propertyPath: camBoundsWidth
-      value: 25
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 5974058231699592791, guid: 52242ea9b4d444bc79e9e6918e10954b,
         type: 3}
       propertyPath: camBoundsHeight
-      value: 25
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 5974058231699592791, guid: 52242ea9b4d444bc79e9e6918e10954b,
         type: 3}
       propertyPath: yMax
-      value: 25
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 5974058231699592789, guid: 52242ea9b4d444bc79e9e6918e10954b,
         type: 3}
@@ -534,7 +539,7 @@ PrefabInstance:
     - target: {fileID: 5974058231699592789, guid: 52242ea9b4d444bc79e9e6918e10954b,
         type: 3}
       propertyPath: field of view
-      value: 41
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5974058231699592789, guid: 52242ea9b4d444bc79e9e6918e10954b,
         type: 3}
@@ -545,6 +550,11 @@ PrefabInstance:
         type: 3}
       propertyPath: near clip plane
       value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5974058231699592789, guid: 52242ea9b4d444bc79e9e6918e10954b,
+        type: 3}
+      propertyPath: far clip plane
+      value: 1500
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52242ea9b4d444bc79e9e6918e10954b, type: 3}

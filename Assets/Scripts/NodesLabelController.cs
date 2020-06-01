@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
     public class NodesLabelController : InitializableMonoBehaviour
     {
-        public ImageManager imageManager;
+        //public ImageManager imageManager;
         public bool updNodes = false;
 
         public class NodeLabel
@@ -45,8 +45,6 @@ using UnityEngine.UI;
 
         public GameObject labelPrefab;
 
-        public SceneData sceneData;
-
         private float _updatePause = 1f;
         
         private DragCamera _dragCam;
@@ -56,7 +54,6 @@ using UnityEngine.UI;
         private bool _created = false;
 
         private List<NodeView> _largeNodeViews = new List<NodeView>();
-        private List<NodeView> _nodeViews;
         private List<NodeView> _visibleNodeViews = new List<NodeView>();
         
         private JobHandle _sizesJobHandle;
@@ -71,7 +68,6 @@ using UnityEngine.UI;
 
         public override async UniTask Init()
         {
-            _nodeViews = sceneData.nodeViews;
             _dragCam = FindObjectOfType<DragCamera>();
             
             _cam = _dragCam.GetComponent<Camera>();
@@ -200,7 +196,7 @@ using UnityEngine.UI;
                 {
                     _currentLabels[i].pointCoord = _visibleNodeViews[i].pos;
                     _currentLabels[i].textLabel.text = _visibleNodeViews[i].sciName;
-                    imageManager.GetPage(_visibleNodeViews[i].sciName, _currentLabels[i]);
+                    //imageManager.GetPage(_visibleNodeViews[i].sciName, _currentLabels[i]);
                 }
             }
 
@@ -217,18 +213,13 @@ using UnityEngine.UI;
             }
         }
 
-        public void AddNodeView(NodeView nodeView)
-        {
-            _nodeViews.Add(nodeView);
-        }
-
         private void CreateNativeArray()
         {
-            _rads = new NativeArray<float>(_nodeViews.Count, Allocator.Persistent);
+            _rads = new NativeArray<float>( LineMeshTree.GetNodeViews().Count, Allocator.Persistent);
 
-            for (var i = 0; i < _nodeViews.Count; i++)
+            for (var i = 0; i <  LineMeshTree.GetNodeViews().Count; i++)
             {
-                _rads[i] = _nodeViews[i].nodeRad;
+                _rads[i] =  LineMeshTree.GetNodeViews()[i].nodeRad;
             }
 
             _created = true;
@@ -237,11 +228,11 @@ using UnityEngine.UI;
         private void ExecuteJobs()
         {
              var t = _cam.transform.position.y / _dragCam.yMax;
-            _nodeViewsSizes = new NativeArray<int>(_nodeViews.Count, Allocator.TempJob);
+            _nodeViewsSizes = new NativeArray<int>( LineMeshTree.GetNodeViews().Count, Allocator.TempJob);
             
             _checkSizeNodeViewJob = new CheckSizeNodeViewJob{t = t, nodesRads = _rads, nodesSizes = _nodeViewsSizes};
             
-            _sizesJobHandle = _checkSizeNodeViewJob.Schedule(_nodeViews.Count, 250);
+            _sizesJobHandle = _checkSizeNodeViewJob.Schedule( LineMeshTree.GetNodeViews().Count, 250);
             
             _sizesJobHandle.Complete();
             
@@ -251,7 +242,7 @@ using UnityEngine.UI;
             {
                 if (_nodeViewsSizes[i] == 1)
                 {
-                    _largeNodeViews.Add(_nodeViews[i]);
+                    _largeNodeViews.Add( LineMeshTree.GetNodeViews()[i]);
                 }
             }
             _nodeViewsSizes.Dispose();

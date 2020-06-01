@@ -18,8 +18,6 @@ public class LineMeshTreeVisualizer : MonoBehaviour
     public LoadingScreen loadingScreen;
     
     private readonly List<Mesh> _meshes = new List<Mesh>();
-    private List<int> nodes = new List<int>();
-    private List<int> nodesSizes = new List<int>();
     //private int _meshCount = 0;
     public void Start()
     { 
@@ -30,7 +28,7 @@ public class LineMeshTreeVisualizer : MonoBehaviour
 
     private IEnumerator TreeChunkGenerator()
     {
-        new Thread(NodesDataFileCreator.SetNodes1Data).Start();
+        new Thread(NodesDataFileCreator.SetNodesNamesAndData).Start();
 
         while (!NodesDataFileCreator.filesDone)
         {
@@ -45,10 +43,9 @@ public class LineMeshTreeVisualizer : MonoBehaviour
 
         loadingScreen.m_SceneReadyToActivate = true;
         
-        TreeChunk chunk = new TreeChunk( Vector3.zero,nodeId,treeDepth, R);
-        
-        chunk.Recalculate(LineMeshTree.GetNodeViews());
-        
+        TreeChunk chunk = new TreeChunk(Vector3.zero,nodeId,treeDepth, R);
+        chunk.Recalculate( LineMeshTree.GetNodeViews());
+
         chunkFileLoader.SaveChunk(chunk);
         
         CreateMeshFromChunk(chunk);
@@ -66,12 +63,44 @@ public class LineMeshTreeVisualizer : MonoBehaviour
 
     public void CreateMeshFromChunk(TreeChunk chunk)
     {
-        foreach (var item in chunk.meshData)
+        List<Vector3> vertices = new List<Vector3>();
+        List<int> indices = new List<int>();
+        var index = 0;
+        var index1 = 0;
+
+        var s = 0;
+        foreach (var size in chunk.sizes)
         {
-            CreateObject(item);
+            vertices.Add(chunk.nodes[s]);
+            for (var i = s + 1; i < s + size + 1; i++)
+            {
+                if (vertices.Count > 65000)
+                {
+                    CreateObject(new MeshData(vertices.ToArray(), indices.ToArray()));
+                    vertices.Clear();
+                    indices.Clear();
+                    vertices.Add(chunk.nodes[s]);
+                    index = 0;
+                    index1 = 0;
+                }
+
+                vertices.Add(chunk.nodes[i]);
+                index++;
+                indices.Add(index1);
+                indices.Add(index);
+            }
+
+            s += size + 1;
+            index1 = index + 1;
+            index = index1;
         }
+        
+        CreateObject(new MeshData(vertices.ToArray(), indices.ToArray()));
+        
+        vertices.Clear();
+        indices.Clear();
     }
-    
+
     private void CreateObject(MeshData m)
     {
          Mesh mesh = new Mesh();
@@ -88,4 +117,5 @@ public class LineMeshTreeVisualizer : MonoBehaviour
          _meshCount++;*/
     }
 
+    
 }
