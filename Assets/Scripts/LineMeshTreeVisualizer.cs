@@ -21,9 +21,9 @@ public class LineMeshTreeVisualizer : MonoBehaviour
     //private int _meshCount = 0;
     public void Start()
     { 
-        StartCoroutine(TreeChunkGenerator());
+        //StartCoroutine(TreeChunkGenerator());
 
-        //CreateMeshFromChunk(chunkFileLoader.LoadChunkAt(Vector3.zero));
+        CreateMeshFromChunk(chunkFileLoader.LoadChunkAt(Vector3.zero));
     }
 
     private IEnumerator TreeChunkGenerator()
@@ -99,6 +99,8 @@ public class LineMeshTreeVisualizer : MonoBehaviour
         
         vertices.Clear();
         indices.Clear();
+        
+        loadingScreen.m_SceneReadyToActivate = true;
     }
 
     private void CreateObject(MeshData m)
