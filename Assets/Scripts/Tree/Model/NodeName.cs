@@ -5,7 +5,4 @@ using UnityEngine;
 public class NodeName
 {
     public string sciName = "";
-    public string authority = "";
-    public string commonName = "";
-    public string synonym = "";
 }

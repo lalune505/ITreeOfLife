@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 using Unity.Collections;
 using UnityEditor;
 using UnityEngine;
@@ -17,8 +18,7 @@ public class NodesDataFileCreator
     private const string NamesFileName = "names.dmp";
     private const string SCRIPTABLE_OBJECTS_DESTIONATION_PATH = "Assets/Resources/ScriptableObjects"; 
     public static Dictionary<int, Node> nodes = new Dictionary<int, Node>();
-    public static Dictionary<int, Node1> nodes1 = new Dictionary<int, Node1>();
-    private static Dictionary<int, NodeName> names = new Dictionary<int, NodeName>();
+    public static Dictionary<int, NodeName> names = new Dictionary<int, NodeName>();
 
     public static bool filesDone = false;
     private async void GetTaxDumpFiles()
@@ -31,10 +31,14 @@ public class NodesDataFileCreator
 
     public static void SetNodesNamesAndData()
     {
-        SetNodesNames();
-        SetNodesData();
+        //SetNodesNames();
+        var json = File.ReadAllText(@"/Users/zhenyaprivet/Desktop/taxdump/names.json");
+        
+        names = JsonConvert.DeserializeObject<Dictionary<int, NodeName>>(json);
 
+        SetNodesData();
         filesDone = true;
+
     }
     public static void SetNodesData()
     {
@@ -44,16 +48,13 @@ public class NodesDataFileCreator
             {
                 var dad = Parse(line.Split('|')[1].Replace("\t", ""));
                 var son = Parse(line.Split('|')[0].Replace("\t", ""));
-                var sonRank = line.Split('|')[2].Replace("\t", "");
                 if (!nodes.ContainsKey(dad))
                 {
-                    nodes[dad] = new Node {id = dad, rank = sonRank, authority = names[dad].authority, 
-                        synonym = names[dad].synonym, commonName = names[dad].commonName, sciName = names[dad].sciName};
+                    nodes[dad] = new Node {id = dad, sciName = names[dad].sciName};
                 }
                 if (!nodes.ContainsKey(son))
                 {
-                    nodes[son] = new Node {id = son, rank = sonRank, authority = names[son].authority, 
-                        synonym = names[son].synonym, commonName = names[son].commonName, sciName = names[son].sciName};
+                    nodes[son] = new Node {id = son, sciName = names[son].sciName};
                 }
                 nodes[dad].childrenNodes.Add(nodes[son]);
             }
@@ -73,15 +74,15 @@ public class NodesDataFileCreator
             {
                 var dad = Parse(line.Split('|')[1].Replace("\t", ""));
                 var son = Parse(line.Split('|')[0].Replace("\t", ""));
-                if (!nodes1.ContainsKey(dad))
+                if (!nodes.ContainsKey(dad))
                 {
-                    nodes1[dad] = new Node1 {id = dad, childrenNodes = new List<Node1>()};
+                    nodes[dad] = new Node {id = dad};
                 }
-                if (!nodes1.ContainsKey(son))
+                if (!nodes.ContainsKey(son))
                 {
-                    nodes1[son] = new Node1 {id = son, childrenNodes = new List<Node1>()};
+                    nodes[son] = new Node {id = son};
                 }
-                nodes1[dad].childrenNodes.Add(nodes1[son]);
+                nodes[dad].childrenNodes.Add(nodes[son]);
             }
 
         }
@@ -89,6 +90,8 @@ public class NodesDataFileCreator
         {
             Debug.Log( $"The process failed with error: {e}");
         }
+
+        filesDone = true;
     }
     
     public static void SetNodesNames()
@@ -108,39 +111,6 @@ public class NodesDataFileCreator
                if (nameType == "scientific name")
                {
                    names[taxId].sciName = nameVal;
-               }
-               if (nameType == "authority")
-               {
-                   if (string.IsNullOrEmpty(names[taxId].authority))
-                   {
-                       names[taxId].authority = nameVal;
-                   }
-                   else
-                   {
-                       names[taxId].authority += ", " + nameVal;
-                   }
-               }
-               if (nameType == "synonym")
-               {
-                   if(string.IsNullOrEmpty(names[taxId].synonym))
-                   {
-                       names[taxId].synonym = nameVal;
-                   }
-                   else
-                   {
-                       names[taxId].synonym += ", " + nameVal;
-                   }
-               }
-               if (nameType == "common name")
-               {
-                   if (string.IsNullOrEmpty(names[taxId].commonName))
-                   {
-                       names[taxId].commonName = nameVal;
-                   }
-                   else
-                   {
-                       names[taxId].commonName += ", " + nameVal;
-                   }
                }
             }
 

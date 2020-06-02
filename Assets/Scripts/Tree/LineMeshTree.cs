@@ -5,14 +5,19 @@ using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 
-public static class LineMeshTree 
+public static class LineMeshTree
 {
-    public static readonly List<NodeView> NodeViews = new List<NodeView>();
-    
-    public static void SetNodeViews(Dictionary<int, Node> nodes, int nodeId, int treeDepth, float r)
+    public static bool workDone = false;
+    private static readonly List<NodeView> NodeViews = new List<NodeView>();
+    public static void CreateTreeChunkPoints(Node rootNode, int treeDepth, float r)
     {
-        Node rootNode = nodes[nodeId];
         CreateSubTree(rootNode, treeDepth, r, Vector3.zero, Quaternion.identity);
+        workDone = true;
+    }
+
+    public static List<NodeView> GetNodeViews()
+    {
+        return NodeViews;
     }
     
     private static NodeView CreateSubTree(Node node, int depth,float r, Vector3 pos, Quaternion rot)
@@ -61,9 +66,9 @@ public static class LineMeshTree
     private static float GetNodeRadius(float nodeAngle)
     {
         float result;
-        if (Math.Abs(nodeAngle - 90f) < 0.00001f)
+        if (math.abs(nodeAngle - 90f) < 0.001f)
         {
-            result = 0.9f;
+            result = 0.8f;
         }
         else
         {

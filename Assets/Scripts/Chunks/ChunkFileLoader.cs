@@ -18,7 +18,7 @@ public class ChunkFileLoader : MonoBehaviour
             Directory.CreateDirectory(chunkDicrectory);
     }
     
-    public Chunk LoadChunkAt(Vector3 chunkPos)
+    public TreeChunk LoadChunkAt(Vector3 chunkPos)
     { 
         var filename = chunkPos.ToString().Md5Sum();
         
@@ -27,26 +27,26 @@ public class ChunkFileLoader : MonoBehaviour
         
         var fileContents = File.ReadAllText(fullPath);
 
-        var chunk = JsonConvert.DeserializeObject<Chunk>(fileContents);
+        var chunk = JsonConvert.DeserializeObject<TreeChunk>(fileContents);
 
-        if (chunk.verticies.Count == 0)
+       /* if (chunk.meshData.Count == 0)
         {
             File.Delete(fullPath);
             return null; //This chunk is corrupt, ignore it..
-        }
+        }*/
 
         Debug.Log("Loaded from " + fullPath);
 
         return chunk;
     }
 
-    public void SaveChunk(Chunk chunk)
+    public void SaveChunk(TreeChunk chunk)
     {
         if (!enableSaving)
             return;
         
-        if (chunk.verticies.Count == 0)
-            return; //Don't save an empty chunk..
+        /*if (chunk.meshData.Count == 0)
+            return; //Don't save an empty chunk..*/
         
         var chunkPos = chunk.position;
         

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1308619502626970528}
   - component: {fileID: 1308619502626970531}
+  - component: {fileID: 7133326699060760934}
   m_Layer: 0
   m_Name: LineMeshTreeVisualizer
   m_TagString: Untagged
@@ -49,4 +50,18 @@ MonoBehaviour:
   R: 2
   treeDepth: 10
   allTreeStart: {fileID: 0}
-  workDone: 0
+  chunkFileLoader: {fileID: 0}
+--- !u!114 &7133326699060760934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308619502626970530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de67e7bef5b94ab592753cc9332cf0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chunkDirectoryName: chunks
+  enableSaving: 0
