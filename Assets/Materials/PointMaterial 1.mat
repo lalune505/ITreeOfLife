@@ -81,8 +81,8 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.44891423, g: 0.8114646, b: 0.9811321, a: 0.8745098}
-    - _EmissionColor: {r: 0.2731139, g: 0.5735392, b: 0.82958347, a: 1}
+    - _Color: {r: 0.44705886, g: 0.9219871, b: 0.98039216, a: 0.8745098}
+    - _EmissionColor: {r: 0.35, g: 0.8, b: 0.94, a: 1}
     - _SpecColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _TreeInstanceColor: {r: 1, g: 1, b: 1, a: 1}
     - _TreeInstanceScale: {r: 1, g: 1, b: 1, a: 1}
