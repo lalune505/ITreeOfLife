@@ -401,7 +401,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &278386422
 AudioSource:
   m_ObjectHideFlags: 0
@@ -412,7 +412,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 82a96e585c9b04f03ae6a548dc08f041, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f5180b641f1f34df6b084fc20e851feb, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1459,17 +1459,17 @@ PrefabInstance:
     - target: {fileID: 5974058231699592789, guid: 52242ea9b4d444bc79e9e6918e10954b,
         type: 3}
       propertyPath: m_BackGroundColor.r
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5974058231699592789, guid: 52242ea9b4d444bc79e9e6918e10954b,
         type: 3}
       propertyPath: m_BackGroundColor.g
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5974058231699592789, guid: 52242ea9b4d444bc79e9e6918e10954b,
         type: 3}
       propertyPath: m_BackGroundColor.b
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52242ea9b4d444bc79e9e6918e10954b, type: 3}
@@ -1492,7 +1492,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1056180152576202, guid: 273880ac6f030d1488d1bf08aae35511, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4948681673212516, guid: 273880ac6f030d1488d1bf08aae35511, type: 3}
       propertyPath: m_LocalPosition.x
